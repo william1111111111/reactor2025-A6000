@@ -1,0 +1,40 @@
+_target_: framework.utils.losses.DiffusionLoss
+
+losses_type: MSELoss
+n_preds: ${trainer.${trainer.trainer_mode}.num_preds}
+is_flow_matching: true
+is_3dmm: true
+
+# Historical high-FRC robust Flow83 base loss:
+# - MSE for AU / VA / emotion with relative weights 1 / 5 / 2.
+# - SmoothL1 for expression / rotation / translation with weights 1 / 1 / 1.
+# Do not normalize the weighted sum: this preserves the historical optimizer
+# scale instead of silently changing the effective learning rate.
+fm_group_balanced: true
+fm_group_weights: [1.0, 5.0, 2.0, 1.0, 1.0, 1.0]
+fm_robust_3dmm: true
+fm_normalize_group_weights: false
+
+# QBVM: per-sequence temporal variance remains monotonically rewarded.
+qbvm_enabled: true
+qbvm_start_epoch: 20
+qbvm_warmup_epochs: 20
+qbvm_variance_weight: 0.01
+qbvm_group_weights: [0.30, 0.05, 0.05, 0.45, 0.10, 0.05]
+qbvm_group_scales: [0.279849, 0.163874, 0.210920, 0.414361, 0.432518, 0.379946]
+qbvm_variance_epsilon: 0.0001
+qbvm_use_flow_time_weight: true
+
+# Conservative paired motion budgets for the first implementation.
+qbvm_energy_floor: 0.05
+qbvm_velocity_ratio_limit: 1.20
+qbvm_acceleration_ratio_limit: 1.20
+qbvm_range_ratio_limit: 1.20
+qbvm_velocity_penalty_weight: 0.05
+qbvm_acceleration_penalty_weight: 0.10
+qbvm_range_penalty_weight: 0.05
+
+# Official FRC is used as the hard validation gate. This paired CCC surrogate
+# stays disabled until a Flow83 baseline has established its budget.
+qbvm_ccc_minimum: 0.0
+qbvm_ccc_penalty_weight: 0.0

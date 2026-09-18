@@ -1,0 +1,12 @@
+_target_: framework.utils.losses.DiffusionLoss
+
+losses_type: MSELoss
+losses_multiplier: 1.0
+n_preds: ${trainer.${trainer.trainer_mode}.num_preds}
+temporal_loss_w: 0.0
+w_au: 1.0
+w_va: 1.0
+w_em: 1.0
+is_3dmm: False
+# One unweighted MSE over the full 25D target velocity.
+is_flow_matching: True

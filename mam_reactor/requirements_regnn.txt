@@ -1,0 +1,5 @@
+# Install the official REACT2025 dependencies first.
+# Match the PyTorch/CUDA wheel to the local driver before building mamba-ssm.
+numpy==1.26.4
+mamba-ssm==1.2.0.post1
+pytest>=8,<9

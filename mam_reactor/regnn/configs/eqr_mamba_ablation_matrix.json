@@ -1,0 +1,121 @@
+{
+  "base_config": "regnn/configs/emotion_query_mamba_final.json",
+  "launcher": "launch/train_eqr_mamba_ablation.sh",
+  "rule": "EQR cases change only the listed override relative to the base configuration",
+  "generic_baseline_exception": "generic_learned_queries uses the legacy generic trainer and is an architecture baseline, not a one-factor causal ablation",
+  "first_round_policy": "run only seed 1 on B_cal; freeze every override not listed for A-E",
+  "matched_control_gate_evaluation": {
+    "config": "regnn/configs/eqr_gate_control_sweep.json",
+    "launcher": "launch/eval_eqr_gate_matched_controls.sh",
+    "scope": "fixed checkpoint and fixed B_cal-100; only q1-q8 gate source and strength vary",
+    "controls": [
+      "predicted",
+      "constant_mean",
+      "emotion_prior",
+      "shuffled_predicted",
+      "ungated"
+    ],
+    "q9_controlled_by_default": false,
+    "B_confirm_locked": true
+  },
+  "first_round_seed1_ladder": {
+    "ladder_A_legacy_objectives": {
+      "purpose": "legacy gate, fixed target selection, learned-query framewise CCC, and diagonal FRD surrogate",
+      "EQR_GATE_FLOOR": 1.0,
+      "EQR_TARGET_SELECTION_MODE": "fixed_first",
+      "EQR_ANCHOR_CCC_WEIGHT": 1.0,
+      "EQR_LEARNED_SET_CCC_WEIGHT": 9.0,
+      "EQR_SEQUENCE_TRANSPORT_WEIGHT": 0.0,
+      "EQR_SEMANTIC_IDENTITY_MODE": "uniform",
+      "EQR_FRD_SURROGATE_MODE": "diagonal"
+    },
+    "ladder_B_data_and_q0_temporal": {
+      "purpose": "epoch-shuffled masked target sets and q0-only temporal CCC",
+      "EQR_GATE_FLOOR": 1.0,
+      "EQR_TARGET_SELECTION_MODE": "deterministic_epoch_shuffle",
+      "EQR_LEARNED_SET_CCC_WEIGHT": 0.0,
+      "EQR_SEQUENCE_TRANSPORT_WEIGHT": 0.0,
+      "EQR_SEMANTIC_IDENTITY_MODE": "uniform",
+      "EQR_FRD_SURROGATE_MODE": "diagonal"
+    },
+    "ladder_C_target_supported_gate": {
+      "purpose": "B plus independently predicted target-supported gates",
+      "EQR_GATE_FLOOR": 0.05,
+      "EQR_SEQUENCE_TRANSPORT_WEIGHT": 0.0,
+      "EQR_SEMANTIC_IDENTITY_MODE": "uniform",
+      "EQR_FRD_SURROGATE_MODE": "diagonal"
+    },
+    "ladder_D_support_weighted_identity": {
+      "purpose": "C plus support-weighted semantic identity",
+      "EQR_GATE_FLOOR": 0.05,
+      "EQR_SEQUENCE_TRANSPORT_WEIGHT": 0.0,
+      "EQR_SEMANTIC_IDENTITY_MODE": "support_weighted",
+      "EQR_FRD_SURROGATE_MODE": "diagonal"
+    },
+    "ladder_E_softdtw_divergence": {
+      "purpose": "D plus banded Soft-DTW divergence",
+      "EQR_GATE_FLOOR": 0.05,
+      "EQR_SEQUENCE_TRANSPORT_WEIGHT": 2.0,
+      "EQR_SEMANTIC_IDENTITY_MODE": "support_weighted",
+      "EQR_FRD_SURROGATE_MODE": "banded_softdtw"
+    }
+  },
+  "cases": {
+    "ungated_baseline": {
+      "EQR_GATE_FLOOR": 1.0
+    },
+    "target_supported_soft_gate": {
+      "EQR_COMPATIBILITY_MODE": "target_support",
+      "EQR_GATE_FLOOR": 0.05,
+      "EQR_GATE_TOP_M": 0
+    },
+    "top3_compatibility_gate": {
+      "EQR_GATE_TOP_M": 3
+    },
+    "uniform_q9_mixture": {
+      "EQR_MIXTURE_MODE": "uniform"
+    },
+    "predicted_support_q9_mixture": {
+      "EQR_MIXTURE_MODE": "predicted_support"
+    },
+    "fixed_first_targets": {
+      "EQR_TARGET_SELECTION_MODE": "fixed_first"
+    },
+    "epoch_shuffled_target_pool": {
+      "EQR_TARGET_SELECTION_MODE": "deterministic_epoch_shuffle"
+    },
+    "diagonal_frd_surrogate": {
+      "EQR_FRD_SURROGATE_MODE": "diagonal"
+    },
+    "banded_softdtw_frd_surrogate": {
+      "EQR_FRD_SURROGATE_MODE": "banded_softdtw"
+    },
+    "unidirectional_mamba": {
+      "EQR_DIRECTION": "unidirectional"
+    },
+    "bidirectional_mamba": {
+      "EQR_DIRECTION": "bidirectional"
+    },
+    "generic_learned_queries": {
+      "trainer": "regnn.train_query_mamba",
+      "note": "legacy architecture baseline; semantic-only metrics are not applicable"
+    },
+    "explicit_emotion_queries": {
+      "trainer": "regnn.train_emotion_query_mamba"
+    }
+  },
+  "required_report_fields": {
+    "FRC": null,
+    "exact_FRD": null,
+    "FRDiv": null,
+    "FRVar": null,
+    "semantic_query_accuracy": null,
+    "mean_active_query_count": null,
+    "target_match_coverage": null,
+    "per_query_FRD_excess": null,
+    "inference_time_seconds": null,
+    "trainable_parameter_count": null,
+    "peak_gpu_memory_gib": null
+  },
+  "result_policy": "leave every field null until that run and official evaluation actually finish"
+}

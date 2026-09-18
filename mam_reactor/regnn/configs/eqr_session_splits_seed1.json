@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "seed": 1,
+  "source_split": "train",
+  "policy": "session-disjoint 11/3/3 split selected from training metadata only",
+  "selection_features": [
+    "sample_count",
+    "mean_sequence_length",
+    "mean_8d_emotion_profile",
+    "argmax_8d_emotion_histogram",
+    "speaker_listener_role_count"
+  ],
+  "selection_note": "The local train set has 17 sessions, so the suggested 15/4/4 example is infeasible. B_confirm is locked and must not be evaluated before configuration freeze.",
+  "splits": {
+    "B_fit": [
+      "session0",
+      "session12",
+      "session13",
+      "session15",
+      "session17",
+      "session21",
+      "session3",
+      "session4",
+      "session5",
+      "session6",
+      "session7"
+    ],
+    "B_cal": [
+      "session1",
+      "session11",
+      "session16"
+    ],
+    "B_confirm": [
+      "session14",
+      "session19",
+      "session9"
+    ]
+  },
+  "statistics": {
+    "B_fit": {
+      "sample_count": 2146,
+      "speaker_count": 1073,
+      "listener_count": 1073,
+      "mean_sequence_length": 2127.101584,
+      "mean_emotion_profile": [0.29770303, 0.2403827, 0.09800818, 0.09192518, 0.00753399, 0.15482505, 0.03804098, 0.07158079],
+      "argmax_emotion_fraction": [0.34249767, 0.26514445, 0.0890028, 0.07082945, 0.00046598, 0.14492078, 0.03681267, 0.05032619]
+    },
+    "B_cal": {
+      "sample_count": 586,
+      "speaker_count": 293,
+      "listener_count": 293,
+      "mean_sequence_length": 1906.947099,
+      "mean_emotion_profile": [0.29514471, 0.24396943, 0.09292244, 0.09486031, 0.00811739, 0.16470546, 0.03109499, 0.06918528],
+      "argmax_emotion_fraction": [0.33788396, 0.27645051, 0.09215017, 0.06484642, 0.00341297, 0.14846416, 0.02901024, 0.04778157]
+    },
+    "B_confirm": {
+      "sample_count": 588,
+      "speaker_count": 294,
+      "listener_count": 294,
+      "mean_sequence_length": 2031.642857,
+      "mean_emotion_profile": [0.27891618, 0.24418546, 0.10170259, 0.09840579, 0.00810537, 0.16790409, 0.040284, 0.06049653],
+      "argmax_emotion_fraction": [0.32993197, 0.27891156, 0.09353741, 0.06292517, 0.0, 0.1462585, 0.04081633, 0.04761905]
+    }
+  }
+}

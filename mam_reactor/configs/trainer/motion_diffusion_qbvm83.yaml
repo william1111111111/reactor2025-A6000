@@ -1,0 +1,63 @@
+_target_: trainer.motion_diffusion.Trainer
+
+model_name: motion_diffusion
+trainer_mode: generic
+folder: save/${trainer.model_name}/${data.data_name}/${task}
+ckpt_dir: ${get_last_checkpoint:${trainer.folder}}
+resumed_training: ${resume}
+current_runid: ${run_id}
+resume_runid: ${resume_id}
+batch_size: 4
+post_config_name: configs/model/emotion_autoencoder.yaml
+post_clip_length: 1000
+data_clamp: True
+
+generic:
+    seed: 1234
+    start_epoch: 0
+    epochs: 500
+    lr: 0.0001
+    model: LatentMatcher
+    clip_grad: True
+    # The historical weighted-sum loss has normal first-epoch norms in the
+    # tens. 100 is a catastrophe guard, not a routine optimizer rescaling.
+    clip_grad_norm: 100.0
+    num_workers: 4
+    log_dir: log
+    tb_dir: tb_logs
+    out_dir: results
+    save_period: 10
+    val_period: 10
+    max_train_batches: 0
+    max_val_batches: 0
+    save_checkpoints: true
+    precision_mode: fp32
+    compile_denoiser: false
+    compile_mode: default
+    timing_warmup_batches: 10
+    test_checkpoint: best
+    test_save_results: true
+    test_metric_names: null
+    test_postprocess_ground_truth: true
+    test_metric_workers: 4
+    test_metrics_filename: metrics.json
+    test_clip_batch_size: 8
+    test_compile_dynamic: true
+    test_empty_cache_interval: 0
+    test_sampling_rng_seed: null
+    max_test_batches: null
+    num_preds: 10
+    clip_length: 750
+    window_size: 30
+    s_ratio: 2
+
+renderer:
+    name: PIRenderer
+    _target_: utils.render.Render
+    do_render: False
+
+defaults:
+    - /model/motion_diffusion_qbvm83@model
+    - /model/optim/adamw@optim
+    - /model/scheduler/cosine_annealing@scheduler
+    - /model/losses/motion_diffusion_qbvm83@criterion

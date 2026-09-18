@@ -257,6 +257,8 @@ def main() -> None:
     parser.add_argument("--steps", type=int)
     parser.add_argument("--eval-examples", type=int)
     parser.add_argument("--seed", type=int)
+    parser.add_argument("--arm", choices=("B0", "B1", "B3"))
+    parser.add_argument("--descriptor-cover", type=float)
     parser.add_argument("--device", default="cuda:5")
     parser.add_argument("--run-name", default="m1_initial")
     args = parser.parse_args()
@@ -267,6 +269,10 @@ def main() -> None:
         config["eval_examples"] = args.eval_examples
     if args.seed is not None:
         config["seed"] = args.seed
+    if args.descriptor_cover is not None:
+        if args.descriptor_cover < 0:
+            raise ValueError("descriptor-cover must be nonnegative")
+        config["loss"]["descriptor_cover"] = args.descriptor_cover
     if config["steps"] < 1 or config["eval_examples"] < 1:
         raise ValueError("steps and eval examples must be positive")
     config["data_root"] = str(ROOT / "data")
@@ -289,11 +295,16 @@ def main() -> None:
     reports.mkdir(parents=True, exist_ok=False)
     save_json(reports / "config.json", config)
     results = {}
-    for arm in ("B0", "B1", "B3"):
+    arms = (args.arm,) if args.arm else ("B0", "B1", "B3")
+    for arm in arms:
         results[arm] = train_one(arm, config, data, schedule, initial,
                                  device, reports)
-    comparison_report(results, config, reports / "final_summary.md")
-    print(f"Milestone 1 report: {reports / 'final_summary.md'}", flush=True)
+    if args.arm is None:
+        comparison_report(results, config, reports / "final_summary.md")
+        print(f"Milestone 1 report: {reports / 'final_summary.md'}", flush=True)
+    else:
+        print(f"Single-arm report: {reports / f'm1_{args.arm}_seed{seed}' / 'final_summary.md'}",
+              flush=True)
 
 
 if __name__ == "__main__":

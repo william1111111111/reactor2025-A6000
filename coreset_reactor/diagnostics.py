@@ -64,17 +64,21 @@ def main() -> None:
                                        config["seed"], step, sample["clip_id"])
                for sample in samples]
         target = data.state["reactions"][torch.tensor(ids)].float().to(device)
+        source_lengths = batch["source_lengths"]
         pred = model(batch["speaker_audio"].to(device),
                      batch["speaker_emotion"].to(device),
-                     batch["speaker_3dmm"].to(device))
+                     batch["speaker_3dmm"].to(device),
+                     lengths=source_lengths)
         paired = softmin(paired_cost(pred, batch["paired_target"].to(device),
                                      batch["pair_lengths"].to(device)), 1,
                          config["softmin_temperature"]).mean()
         unaligned = softmin(unpaired_softdtw_cost(
             pred, target, frames=config["dtw_frames"],
-            gamma=config["dtw_gamma"], band_ratio=config["dtw_band_ratio"]),
+            gamma=config["dtw_gamma"], band_ratio=config["dtw_band_ratio"],
+            prediction_lengths=source_lengths),
             1, config["softmin_temperature"]).mean()
-        record = {"step": step, "paired_value": float(paired.detach()),
+        record = {"step": step, "source_lengths": source_lengths.tolist(),
+                  "paired_value": float(paired.detach()),
                   "unaligned_value": float(unaligned.detach()),
                   "paired_gradient_norm": gradient_norm(paired, model),
                   "weighted_unaligned_gradient_norm": gradient_norm(
@@ -82,8 +86,11 @@ def main() -> None:
         if args.arm == "B3":
             gt_desc = data.state["descriptors"][session_indices].to(device)
             gt_desc = gt_desc[None].expand(len(samples), -1, -1)
-            pred_desc = scaler(reaction_descriptor(pred,
-                                                   config["descriptor_segments"]))
+            pred_desc = scaler(torch.cat([
+                reaction_descriptor(pred[index:index + 1, :, :int(length)],
+                                    config["descriptor_segments"])
+                for index, length in enumerate(source_lengths.tolist())
+            ], dim=0))
             terms = descriptor_set_loss(
                 descriptor_distance(pred_desc, gt_desc),
                 config["softmin_temperature"],

@@ -18,6 +18,7 @@ From the `react2025_new` root (with a compatible Python environment and the data
 
 For a contract smoke test, add `--steps 2 --eval-examples 1 --run-name m1_smoke`.
 For independent replications, set `--seed` and keep the config's `eval_seed` fixed so the same VAL subset is used.
+To test a B3 descriptor weight against an existing same-seed B1 run, use `--arm B3 --descriptor-cover 0.5` with the same `--seed`, `--steps`, and `--eval-examples`.
 
 Outputs stay local under `coreset_reactor/reports/`. `cache/` and `reports/` are ignored by Git. No automatic upload or push exists.
 

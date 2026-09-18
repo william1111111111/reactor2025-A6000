@@ -13,7 +13,16 @@ from coreset_reactor.paired_data import PairedReactionDataset
 from coreset_reactor.descriptor import reaction_descriptor, DescriptorScaler
 
 
-CACHE_VERSION = 1
+CACHE_VERSION = 2
+
+
+def full_reaction_descriptor(raw: torch.Tensor, segments: int = 8) -> torch.Tensor:
+    """Describe every frame of one raw GT, independently of exact-loss cropping."""
+    if raw.ndim != 2 or raw.shape[1] != 25 or len(raw) < 2 * segments:
+        raise ValueError("raw GT must be [T,25] with at least two frames per segment")
+    if not torch.isfinite(raw).all():
+        raise ValueError("raw GT contains nonfinite values")
+    return reaction_descriptor(raw, segments)
 
 
 def fixed_reaction(raw: torch.Tensor, frames: int) -> torch.Tensor:
@@ -37,6 +46,7 @@ def build_train_cache(data_root: Path, path: Path, frames: int = 750,
     ids: list[str] = []
     sessions: dict[str, list[int]] = defaultdict(list)
     reactions: list[torch.Tensor] = []
+    raw_descriptors: list[torch.Tensor] = []
     for index, source in enumerate(paths):
         relative = source.relative_to(facial).with_suffix("")
         identifier = relative.as_posix()
@@ -45,15 +55,16 @@ def build_train_cache(data_root: Path, path: Path, frames: int = 750,
             raise ValueError(f"nonfinite GT in {source}")
         ids.append(identifier)
         sessions[relative.parts[1]].append(index)
+        raw_descriptors.append(full_reaction_descriptor(raw, segments))
         reactions.append(fixed_reaction(raw, frames))
     values = torch.stack(reactions)
-    descriptors = torch.cat([reaction_descriptor(chunk, segments)
-                             for chunk in values.split(64)], dim=0)
+    descriptors = torch.stack(raw_descriptors)
     mean = descriptors.mean(0)
     std = descriptors.std(0, unbiased=False).clamp_min(.03)
     normalized = (descriptors - mean) / std
     state = {"version": CACHE_VERSION, "split": "train", "frames": frames,
              "segments": segments, "data_root": str(data_root.resolve()),
+             "descriptor_source": "full_raw_listener_gt",
              "ids": ids, "sessions": dict(sessions),
              "reactions": values.half(), "descriptors": normalized.float(),
              "descriptor_mean": mean.float(), "descriptor_std": std.float()}
@@ -71,9 +82,10 @@ class TrainSetData:
             state = build_train_cache(data_root, cache_path, frames, segments)
         for key, value in (("version", CACHE_VERSION), ("split", "train"),
                            ("frames", frames), ("segments", segments),
-                           ("data_root", str(data_root.resolve()))):
-            if state[key] != value:
-                raise ValueError(f"cache {key} mismatch: {state[key]} != {value}")
+                           ("data_root", str(data_root.resolve())),
+                           ("descriptor_source", "full_raw_listener_gt")):
+            if state.get(key) != value:
+                raise ValueError(f"cache {key} mismatch: {state.get(key)} != {value}")
         self.state = state
         self.id_to_index = {name: index for index, name in enumerate(state["ids"])}
         self.dataset = PairedReactionDataset(

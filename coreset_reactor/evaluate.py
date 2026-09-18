@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from coreset_reactor.dataset import fixed_reaction
+from coreset_reactor.dataset import full_reaction_descriptor
 from coreset_reactor.descriptor import reaction_descriptor
 from coreset_reactor.losses import descriptor_distance
 from coreset_reactor.model import ParallelTCN
@@ -24,6 +24,15 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MAM_ROOT = PROJECT_ROOT / "mam_reactor"
 if str(MAM_ROOT) not in sys.path:
     sys.path.insert(0, str(MAM_ROOT))
+
+
+def official_prediction(pred: torch.Tensor) -> torch.Tensor:
+    """Use binary AUs for official metrics, without changing diagnostics."""
+    if pred.ndim != 3 or pred.shape[-1] != 25:
+        raise ValueError("prediction must be [K,T,25]")
+    result = pred.clone()
+    result[..., :15] = torch.round(result[..., :15])
+    return result
 
 
 def _stable_rng(seed: int, name: str) -> random.Random:
@@ -85,9 +94,10 @@ def evaluate_model(model: ParallelTCN, data_root: Path,
     scaler = scaler.to(device)
     for index in selected:
         sample = data[index]
-        inputs = (sample["speaker_audio"][None].to(device),
-                  sample["speaker_emotion"][None].to(device),
-                  sample["speaker_3dmm"][None].to(device))
+        source_length = int(sample["source_lengths"])
+        inputs = (sample["speaker_audio"][None, :source_length].to(device),
+                  sample["speaker_emotion"][None, :source_length].to(device),
+                  sample["speaker_3dmm"][None, :source_length].to(device))
         if device.type == "cuda":
             torch.cuda.synchronize(device)
         start = time.perf_counter()
@@ -95,7 +105,7 @@ def evaluate_model(model: ParallelTCN, data_root: Path,
         if device.type == "cuda":
             torch.cuda.synchronize(device)
         latencies.append(time.perf_counter() - start)
-        predictions.append(pred)
+        predictions.append(official_prediction(pred))
         session = sample["session_id"]
         paired = facial / sample["clip_id"].replace("speaker/", "listener/", 1)
         paired = paired.with_suffix(".npy")
@@ -110,21 +120,23 @@ def evaluate_model(model: ParallelTCN, data_root: Path,
             raise ValueError(f"official processor alignment failed: {aligned.shape} vs {pred.shape}")
         targets.append(aligned)
         if session not in full_gt_cache:
-            whole = torch.stack([fixed_reaction(torch.from_numpy(
-                np.load(path, allow_pickle=False).astype(np.float32)), 750)
-                                 for path in pool[session]])
-            full_gt_cache[session] = scaler(reaction_descriptor(whole.to(device))).cpu()
+            raw_descriptors = []
+            for path in pool[session]:
+                raw = torch.from_numpy(np.load(path, allow_pickle=False).astype(np.float32))
+                raw_descriptors.append(full_reaction_descriptor(raw.to(device)))
+            full_gt_cache[session] = scaler(torch.stack(raw_descriptors)).cpu()
         pred_desc = scaler(reaction_descriptor(pred.to(device))).cpu()
         gt_desc = full_gt_cache[session]
         distance = descriptor_distance(pred_desc[None], gt_desc[None])[0]
         context_metrics.append({"clip_id": sample["clip_id"],
+                                "source_length": source_length,
                                 "same_session_gt_count": len(pool[session]),
                                 "gt_descriptor_coverage": float(distance.amin(0).mean()),
                                 "prediction_validity": float(distance.amin(1).mean()),
                                 "candidate_utilization": float(distance.argmin(0).unique().numel()
                                                                / model.num_predictions),
                                 "cluster_coverage": _cluster_coverage(pred_desc, gt_desc)})
-    metrics = {"split": "val", "scope": "deterministic VAL pilot; official metric formulas and target processor, not full TEST",
+    metrics = {"split": "val", "scope": "deterministic VAL pilot; AU-rounded predictions, official metric formulas and target processor, not full TEST",
                "contexts": len(predictions), "gt_policy": "paired + 9 deterministic same-session GTs",
                "FRC": float(compute_FRC(predictions, targets, p=metric_workers)),
                "exact_FRD": float(compute_FRD(predictions, targets, p=metric_workers)),
@@ -147,7 +159,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--data-root", type=Path, default=PROJECT_ROOT / "data")
-    parser.add_argument("--cache", type=Path, default=PROJECT_ROOT / "coreset_reactor" / "cache" / "train_descriptors_v1.pt")
+    parser.add_argument("--cache", type=Path, default=PROJECT_ROOT / "coreset_reactor" / "cache" / "train_descriptors_v2.pt")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--max-examples", type=int, default=8)
     parser.add_argument("--device", default="cuda:5")

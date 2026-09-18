@@ -58,7 +58,8 @@ def paired_cost(pred: torch.Tensor, target: torch.Tensor,
 
 def unpaired_softdtw_cost(pred: torch.Tensor, target: torch.Tensor,
                           frames: int = 32, gamma: float = .1,
-                          band_ratio: float = .25) -> torch.Tensor:
+                          band_ratio: float = .25,
+                          prediction_lengths: torch.Tensor | None = None) -> torch.Tensor:
     """Batched differentiable SoftDTW, only for sampled unpaired GTs.
 
     pred [B,K,T,25], target [B,M,T,25] -> [B,K,M].
@@ -68,11 +69,26 @@ def unpaired_softdtw_cost(pred: torch.Tensor, target: torch.Tensor,
     count = target.shape[1]
     if count == 0:
         return pred.new_zeros(batch, candidates, 0)
-    p = F.interpolate(pred.flatten(0, 1).transpose(1, 2), size=frames,
-                      mode="linear", align_corners=True).transpose(1, 2)
+    if prediction_lengths is None:
+        valid_lengths = [time] * batch
+    else:
+        if prediction_lengths.shape != (batch,):
+            raise ValueError("prediction_lengths must have shape [B]")
+        valid_lengths = [int(length) for length in prediction_lengths.detach().cpu().tolist()]
+        if any(length < 1 or length > time for length in valid_lengths):
+            raise ValueError("prediction_lengths must be between 1 and T")
+    if all(length == time for length in valid_lengths):
+        p = F.interpolate(pred.flatten(0, 1).transpose(1, 2), size=frames,
+                          mode="linear", align_corners=True).transpose(1, 2)
+        p = p.reshape(batch, candidates, frames, 25)
+    else:
+        p = torch.stack([
+            F.interpolate(pred[index, :, :length].transpose(1, 2), size=frames,
+                          mode="linear", align_corners=True).transpose(1, 2)
+            for index, length in enumerate(valid_lengths)
+        ])
     g = F.interpolate(target.flatten(0, 1).transpose(1, 2), size=frames,
                       mode="linear", align_corners=True).transpose(1, 2)
-    p = p.reshape(batch, candidates, frames, 25)
     g = g.reshape(batch, count, frames, 25)
     left = p[:, :, None].expand(-1, -1, count, -1, -1).reshape(-1, frames, 25)
     right = g[:, None].expand(-1, candidates, -1, -1, -1).reshape(-1, frames, 25)

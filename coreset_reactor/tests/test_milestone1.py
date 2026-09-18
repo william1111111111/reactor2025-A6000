@@ -1,9 +1,14 @@
+import numpy as np
 import torch
 
+from coreset_reactor.dataset import (CACHE_VERSION, build_train_cache,
+                                     fixed_reaction, full_reaction_descriptor)
 from coreset_reactor.descriptor import DescriptorScaler, reaction_descriptor
+from coreset_reactor.evaluate import official_prediction
 from coreset_reactor.losses import descriptor_distance, descriptor_set_loss, unpaired_softdtw_cost
 from coreset_reactor.model import ParallelTCN
 from coreset_reactor.sampler import exact_reference_indices
+from coreset_reactor.train import milestone1_criteria
 
 
 def test_parallel_head_and_channel_contract():
@@ -51,3 +56,61 @@ def test_sampled_softdtw_gradient():
     assert cost.shape == (1, 2, 3)
     cost.mean().backward()
     assert torch.isfinite(raw.grad).all()
+
+
+def test_official_au_rounding_keeps_continuous_diagnostics():
+    pred = torch.full((2, 13, 25), .25)
+    pred[1, :, :15] = .75
+    before = pred.clone()
+    official = official_prediction(pred)
+    assert torch.equal(official[0, :, :15], torch.zeros_like(official[0, :, :15]))
+    assert torch.equal(official[1, :, :15], torch.ones_like(official[1, :, :15]))
+    assert torch.equal(official[..., 15:], pred[..., 15:])
+    assert torch.equal(pred, before)
+
+
+def test_train_cache_describes_full_raw_gt(tmp_path):
+    raw = torch.zeros(48, 25)
+    raw[:8, 0] = 1
+    raw[-8:, 0] = 1
+    facial = tmp_path / "train" / "facial-attributes" / "listener" / "session0"
+    facial.mkdir(parents=True)
+    np.save(facial / "example.npy", raw.numpy())
+    state = build_train_cache(tmp_path, tmp_path / "cache.pt", frames=32)
+    assert state["version"] == CACHE_VERSION
+    assert state["descriptor_source"] == "full_raw_listener_gt"
+    assert torch.allclose(state["descriptor_mean"], full_reaction_descriptor(raw))
+    assert not torch.allclose(state["descriptor_mean"],
+                              reaction_descriptor(fixed_reaction(raw, 32)))
+
+
+def test_short_source_ignores_padded_input():
+    torch.manual_seed(7)
+    model = ParallelTCN(dropout=0).eval()
+    audio = torch.randn(2, 21, 768)
+    emotion = torch.randn(2, 21, 25)
+    face = torch.randn(2, 21, 58)
+    padded = model(audio, emotion, face, lengths=torch.tensor([13, 21]))
+    unpadded = model(audio[:1, :13], emotion[:1, :13], face[:1, :13])
+    assert torch.allclose(padded[:1, :, :13], unpadded, atol=1e-6)
+    assert torch.equal(padded[0, :, 13:], torch.zeros_like(padded[0, :, 13:]))
+
+
+def test_softdtw_ignores_padded_prediction_tail():
+    torch.manual_seed(8)
+    pred = torch.rand(1, 2, 24, 25)
+    gt = torch.rand(1, 3, 24, 25)
+    masked = unpaired_softdtw_cost(pred, gt, frames=8,
+                                   prediction_lengths=torch.tensor([13]))
+    unpadded = unpaired_softdtw_cost(pred[:, :, :13], gt, frames=8)
+    assert torch.allclose(masked, unpadded, atol=1e-6)
+
+
+def test_milestone1_requires_positive_frdiv_gain():
+    b1 = {"gt_descriptor_coverage": 1.0, "FRC": .8,
+          "exact_FRD": 150.0, "FRDiv": .15}
+    b3 = {"gt_descriptor_coverage": .9, "FRC": .8,
+          "exact_FRD": 149.0, "FRDiv": .14}
+    assert not all(milestone1_criteria(b1, b3).values())
+    b3["FRDiv"] = .16
+    assert all(milestone1_criteria(b1, b3).values())

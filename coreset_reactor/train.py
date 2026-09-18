@@ -89,18 +89,20 @@ def train_one(arm: str, config: dict, data: TrainSetData,
         inputs = (batch["speaker_audio"].to(device),
                   batch["speaker_emotion"].to(device),
                   batch["speaker_3dmm"].to(device))
+        source_lengths = batch["source_lengths"]
         paired = batch["paired_target"].to(device)
         pair_lengths = batch["pair_lengths"].to(device)
         if device.type == "cuda":
             torch.cuda.synchronize(device)
         started = time.perf_counter()
         optimizer.zero_grad(set_to_none=True)
-        pred = model(*inputs)
+        pred = model(*inputs, lengths=source_lengths)
         aligned = softmin(paired_cost(pred, paired, pair_lengths), 1,
                           config["softmin_temperature"]).mean()
         unaligned_cost = unpaired_softdtw_cost(
             pred, target, frames=config["dtw_frames"],
-            gamma=config["dtw_gamma"], band_ratio=config["dtw_band_ratio"])
+            gamma=config["dtw_gamma"], band_ratio=config["dtw_band_ratio"],
+            prediction_lengths=source_lengths)
         unaligned = softmin(unaligned_cost, 1,
                             config["softmin_temperature"]).mean()
         descriptor_terms = None
@@ -108,8 +110,11 @@ def train_one(arm: str, config: dict, data: TrainSetData,
         if use_all:
             gt_desc = state["descriptors"][session_indices].to(device)
             gt_desc = gt_desc[None].expand(len(samples), -1, -1)
-            pred_desc = scaler(reaction_descriptor(pred,
-                                                   config["descriptor_segments"]))
+            pred_desc = scaler(torch.cat([
+                reaction_descriptor(pred[index:index + 1, :, :int(length)],
+                                    config["descriptor_segments"])
+                for index, length in enumerate(source_lengths.tolist())
+            ], dim=0))
             distance = descriptor_distance(pred_desc, gt_desc)
             descriptor_terms = descriptor_set_loss(
                 distance, config["softmin_temperature"],
@@ -191,6 +196,14 @@ def train_one(arm: str, config: dict, data: TrainSetData,
     return metrics, speed
 
 
+def milestone1_criteria(b1: dict, b3: dict) -> dict[str, bool]:
+    """Zero-slack quality constraints with a strictly positive diversity gain."""
+    return {"coverage_improves": b3["gt_descriptor_coverage"] < b1["gt_descriptor_coverage"],
+            "FRC_non_degraded": b3["FRC"] >= b1["FRC"],
+            "exact_FRD_non_degraded": b3["exact_FRD"] <= b1["exact_FRD"],
+            "FRDiv_improves": b3["FRDiv"] > b1["FRDiv"]}
+
+
 def comparison_report(results: dict[str, tuple[dict, dict]], config: dict,
                       output: Path) -> None:
     lines = ["# CoReSet-Reactor Milestone 1", "",
@@ -209,21 +222,25 @@ def comparison_report(results: dict[str, tuple[dict, dict]], config: dict,
                      f"{m['candidate_utilization']:.3f} | {m['cluster_coverage']:.3f} | "
                      f"{s['training_samples_per_s']:.3f} |")
     b1, b3 = results["B1"][0], results["B3"][0]
-    wins = [b3["gt_descriptor_coverage"] < b1["gt_descriptor_coverage"],
-            b3["FRC"] >= b1["FRC"], b3["exact_FRD"] <= b1["exact_FRD"]]
-    verdict = ("preliminary support" if all(wins) else
-               "not supported on all three quality/coverage criteria")
+    criteria = milestone1_criteria(b1, b3)
+    verdict = ("preliminary support" if all(criteria.values()) else
+               "not supported on all four coverage/quality/diversity criteria")
     lines += ["", "## Interpretation", "",
               f"B3 vs B1: ΔFRC={b3['FRC']-b1['FRC']:+.6f}, "
               f"Δexact FRD={b3['exact_FRD']-b1['exact_FRD']:+.6f}, "
               f"ΔFRDiv={b3['FRDiv']-b1['FRDiv']:+.6f}, "
               f"ΔGT coverage={b3['gt_descriptor_coverage']-b1['gt_descriptor_coverage']:+.6f}.",
+              "Zero-slack criteria: " + ", ".join(
+                  f"{name}={'pass' if passed else 'fail'}"
+                  for name, passed in criteria.items()) + ".",
               f"Milestone-1 hypothesis: {verdict}. This is a small development pilot, "
               "not a significance claim or permission to enter Milestone 2.", "",
               "## Boundaries and next step", "",
               "The 90+ targets are same-session recordings, not verified reactions to the "
               "same stimulus. TRAIN descriptors are cached once per distinct listener "
-              "recording; unpaired temporal matching uses sampled GT only. No explicit "
+              "recording; full raw GTs are used for descriptors, while sampled fixed-length "
+              "GTs are used for unpaired temporal matching. Valid source prefixes are used "
+              "for prediction losses and metrics; official metrics round prediction AUs. No explicit "
               "prediction-separation loss was used. Official metric formulas and "
               "target post-processor were called on a deterministic VAL subset; this "
               "is not the full official TEST protocol. Cluster coverage is a "
@@ -239,6 +256,7 @@ def main() -> None:
                         default=ROOT / "coreset_reactor" / "configs" / "baseline.json")
     parser.add_argument("--steps", type=int)
     parser.add_argument("--eval-examples", type=int)
+    parser.add_argument("--seed", type=int)
     parser.add_argument("--device", default="cuda:5")
     parser.add_argument("--run-name", default="m1_initial")
     args = parser.parse_args()
@@ -247,10 +265,12 @@ def main() -> None:
         config["steps"] = args.steps
     if args.eval_examples is not None:
         config["eval_examples"] = args.eval_examples
+    if args.seed is not None:
+        config["seed"] = args.seed
     if config["steps"] < 1 or config["eval_examples"] < 1:
         raise ValueError("steps and eval examples must be positive")
     config["data_root"] = str(ROOT / "data")
-    config["cache_path"] = str(ROOT / "coreset_reactor" / "cache" / "train_descriptors_v1.pt")
+    config["cache_path"] = str(ROOT / "coreset_reactor" / "cache" / "train_descriptors_v2.pt")
     torch.set_num_threads(4)
     seed = config["seed"]
     random.seed(seed)

@@ -48,11 +48,36 @@ class ParallelTCN(nn.Module):
                           raw[..., 17:25].softmax(dim=-1)), dim=-1)
 
     def forward(self, speaker_audio: torch.Tensor, speaker_emotion: torch.Tensor,
-                speaker_3dmm: torch.Tensor) -> torch.Tensor:
+                speaker_3dmm: torch.Tensor,
+                lengths: torch.Tensor | None = None) -> torch.Tensor:
         # Inputs: [B,T,768], [B,T,25], [B,T,58]. Output: [B,K,T,25].
         if speaker_audio.shape[:2] != speaker_emotion.shape[:2] or \
            speaker_audio.shape[:2] != speaker_3dmm.shape[:2]:
             raise ValueError("speaker modalities must share [B,T]")
+        batch, frames = speaker_audio.shape[:2]
+        if lengths is None:
+            return self._forward_unpadded(speaker_audio, speaker_emotion, speaker_3dmm)
+        if lengths.shape != (batch,):
+            raise ValueError("lengths must have shape [B]")
+        valid_lengths = [int(length) for length in lengths.detach().cpu().tolist()]
+        if any(length < 1 or length > frames for length in valid_lengths):
+            raise ValueError("lengths must be between 1 and the padded frame count")
+        if all(length == frames for length in valid_lengths):
+            return self._forward_unpadded(speaker_audio, speaker_emotion, speaker_3dmm)
+        # Process short examples at their true length: padded values cannot enter
+        # convolution or control-point interpolation for the valid prefix.
+        pieces = []
+        for index, length in enumerate(valid_lengths):
+            piece = self._forward_unpadded(
+                speaker_audio[index:index + 1, :length],
+                speaker_emotion[index:index + 1, :length],
+                speaker_3dmm[index:index + 1, :length])
+            pieces.append(F.pad(piece, (0, 0, 0, frames - length)))
+        return torch.cat(pieces, dim=0)
+
+    def _forward_unpadded(self, speaker_audio: torch.Tensor,
+                          speaker_emotion: torch.Tensor,
+                          speaker_3dmm: torch.Tensor) -> torch.Tensor:
         batch, frames = speaker_audio.shape[:2]
         hidden = torch.cat((self.audio(speaker_audio),
                             self.face(speaker_emotion),

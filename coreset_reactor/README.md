@@ -20,8 +20,8 @@ For a contract smoke test, add `--steps 2 --eval-examples 1 --run-name m1_smoke`
 For independent replications, set `--seed` and keep the config's `eval_seed` fixed so the same VAL subset is used.
 To test a B3 descriptor weight against an existing same-seed B1 run, use `--arm B3 --descriptor-cover 0.5` with the same `--seed`, `--steps`, and `--eval-examples`.
 
-Outputs stay local under `coreset_reactor/reports/`. `cache/` and `reports/` are ignored by Git. No automatic upload or push exists.
+Detailed outputs stay local under `coreset_reactor/reports/`. `cache/` and `reports/` are ignored by Git. Selected sanitized aggregate pilot summaries are published in [`results/`](results/); there is no automatic upload or push from training.
 
 The data assumption is limited: same-session recordings are not verified reactions to the identical stimulus. The deterministic VAL pilot calls the repository's official metric functions and target post-processor after rounding prediction AU channels, but is not the full official TEST score. No GT enters inference. The B3-vs-B1 preliminary criterion requires better descriptor coverage and FRDiv without FRC or exact FRD degradation.
 
-Experiment reports, cached descriptors, datasets, and checkpoints are local-only and are not distributed in this source repository. Training and evaluation also require the FaceVerse statistics and post-processor checkpoint referenced by the existing Mam-Reactor code.
+Raw experiment reports, cached descriptors, datasets, and checkpoints are local-only and are not distributed in this source repository. Training and evaluation also require the FaceVerse statistics and post-processor checkpoint referenced by the existing Mam-Reactor code.

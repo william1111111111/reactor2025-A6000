@@ -1,0 +1,31 @@
+{
+  "seed": 20260918,
+  "eval_seed": 1234,
+  "model_frames": 750,
+  "model": {
+    "num_predictions": 10,
+    "hidden_dim": 128,
+    "control_point_stride": 4,
+    "dilations": [1, 2, 4, 8, 16],
+    "dropout": 0.1
+  },
+  "descriptor_segments": 8,
+  "softmin_temperature": 0.1,
+  "exact_targets": 18,
+  "batch_size": 2,
+  "steps": 200,
+  "eval_examples": 8,
+  "learning_rate": 0.0003,
+  "weight_decay": 0.01,
+  "grad_clip_norm": 1.0,
+  "dtw_frames": 32,
+  "dtw_gamma": 0.1,
+  "dtw_band_ratio": 0.25,
+  "loss": {
+    "descriptor_cover": 1.0,
+    "descriptor_valid": 0.5,
+    "load_balance": 0.05,
+    "max_prediction_usage": 0.35,
+    "unaligned_sequence": 0.1
+  }
+}

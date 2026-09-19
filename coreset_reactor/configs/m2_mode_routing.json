@@ -33,7 +33,7 @@
     "cluster_seed": 1234,
     "max_iterations": 50,
     "temperature": 0.1,
-    "weight": 0.02,
+    "weight": 0.015,
     "schedule": {
       "kind": "linear",
       "warmup_fraction": 0.20,

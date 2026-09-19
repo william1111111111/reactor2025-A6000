@@ -77,6 +77,15 @@ def save_json(path: Path, value: dict) -> None:
     path.write_text(json.dumps(value, indent=2, allow_nan=False) + "\n")
 
 
+def state_dict_sha256(state: dict[str, torch.Tensor]) -> str:
+    digest = hashlib.sha256()
+    for name, value in sorted(state.items()):
+        digest.update(name.encode())
+        digest.update(str((tuple(value.shape), value.dtype)).encode())
+        digest.update(value.detach().cpu().contiguous().numpy().tobytes())
+    return digest.hexdigest()
+
+
 def fixed_schedule(data: TrainSetData, steps: int, batch_size: int,
                    seed: int) -> list[tuple[str, list[int]]]:
     by_session: dict[str, list[int]] = {}
@@ -116,8 +125,10 @@ def train_one(arm: str, config: dict, data: TrainSetData,
     times: list[float] = []
     rows: list[dict] = []
     state = data.state
+    stop_after = config.get("stop_after_step")
+    active_schedule = schedule if stop_after is None else schedule[:stop_after]
     model.train()
-    for step, (session, indices) in enumerate(schedule, 1):
+    for step, (session, indices) in enumerate(active_schedule, 1):
         data.dataset.set_epoch(step - 1)
         samples = [data.dataset[index] for index in indices]
         batch = default_collate(samples)
@@ -193,8 +204,8 @@ def train_one(arm: str, config: dict, data: TrainSetData,
                "descriptor_weight": weight,
                "gradient_norm": float(grad_norm), "iteration_s": elapsed}
         rows.append(row)
-        if step == 1 or step % 10 == 0 or step == len(schedule):
-            print(f"{arm} {step}/{len(schedule)} loss={row['loss']:.4f} "
+        if step == 1 or step % 10 == 0 or step == len(active_schedule):
+            print(f"{arm} {step}/{len(active_schedule)} loss={row['loss']:.4f} "
                   f"step_s={elapsed:.3f}", flush=True)
         if step in config.get("save_checkpoint_steps", ()):
             torch.save({"arm": arm, "seed": seed, "steps": step,
@@ -207,7 +218,7 @@ def train_one(arm: str, config: dict, data: TrainSetData,
         writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
-    checkpoint = {"arm": arm, "seed": seed, "steps": len(schedule),
+    checkpoint = {"arm": arm, "seed": seed, "steps": len(active_schedule),
                   "model_config": model_config, "model": model.cpu().state_dict(),
                   "optimizer": optimizer.state_dict(), "sampler_usage": dict(usage),
                   "descriptor_cache_path": str(config["cache_path"])}
@@ -216,8 +227,8 @@ def train_one(arm: str, config: dict, data: TrainSetData,
     frequencies = sorted(usage.items(), key=lambda item: (-item[1], item[0]))
     sampled_counts = list(usage.values())
     sampler_stats = {"policy": "paired + deterministic random distinct same-session GT",
-                     "paired_draws": len(schedule) * len(schedule[0][1]),
-                     "random_draws": len(schedule) * len(schedule[0][1]) * (target_count - 1),
+                     "paired_draws": len(active_schedule) * len(active_schedule[0][1]),
+                     "random_draws": len(active_schedule) * len(active_schedule[0][1]) * (target_count - 1),
                      "unique_gt_used": len(usage),
                      "usage_min_selected": min(sampled_counts),
                      "usage_max": max(sampled_counts),
@@ -239,7 +250,7 @@ def train_one(arm: str, config: dict, data: TrainSetData,
              "training_samples_per_s": float(config["batch_size"] / np.mean(warm)),
              "peak_gpu_memory_bytes": int(torch.cuda.max_memory_allocated(device))
                                       if device.type == "cuda" else None,
-             "training_steps": len(schedule), "batch_size": config["batch_size"]}
+             "training_steps": len(active_schedule), "batch_size": config["batch_size"]}
     save_json(report / "speed.json", speed)
     (report / "final_summary.md").write_text(
         f"# {arm}: CoReSet-Reactor Milestone 1\n\n"
@@ -313,6 +324,7 @@ def main() -> None:
     parser.add_argument("--config", type=Path,
                         default=ROOT / "coreset_reactor" / "configs" / "baseline.json")
     parser.add_argument("--steps", type=int)
+    parser.add_argument("--stop-after-step", type=int)
     parser.add_argument("--eval-examples", type=int)
     parser.add_argument("--seed", type=int)
     parser.add_argument("--save-checkpoint-steps", nargs="+", type=int)
@@ -347,6 +359,10 @@ def main() -> None:
                                          "ramp_end_fraction": end}
     if config["steps"] < 1 or config["eval_examples"] < 1:
         raise ValueError("steps and eval examples must be positive")
+    if args.stop_after_step is not None:
+        if not 1 <= args.stop_after_step <= config["steps"]:
+            raise ValueError("stop-after-step must be within the planned schedule")
+        config["stop_after_step"] = args.stop_after_step
     if args.save_checkpoint_steps is not None:
         points = sorted(set(args.save_checkpoint_steps))
         if any(point < 1 or point >= config["steps"] for point in points):
@@ -372,12 +388,14 @@ def main() -> None:
     initial = copy.deepcopy(ParallelTCN(**config["model"]).state_dict())
     config["schedule_sha256"] = hashlib.sha256(
         json.dumps(schedule, separators=(",", ":")).encode()).hexdigest()
-    initial_digest = hashlib.sha256()
-    for name, value in sorted(initial.items()):
-        initial_digest.update(name.encode())
-        initial_digest.update(str((tuple(value.shape), value.dtype)).encode())
-        initial_digest.update(value.detach().cpu().contiguous().numpy().tobytes())
-    config["initial_model_sha256"] = initial_digest.hexdigest()
+    config["initial_model_sha256"] = state_dict_sha256(initial)
+    shared_initial = {name: value for name, value in initial.items()
+                      if not name.startswith("mode_")}
+    config["shared_initial_model_sha256"] = state_dict_sha256(shared_initial)
+    config["model_parameter_count"] = sum(value.numel() for value in initial.values())
+    config["mode_adapter_parameter_count"] = sum(
+        value.numel() for name, value in initial.items()
+        if name.startswith("mode_"))
     reports = ROOT / "coreset_reactor" / "reports" / args.run_name
     reports.mkdir(parents=True, exist_ok=False)
     save_json(reports / "config.json", config)

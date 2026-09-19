@@ -16,7 +16,8 @@ from coreset_reactor.m2_diagnostics import (farthest_sum_indices,
                                             normalized_squared_distances)
 from coreset_reactor.model import ParallelTCN
 from coreset_reactor.sampler import exact_reference_indices
-from coreset_reactor.train import descriptor_weight, milestone1_criteria
+from coreset_reactor.train import (descriptor_weight, fixed_schedule,
+                                   milestone1_criteria, state_dict_sha256)
 
 
 def test_parallel_head_and_channel_contract():
@@ -30,6 +31,59 @@ def test_parallel_head_and_channel_contract():
         assert torch.allclose(out[..., 17:].sum(-1), torch.ones(2, 10, 21))
         out.mean().backward()
         assert model.head[1].weight.grad is not None
+
+
+def test_zero_initialized_mode_adapter_exactly_matches_m1():
+    torch.manual_seed(37)
+    baseline = ParallelTCN(dropout=0).eval()
+    torch.manual_seed(37)
+    specialized = ParallelTCN(dropout=0, mode_adapter=True,
+                              mode_dim=16, mode_hidden_dim=64).eval()
+    shared = {name: value for name, value in specialized.state_dict().items()
+              if not name.startswith("mode_")}
+    assert baseline.state_dict().keys() == shared.keys()
+    assert all(torch.equal(value, shared[name])
+               for name, value in baseline.state_dict().items())
+    inputs = (torch.randn(2, 21, 768), torch.randn(2, 21, 25),
+              torch.randn(2, 21, 58))
+    assert torch.equal(baseline(*inputs), specialized(*inputs))
+    assert torch.count_nonzero(specialized.mode_out.weight) == 0
+    assert torch.count_nonzero(specialized.mode_out.bias) == 0
+    assert (sum(p.numel() for p in specialized.parameters()) -
+            sum(p.numel() for p in baseline.parameters())) == 11065
+
+
+def test_mode_adapter_receives_gradient_without_explicit_diversity_loss():
+    torch.manual_seed(41)
+    model = ParallelTCN(dropout=0, mode_adapter=True)
+    output = model(torch.randn(1, 17, 768), torch.randn(1, 17, 25),
+                   torch.randn(1, 17, 58))
+    output[..., 15].mean().backward()
+    assert model.mode_out.weight.grad is not None
+    assert torch.count_nonzero(model.mode_out.weight.grad) > 0
+
+
+def test_mode_adapter_preserves_shared_initialization_hash():
+    torch.manual_seed(43)
+    baseline = ParallelTCN().state_dict()
+    torch.manual_seed(43)
+    specialized = ParallelTCN(mode_adapter=True).state_dict()
+    shared = {name: value for name, value in specialized.items()
+              if not name.startswith("mode_")}
+    assert state_dict_sha256(baseline) == state_dict_sha256(shared)
+
+
+def test_full_schedule_prefix_is_used_for_safety_stop(tmp_path):
+    class SessionData:
+        records = [tmp_path / "s0" / "a", tmp_path / "s0" / "b",
+                   tmp_path / "s1" / "c"]
+
+    class Data:
+        dataset = SessionData()
+
+    full = fixed_schedule(Data(), 2500, 2, 20260918)
+    assert full[:600] == fixed_schedule(Data(), 2500, 2, 20260918)[:600]
+    assert full[:600] != fixed_schedule(Data(), 600, 2, 20260918)
 
 
 def test_descriptor_shape_and_coverage_gradients():

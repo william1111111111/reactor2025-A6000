@@ -27,19 +27,35 @@ class TemporalBlock(nn.Module):
 class ParallelTCN(nn.Module):
     def __init__(self, num_predictions: int = 10, hidden_dim: int = 128,
                  control_point_stride: int = 4, dilations=(1, 2, 4, 8, 16),
-                 dropout: float = 0.1):
+                 dropout: float = 0.1, mode_adapter: bool = False,
+                 mode_dim: int = 16, mode_hidden_dim: int = 64,
+                 mode_alpha: float = 1.0):
         super().__init__()
         if num_predictions < 1 or control_point_stride < 1:
             raise ValueError("num_predictions and control_point_stride must be positive")
         if hidden_dim != 128:
             raise ValueError("v1 uses 64+32+32=128 feature channels")
+        if mode_adapter and (mode_dim < 1 or mode_hidden_dim < 1 or mode_alpha < 0):
+            raise ValueError("mode adapter dimensions must be positive and alpha nonnegative")
         self.num_predictions = num_predictions
         self.control_point_stride = control_point_stride
+        self.mode_adapter = mode_adapter
+        self.mode_alpha = float(mode_alpha)
         self.audio = nn.Linear(768, 64)
         self.face = nn.Linear(25, 32)
         self.mm = nn.Linear(58, 32)
         self.blocks = nn.Sequential(*(TemporalBlock(128, d, dropout) for d in dilations))
         self.head = nn.Sequential(nn.LayerNorm(128), nn.Linear(128, num_predictions * 25))
+        if mode_adapter:
+            self.mode_codes = nn.Parameter(torch.empty(num_predictions, mode_dim))
+            self.mode_h = nn.Linear(hidden_dim, mode_hidden_dim)
+            self.mode_z = nn.Linear(mode_dim, mode_hidden_dim, bias=False)
+            self.mode_out = nn.Linear(mode_hidden_dim, 25)
+            nn.init.normal_(self.mode_codes, std=0.02)
+            # Exact M1 function at initialization; specialization enters only
+            # after mode_out receives its first gradient update.
+            nn.init.zeros_(self.mode_out.weight)
+            nn.init.zeros_(self.mode_out.bias)
 
     @staticmethod
     def activate(raw: torch.Tensor) -> torch.Tensor:
@@ -89,6 +105,11 @@ class ParallelTCN(nn.Module):
                                   stride=self.control_point_stride,
                                   ceil_mode=True).transpose(1, 2)
         controls = self.head(hidden).reshape(batch, -1, self.num_predictions, 25)
+        if self.mode_adapter:
+            shared = self.mode_h(hidden)[:, :, None, :]
+            modes = self.mode_z(self.mode_codes)[None, None, :, :]
+            delta = self.mode_out(F.gelu(shared + modes))
+            controls = controls + self.mode_alpha * delta
         # Interpolate raw logits first; only then apply channel activations.
         raw = controls.permute(0, 2, 3, 1).reshape(batch * self.num_predictions, 25, -1)
         if raw.shape[-1] != frames:

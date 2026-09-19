@@ -339,6 +339,13 @@ def run_diagnostics(checkpoint_path: Path, data_root: Path, cache_path: Path,
         for key in ceiling_keys
     }
     utilized = [record["utilized_slots"] for record in context_records]
+    pairwise_mask = torch.triu(torch.ones_like(pairwise_prediction,
+                                               dtype=torch.bool), diagonal=1)
+    pairwise_values = pairwise_prediction[pairwise_mask]
+    centroid_values = centroid_pairwise[pairwise_mask]
+    au_rates = au_sum / contexts
+    va_means = va_mean_sum / contexts
+    expression_means = expression_sum / contexts
     checkpoint_sha = hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
     return {
         "protocol": {
@@ -366,6 +373,25 @@ def run_diagnostics(checkpoint_path: Path, data_root: Path, cache_path: Path,
             "global_responsibility": global_share.tolist(),
             "effective_slots": math.exp(entropy),
             "responsibility_entropy": entropy,
+            "specialization_summary": {
+                "slot_pairwise_FRDiv_mean": float(pairwise_values.mean()),
+                "slot_pairwise_FRDiv_min": float(pairwise_values.min()),
+                "slot_pairwise_FRDiv_max": float(pairwise_values.max()),
+                "descriptor_centroid_distance_mean": float(centroid_values.mean()),
+                "descriptor_centroid_distance_min": float(centroid_values.min()),
+                "descriptor_centroid_distance_max": float(centroid_values.max()),
+                "dominant_expression_count": int(
+                    expression_means.argmax(1).unique().numel()),
+                "AU_activation_range_mean": float(
+                    (au_rates.amax(0) - au_rates.amin(0)).mean()),
+                "AU_activation_range_max": float(
+                    (au_rates.amax(0) - au_rates.amin(0)).max()),
+                "VA_mean_range": (va_means.amax(0) - va_means.amin(0)).tolist(),
+                "utilized_slots_le_5_fraction": float(
+                    np.mean([count <= 5 for count in utilized])),
+                "utilized_slots_all_fraction": float(
+                    np.mean([count == slot_count for count in utilized])),
+            },
             "pairwise_FRDiv_matrix": pairwise_prediction.tolist(),
             "descriptor_centroid_distance_matrix": centroid_pairwise.tolist(),
             "slots": slot_records,

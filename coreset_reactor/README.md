@@ -84,3 +84,16 @@ are placed in shared memory, then one prediction per task is scheduled across
 spawn-safe CPU workers. Nonnegative group pruning is exact; it does not relax
 or approximate FRD. Use `--metric-engine tslearn --metric-workers 1` only for
 small equivalence checks.
+
+## Fixed-pair independent-model diagnostic
+
+`fixed_pair_ensemble.py` trains ten independent one-output ParallelTCNs. For
+each TRAIN source, a seeded hash selects ten distinct same-session GT paths;
+model `k` always receives rank `k`. Path selection is the only dataset change:
+the selected target then runs through the original diffusion
+`dataset.react_2025.ReactionDataset.__getitem__` crop and short-tail-fill code.
+The ten checkpoints share initialization and source schedule hashes. At
+evaluation, ten CUDA streams produce the final ten reactions and the ordinary
+deterministic VAL protocol computes the five primary metrics. The sanitized
+[full VAL571 result](results/M3_FIXED_PAIR_ENSEMBLE.md) is a negative
+quality/diversity tradeoff result; checkpoints and per-run curves remain local.

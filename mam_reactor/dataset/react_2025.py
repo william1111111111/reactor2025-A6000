@@ -1,4 +1,5 @@
 import os
+import hashlib
 from pathlib import Path
 import hydra
 from hydra.utils import instantiate
@@ -16,6 +17,22 @@ from dataset.tools.util import Transform, extract_audio_features
 import torchaudio
 
 torchaudio.set_audio_backend("sox_io")
+
+
+def fixed_target_choices(candidates, source_path, seed, count=10):
+    """Choose a source-specific fixed GT set without changing GT processing.
+
+    This helper only decides which listener paths enter ``__getitem__``.  The
+    selected path subsequently follows the original diffusion crop/pad code.
+    """
+    ordered = sorted(candidates, key=lambda value: value.as_posix())
+    if count < 1 or len(ordered) < count:
+        raise ValueError(
+            f"fixed target selection needs {count} distinct GTs, got {len(ordered)}"
+        )
+    payload = f"{seed}|{source_path.as_posix()}|fixed-diffusion-targets".encode()
+    rng = random.Random(int.from_bytes(hashlib.sha256(payload).digest()[:8], "big"))
+    return rng.sample(ordered, count)
 
 
 def custom_collate(batch):
@@ -119,6 +136,10 @@ class ReactionDataset(data.Dataset):
                  load_3dmm_s: bool = True,
                  load_3dmm_l: bool = True,
                  normalize_3dmm: str = 'standard',  # standard | zero_center
+                 fixed_target_rank: int = None,
+                 fixed_target_count: int = 10,
+                 fixed_target_seed: int = 1234,
+                 source_role: str = None,
                  **kwargs,
                  ):
 
@@ -133,6 +154,15 @@ class ReactionDataset(data.Dataset):
         self.load_emotion_l = load_emotion_l
         self.load_3dmm_s = load_3dmm_s
         self.load_3dmm_l = load_3dmm_l
+        if source_role not in (None, 'speaker', 'listener'):
+            raise ValueError("source_role must be speaker, listener, or None")
+        if fixed_target_rank is not None and not (
+                0 <= fixed_target_rank < fixed_target_count):
+            raise ValueError("fixed_target_rank must be within fixed_target_count")
+        self.fixed_target_rank = fixed_target_rank
+        self.fixed_target_count = fixed_target_count
+        self.fixed_target_seed = fixed_target_seed
+        self.source_role = source_role
 
         dataset_dir = os.path.join(root_dir, self._split)
         self.audio_feature_type = audio_feature_type
@@ -180,15 +210,33 @@ class ReactionDataset(data.Dataset):
                 parts = Path(root).parts
                 file_path = Path(*parts[-2:]) / file
                 role = parts[-2]
+                if self.source_role is not None and role != self.source_role:
+                    continue
                 session_id = Path(parts[-1])
                 gt_session_id = 'speaker' / session_id if role == 'listener' else 'listener' / session_id
                 listener_file_path = gt_session_id / file
+
+                if self.fixed_target_rank is not None:
+                    listener_file_path = fixed_target_choices(
+                        gt_path_dict[gt_session_id],
+                        file_path,
+                        self.fixed_target_seed,
+                        self.fixed_target_count,
+                    )[self.fixed_target_rank]
 
                 speaker_path_list.append(file_path)
                 listener_path_list.append(listener_file_path)
                 listener_gt_paths = gt_path_dict[gt_session_id]
                 gt_path_list.append(listener_gt_paths)
 
+        if self.fixed_target_rank is not None:
+            # Stable indexing is required so ten independent jobs share the
+            # same source schedule and differ only in fixed target rank.
+            rows = sorted(zip(speaker_path_list, listener_path_list, gt_path_list),
+                          key=lambda row: row[0].as_posix())
+            speaker_path_list = [row[0] for row in rows]
+            listener_path_list = [row[1] for row in rows]
+            gt_path_list = [row[2] for row in rows]
         self.speaker_path_list = speaker_path_list.copy()
         self.listener_path_list = listener_path_list.copy()
         self.gt_path_list = gt_path_list.copy()

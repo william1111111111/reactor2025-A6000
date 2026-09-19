@@ -10,6 +10,10 @@ from coreset_reactor.evaluate import (_deterministic_postprocess,
                                       exact_quality_metrics,
                                       official_prediction)
 from coreset_reactor.losses import descriptor_distance, descriptor_set_loss, unpaired_softdtw_cost
+from coreset_reactor.m2_diagnostics import (farthest_sum_indices,
+                                            frdiv_from_distances,
+                                            kmedoids_indices,
+                                            normalized_squared_distances)
 from coreset_reactor.model import ParallelTCN
 from coreset_reactor.sampler import exact_reference_indices
 from coreset_reactor.train import descriptor_weight, milestone1_criteria
@@ -116,6 +120,27 @@ def test_postprocessor_rng_is_deterministic_and_restored():
     observed_next = (random.random(), np.random.rand(), float(torch.rand(())))
     assert torch.equal(first, second)
     assert np.allclose(observed_next, expected_next)
+
+
+def test_gt_ceiling_distance_matches_official_frdiv_formula():
+    torch.manual_seed(31)
+    reactions = torch.rand(10, 9, 25)
+    distance = normalized_squared_distances(reactions)
+    flat = reactions.reshape(10, -1)
+    official = torch.cdist(flat, flat).square().sum() / (10 * 9 * flat.shape[-1])
+    assert torch.allclose(torch.tensor(frdiv_from_distances(distance)), official)
+
+
+def test_gt_selection_algorithms_are_deterministic_and_distinct():
+    points = torch.tensor([[0.], [1.], [2.], [10.], [11.], [20.]])
+    distance = torch.cdist(points, points).square()
+    medoids = kmedoids_indices(distance, 3)
+    farthest = farthest_sum_indices(distance, 3)
+    assert medoids == kmedoids_indices(distance, 3)
+    assert farthest == farthest_sum_indices(distance, 3)
+    assert len(set(medoids)) == len(set(farthest)) == 3
+    assert frdiv_from_distances(distance, farthest) >= frdiv_from_distances(
+        distance, medoids)
 
 
 def test_train_cache_describes_full_raw_gt(tmp_path):

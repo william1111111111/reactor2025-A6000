@@ -28,4 +28,6 @@ Detailed outputs stay local under `coreset_reactor/reports/`. `cache/` and `repo
 
 The data assumption is limited: same-session recordings are not verified reactions to the identical stimulus. The deterministic VAL pilot calls the repository's official metric functions and target post-processor after rounding prediction AU channels, but is not the full official TEST score. No GT enters inference. The B3-vs-B1 preliminary criterion requires better descriptor coverage and FRDiv without FRC or exact FRD degradation.
 
+After freezing M1, run the read-only M2 preflight with `python -m coreset_reactor.m2_diagnostics --checkpoint ... --output ... --max-examples 571 --eval-seed 1234 --device cuda:5`. It compares random, k-medoids and approximate max-FRDiv real-GT sets, then measures descriptor-nearest responsibility and AU/VA/expression patterns for all ten prediction slots. The sanitized [full-VAL diagnostic summary](results/M2_GT_CEILING_SLOT_DIAGNOSTICS.md) is published without per-context identifiers.
+
 Raw experiment reports, cached descriptors, datasets, and checkpoints are local-only and are not distributed in this source repository. Training and evaluation also require the FaceVerse statistics and post-processor checkpoint referenced by the existing Mam-Reactor code.

@@ -5,8 +5,10 @@ from __future__ import annotations
 import argparse
 import copy
 import csv
+import hashlib
 import json
 import random
+import subprocess
 import time
 from collections import Counter
 from pathlib import Path
@@ -25,6 +27,50 @@ from coreset_reactor.sampler import exact_reference_indices
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def descriptor_weight(step: int, steps: int, target: float,
+                      schedule: dict | None = None) -> float:
+    """Return a constant weight or a zero/warmup/linear-ramp schedule."""
+    if schedule is None:
+        return target
+    if schedule.get("kind") != "linear":
+        raise ValueError("unsupported descriptor schedule")
+    start = steps * schedule["warmup_fraction"]
+    end = steps * schedule["ramp_end_fraction"]
+    progress = min(1.0, max(0.0, (step - start) / (end - start)))
+    return target * progress
+
+
+def source_provenance() -> dict:
+    """Record a source fingerprint, and a commit only for tracked clean code."""
+    files = sorted((ROOT / "coreset_reactor").glob("*.py"))
+    files += sorted((ROOT / "mam_reactor").rglob("*.py"))
+    digest = hashlib.sha256()
+    for path in files:
+        digest.update(path.relative_to(ROOT).as_posix().encode())
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    git_head_sha = None
+    git_commit_sha = None
+    try:
+        head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
+                              capture_output=True, text=True, check=True)
+        git_head_sha = head.stdout.strip()
+        tracked = subprocess.run(
+            ["git", "ls-files", "--error-unmatch", "coreset_reactor/train.py"],
+            cwd=ROOT, capture_output=True).returncode == 0
+        status = subprocess.run(
+            ["git", "status", "--porcelain", "--", "coreset_reactor", "mam_reactor"],
+            cwd=ROOT, capture_output=True, text=True, check=True)
+        if tracked and not status.stdout.strip():
+            git_commit_sha = git_head_sha
+    except (OSError, subprocess.CalledProcessError):
+        pass
+    return {"git_head_sha": git_head_sha, "git_commit_sha": git_commit_sha,
+            "source_snapshot_sha256": digest.hexdigest(),
+            "source_file_count": len(files)}
 
 
 def save_json(path: Path, value: dict) -> None:
@@ -106,6 +152,10 @@ def train_one(arm: str, config: dict, data: TrainSetData,
         unaligned = softmin(unaligned_cost, 1,
                             config["softmin_temperature"]).mean()
         descriptor_terms = None
+        weight = (descriptor_weight(step, len(schedule),
+                                    config["loss"]["descriptor_cover"],
+                                    config.get("descriptor_schedule"))
+                  if use_all else 0.0)
         total = aligned + config["loss"]["unaligned_sequence"] * unaligned
         if use_all:
             gt_desc = state["descriptors"][session_indices].to(device)
@@ -121,7 +171,7 @@ def train_one(arm: str, config: dict, data: TrainSetData,
                 config["loss"]["descriptor_valid"],
                 config["loss"]["load_balance"],
                 config["loss"]["max_prediction_usage"])
-            total = total + config["loss"]["descriptor_cover"] * descriptor_terms["total"]
+            total = total + weight * descriptor_terms["total"]
         if not torch.isfinite(total):
             raise FloatingPointError(f"nonfinite loss for {arm} step {step}")
         total.backward()
@@ -140,11 +190,19 @@ def train_one(arm: str, config: dict, data: TrainSetData,
                "cover": float(descriptor_terms["cover"].detach()) if descriptor_terms else 0.0,
                "valid": float(descriptor_terms["valid"].detach()) if descriptor_terms else 0.0,
                "load": float(descriptor_terms["load"].detach()) if descriptor_terms else 0.0,
+               "descriptor_weight": weight,
                "gradient_norm": float(grad_norm), "iteration_s": elapsed}
         rows.append(row)
         if step == 1 or step % 10 == 0 or step == len(schedule):
             print(f"{arm} {step}/{len(schedule)} loss={row['loss']:.4f} "
                   f"step_s={elapsed:.3f}", flush=True)
+        if step in config.get("save_checkpoint_steps", ()):
+            torch.save({"arm": arm, "seed": seed, "steps": step,
+                        "model_config": model_config,
+                        "model": {name: value.detach().cpu().clone()
+                                  for name, value in model.state_dict().items()},
+                        "provenance": config["provenance"]},
+                       report / f"checkpoint_step{step:06d}.pt")
     with (report / "training_curve.csv").open("w", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
         writer.writeheader()
@@ -257,8 +315,11 @@ def main() -> None:
     parser.add_argument("--steps", type=int)
     parser.add_argument("--eval-examples", type=int)
     parser.add_argument("--seed", type=int)
+    parser.add_argument("--save-checkpoint-steps", nargs="+", type=int)
     parser.add_argument("--arm", choices=("B0", "B1", "B3"))
     parser.add_argument("--descriptor-cover", type=float)
+    parser.add_argument("--descriptor-warmup-fraction", type=float)
+    parser.add_argument("--descriptor-ramp-end-fraction", type=float)
     parser.add_argument("--device", default="cuda:5")
     parser.add_argument("--run-name", default="m1_initial")
     args = parser.parse_args()
@@ -273,10 +334,28 @@ def main() -> None:
         if args.descriptor_cover < 0:
             raise ValueError("descriptor-cover must be nonnegative")
         config["loss"]["descriptor_cover"] = args.descriptor_cover
+    if ((args.descriptor_warmup_fraction is None) !=
+            (args.descriptor_ramp_end_fraction is None)):
+        raise ValueError("both descriptor schedule fractions are required")
+    if args.descriptor_warmup_fraction is not None:
+        start = args.descriptor_warmup_fraction
+        end = args.descriptor_ramp_end_fraction
+        if not 0 <= start < end <= 1:
+            raise ValueError("descriptor schedule requires 0 <= warmup < ramp end <= 1")
+        config["descriptor_schedule"] = {"kind": "linear",
+                                         "warmup_fraction": start,
+                                         "ramp_end_fraction": end}
     if config["steps"] < 1 or config["eval_examples"] < 1:
         raise ValueError("steps and eval examples must be positive")
+    if args.save_checkpoint_steps is not None:
+        points = sorted(set(args.save_checkpoint_steps))
+        if any(point < 1 or point >= config["steps"] for point in points):
+            raise ValueError("intermediate checkpoint steps must be within the run")
+        config["save_checkpoint_steps"] = points
     config["data_root"] = str(ROOT / "data")
     config["cache_path"] = str(ROOT / "coreset_reactor" / "cache" / "train_descriptors_v2.pt")
+    config["device"] = args.device
+    config["provenance"] = source_provenance()
     torch.set_num_threads(4)
     seed = config["seed"]
     random.seed(seed)
@@ -291,6 +370,14 @@ def main() -> None:
                         segments=config["descriptor_segments"], seed=seed)
     schedule = fixed_schedule(data, config["steps"], config["batch_size"], seed)
     initial = copy.deepcopy(ParallelTCN(**config["model"]).state_dict())
+    config["schedule_sha256"] = hashlib.sha256(
+        json.dumps(schedule, separators=(",", ":")).encode()).hexdigest()
+    initial_digest = hashlib.sha256()
+    for name, value in sorted(initial.items()):
+        initial_digest.update(name.encode())
+        initial_digest.update(str((tuple(value.shape), value.dtype)).encode())
+        initial_digest.update(value.detach().cpu().contiguous().numpy().tobytes())
+    config["initial_model_sha256"] = initial_digest.hexdigest()
     reports = ROOT / "coreset_reactor" / "reports" / args.run_name
     reports.mkdir(parents=True, exist_ok=False)
     save_json(reports / "config.json", config)

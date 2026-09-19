@@ -8,7 +8,7 @@ from coreset_reactor.evaluate import official_prediction
 from coreset_reactor.losses import descriptor_distance, descriptor_set_loss, unpaired_softdtw_cost
 from coreset_reactor.model import ParallelTCN
 from coreset_reactor.sampler import exact_reference_indices
-from coreset_reactor.train import milestone1_criteria
+from coreset_reactor.train import descriptor_weight, milestone1_criteria
 
 
 def test_parallel_head_and_channel_contract():
@@ -114,3 +114,14 @@ def test_milestone1_requires_positive_frdiv_gain():
     assert not all(milestone1_criteria(b1, b3).values())
     b3["FRDiv"] = .16
     assert all(milestone1_criteria(b1, b3).values())
+
+
+def test_descriptor_weight_warmup_and_ramp():
+    schedule = {"kind": "linear", "warmup_fraction": .2,
+                "ramp_end_fraction": .6}
+    assert descriptor_weight(1, 600, .15, schedule) == 0
+    assert descriptor_weight(120, 600, .15, schedule) == 0
+    assert abs(descriptor_weight(240, 600, .15, schedule) - .075) < 1e-12
+    assert descriptor_weight(360, 600, .15, schedule) == .15
+    assert descriptor_weight(600, 600, .15, schedule) == .15
+    assert descriptor_weight(120, 600, .1) == .1

@@ -19,8 +19,12 @@ From the `react2025_new` root (with a compatible Python environment and the data
 For a contract smoke test, add `--steps 2 --eval-examples 1 --run-name m1_smoke`.
 For independent replications, set `--seed` and keep the config's `eval_seed` fixed so the same VAL subset is used.
 To test a B3 descriptor weight against an existing same-seed B1 run, use `--arm B3 --descriptor-cover 0.5` with the same `--seed`, `--steps`, and `--eval-examples`.
+For a quality-first schedule, add `--descriptor-cover 0.15 --descriptor-warmup-fraction 0.2 --descriptor-ramp-end-fraction 0.6`: the whole descriptor block has zero weight through 20% of steps, rises linearly to 0.15 at 60%, then stays there. Each training-curve row records the applied `descriptor_weight`.
 
-Detailed outputs stay local under `coreset_reactor/reports/`. `cache/` and `reports/` are ignored by Git. Selected sanitized aggregate pilot summaries are published in [`results/`](results/); there is no automatic upload or push from training.
+New run configs record `git_head_sha`, `git_commit_sha` only when the relevant source is tracked and clean, and a `source_snapshot_sha256` across local CoReSet/Mam-Reactor Python source. A null `git_commit_sha` means the HEAD alone does not identify the executed source (for example, when CoReSet is untracked).
+For matched longer-run comparisons, use the same `--seed`, `--steps`, `--eval-examples`, and `--device` in each arm. `--save-checkpoint-steps 600` writes an evaluation-only checkpoint without interrupting the training RNG state; run configs also record hashes of the initial model and fixed source schedule. Intermediate checkpoints can be evaluated after training with `python -m coreset_reactor.evaluate --checkpoint ... --output ... --max-examples 64 --device cuda:5`.
+
+Detailed outputs stay local under `coreset_reactor/reports/`. `cache/` and `reports/` are ignored by Git. Selected sanitized aggregate pilot summaries—including the [matched 2500-step comparison](results/M1_MATCHED_LONG_RUN.md)—are published in [`results/`](results/); there is no automatic upload or push from training.
 
 The data assumption is limited: same-session recordings are not verified reactions to the identical stimulus. The deterministic VAL pilot calls the repository's official metric functions and target post-processor after rounding prediction AU channels, but is not the full official TEST score. No GT enters inference. The B3-vs-B1 preliminary criterion requires better descriptor coverage and FRDiv without FRC or exact FRD degradation.
 

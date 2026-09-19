@@ -35,3 +35,40 @@ The first controlled mode-adapter experiment is reproducible with `python -m cor
 M2-v2 keeps the 172,122-parameter M1 architecture and adds only TRAIN-derived behavioral mode routing. `configs/m2_mode_routing.json` deterministically partitions the 1,660 TRAIN descriptors into ten capacity-balanced medoid modes, fixes slot k to mode k, and ramps a 0.015 routed descriptor loss from 20% to 50% of training. Missing session modes are skipped; VAL descriptors never enter clustering. The [single-seed matched result](results/M2_GT_DERIVED_MODE_ROUTING.md) reports the original 0.02/0.05 points; the [low-weight sweep](results/M2_ROUTE_WEIGHT_SWEEP.md) selects 0.015 as the current candidate.
 
 Raw experiment reports, cached descriptors, datasets, and checkpoints are local-only and are not distributed in this source repository. Training and evaluation also require the FaceVerse statistics and post-processor checkpoint referenced by the existing Mam-Reactor code.
+
+## M3 offline candidate-pool oracle
+
+`oracle_select.py` answers an upper-bound question before any overcomplete
+model is trained: do the existing M1 and TRAIN-routed checkpoints already
+contain a quality-safe set of ten diverse reactions? It discovers local
+`final_checkpoint.pt` files, generates ten predictions per main checkpoint,
+rounds AU channels using the official protocol, removes byte-identical
+trajectories, and reports three selections: quality-only, unconstrained
+max-FRDiv, and strict quality-constrained max-FRDiv. The strict selector is
+seeded by the matched M1 set and uses deterministic 1-swap plus bounded
+2-swap refinement under `FRC >= M1 FRC` and `exact_FRD <= M1 exact FRD`.
+
+The optional mode-adapter checkpoints are excluded from the main conclusion;
+`--include-mode-adapter` adds them only as an explicitly labelled analysis
+pool. Ground truth is used for oracle scoring and selection only, never by an
+inference-safe selector. The local JSON ledger contains per-context details;
+the tracked Markdown report is sanitized.
+
+Example using the local data/checkpoints (paths are intentionally not
+committed):
+
+```bash
+.venv/bin/python -m coreset_reactor.oracle_select \
+  --data-root /path/to/react2025_new/data \
+  --cache /path/to/react2025_new/coreset_reactor/cache/train_descriptors_v2.pt \
+  --search-root /path/to/reactor2025-A6000/coreset_reactor/reports \
+  --search-root /path/to/react2025_new/coreset_reactor/reports \
+  --mam-root /path/to/react2025_new/mam_reactor \
+  --output /tmp/m3_oracle_select10_val64.json \
+  --report coreset_reactor/results/M3_ORACLE_SELECT10.md \
+  --max-examples 64 --eval-seed 1234 --device cuda:5 --metric-workers 8
+```
+
+Run the same command with `--max-examples 571` only after the VAL64 pilot
+finishes. The report records missing expected checkpoints instead of treating
+them as a failure. No K=32/64 training is part of this phase.

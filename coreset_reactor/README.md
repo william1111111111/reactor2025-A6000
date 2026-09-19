@@ -97,3 +97,23 @@ evaluation, ten CUDA streams produce the final ten reactions and the ordinary
 deterministic VAL protocol computes the five primary metrics. The sanitized
 [full VAL571 result](results/M3_FIXED_PAIR_ENSEMBLE.md) is a negative
 quality/diversity tradeoff result; checkpoints and per-run curves remain local.
+
+## Mam-anchor paired-plus-nine diagnostic
+
+`anchor_pair_ensemble.py` evaluates a stricter independent-model diagnostic
+using Mam-Reactor's original 25-D ConditionalREGNN anchor rather than the
+CoReSet TCN. Ten full anchors use the same seed, initialization, source/crop
+schedule, architecture, 50-epoch optimizer schedule, and
+`MSE + (1-CCC) + 0.05 velocity` objective. Rank 0 is trained on the true
+same-basename paired listener; ranks 1-9 use deterministic distinct
+same-session listeners. Once a target path is selected, its crop and short-tail
+fill reproduce the original diffusion `ReactionDataset` behavior.
+
+The evaluator runs all ten anchors on CUDA streams, applies official AU
+rounding and deterministic target post-processing, and computes exact rolling
+FRD. Its NumPy IPC wrapper calls the unchanged official TLCC context function
+without exhausting file descriptors on full VAL. The
+[full VAL571 result](results/M3_ANCHOR_PAIRED_PLUS9_ENSEMBLE.md) confirms a
+large diversity increase but a substantial exact-FRD and GT-coverage cost.
+This diagnostic is not compute- or parameter-matched to M1: it trains and
+retains ten 3.72M-parameter backbones.

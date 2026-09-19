@@ -113,6 +113,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--listener-3dmm-weight", type=float, default=0.0)
     parser.add_argument("--listener-3dmm-velocity-weight", type=float, default=0.1)
+    parser.add_argument(
+        "--fixed-pair-rank", type=int,
+        help="Rank 0 uses the true pair; ranks 1-9 use fixed same-session alternatives.",
+    )
+    parser.add_argument("--fixed-pair-count", type=int, default=10)
+    parser.add_argument("--fixed-pair-seed", type=int)
     return parser.parse_args()
 
 
@@ -377,6 +383,9 @@ def main() -> None:
         seed=args.seed,
         crop_stride=args.crop_stride,
         load_listener_3dmm=args.listener_3dmm_weight > 0,
+        fixed_pair_rank=args.fixed_pair_rank,
+        fixed_pair_count=args.fixed_pair_count,
+        fixed_pair_seed=args.fixed_pair_seed,
     )
     sampler = ExpandedCropViewSampler(
         len(dataset),

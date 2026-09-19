@@ -26,6 +26,26 @@ def crop_and_pad(
     return value
 
 
+def diffusion_listener_crop(
+    target: torch.Tensor,
+    speaker_emotion_clip: torch.Tensor,
+    start: int,
+    length: int,
+) -> torch.Tensor:
+    """Reproduce ``ReactionDataset`` listener emotion crop/padding.
+
+    The diffusion dataset applies the speaker crop offset to the selected
+    listener recording. If that recording ends before the requested window,
+    it fills the remainder with the matching suffix of the already-cropped
+    speaker emotion tensor rather than zeros.
+    """
+    value = target[start:start + length]
+    if value.shape[0] < length:
+        missing = length - value.shape[0]
+        value = torch.cat((value, speaker_emotion_clip[-missing:]), dim=0)
+    return value[:length]
+
+
 class ConditionalReactionDataset(Dataset):
     """Efficient diffusion-condition dataset for Conditional-REGNN.
 
@@ -49,6 +69,9 @@ class ConditionalReactionDataset(Dataset):
         session_allowlist: Optional[Sequence[str]] = None,
         crop_stride: int = 1,
         load_listener_3dmm: bool = False,
+        fixed_pair_rank: Optional[int] = None,
+        fixed_pair_count: int = 10,
+        fixed_pair_seed: Optional[int] = None,
     ):
         super().__init__()
         if clip_length <= 0:
@@ -89,6 +112,23 @@ class ConditionalReactionDataset(Dataset):
         self.target_selection_mode = target_selection_mode
         self.crop_stride = int(crop_stride)
         self.load_listener_3dmm = load_listener_3dmm
+        if fixed_pair_count < 1:
+            raise ValueError("fixed_pair_count must be positive")
+        if fixed_pair_rank is not None and target_mode != "paired":
+            raise ValueError("fixed pair selection requires target_mode=paired")
+        if fixed_pair_rank is not None and load_listener_3dmm:
+            raise ValueError(
+                "fixed pair selection currently supports the 25-D anchor only"
+            )
+        if fixed_pair_rank is not None and not (
+            0 <= fixed_pair_rank < fixed_pair_count
+        ):
+            raise ValueError("fixed_pair_rank must be within fixed_pair_count")
+        self.fixed_pair_rank = fixed_pair_rank
+        self.fixed_pair_count = int(fixed_pair_count)
+        self.fixed_pair_seed = int(
+            seed if fixed_pair_seed is None else fixed_pair_seed
+        )
         if load_listener_3dmm and target_mode not in {"paired", "session_cropped"}:
             raise ValueError("Listener 3DMM requires paired or session_cropped targets")
         if self.crop_stride <= 0:
@@ -274,6 +314,28 @@ class ConditionalReactionDataset(Dataset):
         paths, _, _ = self._session_target_selection(record)
         return paths
 
+    def _fixed_pair_targets(self, record: Path) -> List[Path]:
+        """True paired target followed by fixed distinct session alternatives."""
+        paired = self._paired_target(record)
+        alternatives = sorted(
+            self._session_alternatives(record),
+            key=lambda value: value.as_posix(),
+        )
+        required = self.fixed_pair_count - 1
+        if len(alternatives) < required:
+            raise ValueError(
+                f"fixed pair selection needs {required} alternatives, "
+                f"got {len(alternatives)} for {record}"
+            )
+        payload = (
+            f"{self.fixed_pair_seed}|{record.as_posix()}|"
+            "anchor-fixed-pair-targets"
+        ).encode("utf-8")
+        rng = random.Random(
+            int.from_bytes(hashlib.sha256(payload).digest()[:8], "big")
+        )
+        return [paired, *rng.sample(alternatives, required)]
+
     def _session_style_target_paths(self, record: Path) -> List[Path]:
         paths, _, _ = self._session_target_selection(record)
         return paths[1:]
@@ -382,7 +444,11 @@ class ConditionalReactionDataset(Dataset):
         }
 
         if self.target_mode in {"paired", "session_style"}:
-            target_path = self._paired_target(record)
+            target_path = (
+                self._fixed_pair_targets(record)[self.fixed_pair_rank]
+                if self.fixed_pair_rank is not None
+                else self._paired_target(record)
+            )
             target = self._load_tensor(self.emotion_dir / target_path)
             if self.load_listener_3dmm:
                 coefficients = self._load_tensor(
@@ -394,14 +460,31 @@ class ConditionalReactionDataset(Dataset):
                     raise ValueError(f"Nonfinite listener 3DMM: {target_path}")
                 coefficients = (coefficients - self.mean_face) / self.std_face
                 result["target_3dmm"] = crop_and_pad(coefficients, start, self.clip_length)
-            valid_length = min(
-                valid_source_length,
-                max(0, target.shape[0] - start),
-            )
-            result["target"] = crop_and_pad(
-                target, start, self.clip_length
-            )
-            result["length"] = torch.tensor(valid_length, dtype=torch.long)
+            if self.fixed_pair_rank is not None:
+                # Only target selection changes in the ten-model experiment;
+                # all selected targets retain ReactionDataset processing.
+                result["target"] = diffusion_listener_crop(
+                    target,
+                    result["speaker_emotion"],
+                    start,
+                    self.clip_length,
+                )
+                result["length"] = torch.tensor(
+                    valid_source_length,
+                    dtype=torch.long,
+                )
+            else:
+                valid_length = min(
+                    valid_source_length,
+                    max(0, target.shape[0] - start),
+                )
+                result["target"] = crop_and_pad(
+                    target, start, self.clip_length
+                )
+                result["length"] = torch.tensor(
+                    valid_length,
+                    dtype=torch.long,
+                )
             if self.target_mode == "session_style":
                 assert self.style_descriptors is not None
                 style_paths = self._session_style_target_paths(record)

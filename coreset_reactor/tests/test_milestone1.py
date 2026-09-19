@@ -9,12 +9,15 @@ from coreset_reactor.descriptor import DescriptorScaler, reaction_descriptor
 from coreset_reactor.evaluate import (_deterministic_postprocess,
                                       exact_quality_metrics,
                                       official_prediction)
-from coreset_reactor.losses import descriptor_distance, descriptor_set_loss, unpaired_softdtw_cost
+from coreset_reactor.losses import (descriptor_distance, descriptor_set_loss,
+                                   softmin, unpaired_softdtw_cost)
 from coreset_reactor.m2_diagnostics import (farthest_sum_indices,
                                             frdiv_from_distances,
                                             kmedoids_indices,
                                             normalized_squared_distances)
 from coreset_reactor.model import ParallelTCN
+from coreset_reactor.routing import (balanced_medoid_modes,
+                                     routed_descriptor_loss)
 from coreset_reactor.sampler import exact_reference_indices
 from coreset_reactor.train import (descriptor_weight, fixed_schedule,
                                    milestone1_criteria, state_dict_sha256)
@@ -84,6 +87,35 @@ def test_full_schedule_prefix_is_used_for_safety_stop(tmp_path):
     full = fixed_schedule(Data(), 2500, 2, 20260918)
     assert full[:600] == fixed_schedule(Data(), 2500, 2, 20260918)[:600]
     assert full[:600] != fixed_schedule(Data(), 600, 2, 20260918)
+
+
+def test_balanced_medoid_modes_are_deterministic_and_capacity_balanced():
+    torch.manual_seed(47)
+    descriptors = torch.randn(103, 12)
+    first = balanced_medoid_modes(descriptors, clusters=10, seed=5)
+    second = balanced_medoid_modes(descriptors, clusters=10, seed=5)
+    assert torch.equal(first["labels"], second["labels"])
+    assert first["medoid_indices"] == sorted(first["medoid_indices"])
+    assert max(first["cluster_sizes"]) - min(first["cluster_sizes"]) == 1
+    assert first["cluster_sizes"] == second["cluster_sizes"]
+    assert first["assignment_sha256"] == second["assignment_sha256"]
+
+
+def test_routed_descriptor_loss_uses_only_the_matching_mode():
+    distance = torch.tensor([[[.1, .2, 9., 9., 9., 9.],
+                              [9., 9., .3, .4, 9., 9.],
+                              [9., 9., 9., 9., .5, .6]]], requires_grad=True)
+    labels = torch.tensor([0, 0, 1, 1, 2, 2])
+    loss, supported = routed_descriptor_loss(distance, labels, .1)
+    expected = torch.stack([
+        softmin(distance[:, 0, :2], 1, .1),
+        softmin(distance[:, 1, 2:4], 1, .1),
+        softmin(distance[:, 2, 4:], 1, .1),
+    ], 1).mean()
+    assert supported == 3
+    assert torch.allclose(loss, expected)
+    loss.backward()
+    assert torch.count_nonzero(distance.grad[distance.detach() == 9]) == 0
 
 
 def test_descriptor_shape_and_coverage_gradients():

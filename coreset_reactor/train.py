@@ -23,6 +23,8 @@ from coreset_reactor.evaluate import evaluate_model
 from coreset_reactor.losses import (descriptor_distance, descriptor_set_loss,
                                    paired_cost, softmin, unpaired_softdtw_cost)
 from coreset_reactor.model import ParallelTCN
+from coreset_reactor.routing import (balanced_medoid_modes,
+                                     routed_descriptor_loss)
 from coreset_reactor.sampler import exact_reference_indices
 
 
@@ -116,6 +118,7 @@ def train_one(arm: str, config: dict, data: TrainSetData,
     scaler = data.scaler.to(device)
     target_count = 10 if arm == "B0" else 18
     use_all = arm == "B3"
+    routing = config.get("routing") if use_all else None
     report = reports / f"m1_{arm}_seed{seed}"
     report.mkdir(parents=True, exist_ok=True)
     save_json(report / "config.json", {**config, "arm": arm,
@@ -163,6 +166,9 @@ def train_one(arm: str, config: dict, data: TrainSetData,
         unaligned = softmin(unaligned_cost, 1,
                             config["softmin_temperature"]).mean()
         descriptor_terms = None
+        route = pred.new_zeros(())
+        route_weight = 0.0
+        supported_modes = 0
         weight = (descriptor_weight(step, len(schedule),
                                     config["loss"]["descriptor_cover"],
                                     config.get("descriptor_schedule"))
@@ -183,6 +189,16 @@ def train_one(arm: str, config: dict, data: TrainSetData,
                 config["loss"]["load_balance"],
                 config["loss"]["max_prediction_usage"])
             total = total + weight * descriptor_terms["total"]
+            if routing is not None:
+                route_weight = descriptor_weight(
+                    step, len(schedule), routing["weight"], routing["schedule"])
+                session_labels = data.mode_labels[
+                    torch.tensor(session_indices)].to(device)
+                supported_modes = int(session_labels.unique().numel())
+                if route_weight > 0:
+                    route, supported_modes = routed_descriptor_loss(
+                        distance, session_labels, routing["temperature"])
+                    total = total + route_weight * route
         if not torch.isfinite(total):
             raise FloatingPointError(f"nonfinite loss for {arm} step {step}")
         total.backward()
@@ -202,6 +218,9 @@ def train_one(arm: str, config: dict, data: TrainSetData,
                "valid": float(descriptor_terms["valid"].detach()) if descriptor_terms else 0.0,
                "load": float(descriptor_terms["load"].detach()) if descriptor_terms else 0.0,
                "descriptor_weight": weight,
+               "route": float(route.detach()),
+               "route_weight": route_weight,
+               "supported_modes": supported_modes,
                "gradient_norm": float(grad_norm), "iteration_s": elapsed}
         rows.append(row)
         if step == 1 or step % 10 == 0 or step == len(active_schedule):
@@ -332,6 +351,9 @@ def main() -> None:
     parser.add_argument("--descriptor-cover", type=float)
     parser.add_argument("--descriptor-warmup-fraction", type=float)
     parser.add_argument("--descriptor-ramp-end-fraction", type=float)
+    parser.add_argument("--route-weight", type=float)
+    parser.add_argument("--route-warmup-fraction", type=float)
+    parser.add_argument("--route-ramp-end-fraction", type=float)
     parser.add_argument("--device", default="cuda:5")
     parser.add_argument("--run-name", default="m1_initial")
     args = parser.parse_args()
@@ -357,6 +379,23 @@ def main() -> None:
         config["descriptor_schedule"] = {"kind": "linear",
                                          "warmup_fraction": start,
                                          "ramp_end_fraction": end}
+    if args.route_weight is not None:
+        if "routing" not in config or args.route_weight < 0:
+            raise ValueError("route-weight requires routing config and must be nonnegative")
+        config["routing"]["weight"] = args.route_weight
+    if ((args.route_warmup_fraction is None) !=
+            (args.route_ramp_end_fraction is None)):
+        raise ValueError("both route schedule fractions are required")
+    if args.route_warmup_fraction is not None:
+        if "routing" not in config:
+            raise ValueError("route schedule requires routing config")
+        start = args.route_warmup_fraction
+        end = args.route_ramp_end_fraction
+        if not 0 <= start < end <= 1:
+            raise ValueError("route schedule requires 0 <= warmup < ramp end <= 1")
+        config["routing"]["schedule"] = {"kind": "linear",
+                                          "warmup_fraction": start,
+                                          "ramp_end_fraction": end}
     if config["steps"] < 1 or config["eval_examples"] < 1:
         raise ValueError("steps and eval examples must be positive")
     if args.stop_after_step is not None:
@@ -396,6 +435,24 @@ def main() -> None:
     config["mode_adapter_parameter_count"] = sum(
         value.numel() for name, value in initial.items()
         if name.startswith("mode_"))
+    if "routing" in config:
+        routing = balanced_medoid_modes(
+            data.state["descriptors"], clusters=config["routing"]["clusters"],
+            seed=config["routing"]["cluster_seed"],
+            max_iterations=config["routing"]["max_iterations"])
+        data.mode_labels = routing.pop("labels")
+        session_support = [int(data.mode_labels[indices].unique().numel())
+                           for indices in data.state["sessions"].values()]
+        routing.pop("medoid_indices")
+        config["routing_artifact"] = {
+            **routing,
+            "split": "train",
+            "descriptor_width": int(data.state["descriptors"].shape[1]),
+            "session_count": len(session_support),
+            "supported_modes_per_session_min": min(session_support),
+            "supported_modes_per_session_mean": float(np.mean(session_support)),
+            "supported_modes_per_session_max": max(session_support),
+        }
     reports = ROOT / "coreset_reactor" / "reports" / args.run_name
     reports.mkdir(parents=True, exist_ok=False)
     save_json(reports / "config.json", config)

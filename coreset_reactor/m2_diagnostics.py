@@ -16,9 +16,10 @@ import torch
 
 from coreset_reactor.dataset import fixed_reaction, full_reaction_descriptor
 from coreset_reactor.descriptor import DescriptorScaler, reaction_descriptor
-from coreset_reactor.losses import descriptor_distance
+from coreset_reactor.losses import descriptor_distance, softmin
 from coreset_reactor.model import ParallelTCN
 from coreset_reactor.paired_data import PairedReactionDataset
+from coreset_reactor.routing import balanced_medoid_modes
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -165,6 +166,13 @@ def run_diagnostics(checkpoint_path: Path, data_root: Path, cache_path: Path,
     cache = torch.load(cache_path, map_location="cpu")
     scaler = DescriptorScaler(cache["descriptor_mean"],
                               cache["descriptor_std"]).to(device)
+    routing = balanced_medoid_modes(cache["descriptors"], clusters=set_size,
+                                    seed=1234, max_iterations=50)
+    routing_labels = routing["labels"]
+    routing_centroids = torch.stack([
+        cache["descriptors"][routing_labels == mode].mean(0)
+        for mode in range(set_size)
+    ]).to(device)
     facial = data_root / "val" / "facial-attributes" / "listener"
     paths_by_session = {
         directory.name: sorted(directory.glob("*.npy"))
@@ -173,6 +181,7 @@ def run_diagnostics(checkpoint_path: Path, data_root: Path, cache_path: Path,
 
     raw_cache: dict[str, list[torch.Tensor]] = {}
     descriptor_cache: dict[str, torch.Tensor] = {}
+    mode_cache: dict[str, torch.Tensor] = {}
     ceiling_cache: dict[tuple[str, int], dict] = {}
     context_records: list[dict] = []
     slot_count = model.num_predictions
@@ -191,9 +200,15 @@ def run_diagnostics(checkpoint_path: Path, data_root: Path, cache_path: Path,
     va_std_sum = torch.zeros(slot_count, 2)
     expression_sum = torch.zeros(slot_count, 8)
     prediction_frdiv: list[float] = []
+    routing_cost_sum = torch.zeros(slot_count, slot_count)
+    routing_cost_count = torch.zeros(slot_count, dtype=torch.long)
+    routing_top1 = torch.zeros(slot_count, dtype=torch.long)
+    routing_reciprocal_rank_sum = torch.zeros(slot_count)
+    routing_margin_sum = torch.zeros(slot_count)
     start_time = time.perf_counter()
 
-    def session_data(session: str) -> tuple[list[torch.Tensor], torch.Tensor]:
+    def session_data(session: str) -> tuple[list[torch.Tensor], torch.Tensor,
+                                            torch.Tensor]:
         if session not in raw_cache:
             paths = paths_by_session.get(session, [])
             if len(paths) < set_size:
@@ -207,12 +222,17 @@ def run_diagnostics(checkpoint_path: Path, data_root: Path, cache_path: Path,
                                        for value in raw]).to(device)
             raw_cache[session] = raw
             descriptor_cache[session] = scaler(descriptors).cpu()
-        return raw_cache[session], descriptor_cache[session]
+            prototype_distance = descriptor_distance(
+                routing_centroids[None],
+                descriptor_cache[session].to(device)[None])[0]
+            mode_cache[session] = prototype_distance.argmin(0).cpu()
+        return (raw_cache[session], descriptor_cache[session],
+                mode_cache[session])
 
     def ceiling_data(session: str, length: int) -> dict:
         key = session, length
         if key not in ceiling_cache:
-            raw, _ = session_data(session)
+            raw, _, _ = session_data(session)
             reactions = torch.stack([fixed_reaction(value, length)
                                      for value in raw]).to(device)
             pairwise = normalized_squared_distances(reactions).cpu()
@@ -232,7 +252,7 @@ def run_diagnostics(checkpoint_path: Path, data_root: Path, cache_path: Path,
         sample = dataset[index]
         length = int(sample["source_lengths"])
         session = sample["session_id"]
-        raw, gt_descriptors = session_data(session)
+        raw, gt_descriptors, gt_modes = session_data(session)
         inputs = (sample["speaker_audio"][None, :length].to(device),
                   sample["speaker_emotion"][None, :length].to(device),
                   sample["speaker_3dmm"][None, :length].to(device))
@@ -240,6 +260,19 @@ def run_diagnostics(checkpoint_path: Path, data_root: Path, cache_path: Path,
         prediction_descriptors = scaler(reaction_descriptor(prediction))
         distances = descriptor_distance(
             prediction_descriptors[None], gt_descriptors.to(device)[None])[0]
+        for mode in range(slot_count):
+            members = gt_modes == mode
+            if not bool(members.any()):
+                continue
+            costs = softmin(distances[:, members.to(device)], 1, .1).cpu()
+            diagonal = costs[mode]
+            off_diagonal = torch.cat((costs[:mode], costs[mode + 1:]))
+            rank = 1 + int((costs < diagonal).sum())
+            routing_cost_sum[:, mode] += costs
+            routing_cost_count[mode] += 1
+            routing_top1[mode] += int(int(costs.argmin()) == mode)
+            routing_reciprocal_rank_sum[mode] += 1 / rank
+            routing_margin_sum[mode] += float(off_diagonal.min() - diagonal)
         assignment = distances.argmin(0).cpu()
         counts = torch.bincount(assignment, minlength=slot_count)
         responsibility = counts.float() / len(raw)
@@ -347,6 +380,19 @@ def run_diagnostics(checkpoint_path: Path, data_root: Path, cache_path: Path,
     va_means = va_mean_sum / contexts
     expression_means = expression_sum / contexts
     checkpoint_sha = hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
+    routing_pairs = int(routing_cost_count.sum())
+    routing_denominator = routing_cost_count.clamp_min(1)
+    routing_diagonal = torch.stack([
+        routing_cost_sum[mode, mode] / routing_denominator[mode]
+        for mode in range(slot_count)
+    ])
+    routing_off_diagonal = torch.stack([
+        torch.cat((routing_cost_sum[:mode, mode],
+                   routing_cost_sum[mode + 1:, mode])).min()
+        / routing_denominator[mode]
+        for mode in range(slot_count)
+    ])
+    routing_matrix = routing_cost_sum / routing_denominator[None]
     return {
         "protocol": {
             "split": "val",
@@ -396,6 +442,27 @@ def run_diagnostics(checkpoint_path: Path, data_root: Path, cache_path: Path,
             "descriptor_centroid_distance_matrix": centroid_pairwise.tolist(),
             "slots": slot_records,
             "sessions": session_records,
+        },
+        "routing_alignment": {
+            "train_split_only": True,
+            "train_mode_assignment_sha256": routing["assignment_sha256"],
+            "val_mode_assignment": "nearest TRAIN balanced-mode descriptor centroid",
+            "supported_context_mode_pairs": routing_pairs,
+            "top1_slot_identity_accuracy": float(routing_top1.sum() / routing_pairs),
+            "mean_reciprocal_rank": float(
+                routing_reciprocal_rank_sum.sum() / routing_pairs),
+            "mean_diagonal_margin": float(routing_margin_sum.sum() / routing_pairs),
+            "mean_own_mode_softmin_distance": float(
+                (routing_diagonal * routing_cost_count).sum() / routing_pairs),
+            "mean_best_other_slot_softmin_distance": float(
+                (routing_off_diagonal * routing_cost_count).sum() / routing_pairs),
+            "per_mode_support": routing_cost_count.tolist(),
+            "per_mode_top1_accuracy": (
+                routing_top1 / routing_cost_count.clamp_min(1)).tolist(),
+            "per_mode_reciprocal_rank": (
+                routing_reciprocal_rank_sum /
+                routing_cost_count.clamp_min(1)).tolist(),
+            "mean_slot_to_mode_cost_matrix": routing_matrix.tolist(),
         },
         "per_context": context_records,
         "runtime_seconds": time.perf_counter() - start_time,

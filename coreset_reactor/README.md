@@ -66,9 +66,21 @@ committed):
   --mam-root /path/to/react2025_new/mam_reactor \
   --output /tmp/m3_oracle_select10_val64.json \
   --report coreset_reactor/results/M3_ORACLE_SELECT10.md \
-  --max-examples 64 --eval-seed 1234 --device cuda:5 --metric-workers 8
+  --max-examples 64 --eval-seed 1234 --device cuda:5 \
+  --metric-engine rolling --metric-workers 16
 ```
 
 Run the same command with `--max-examples 571` only after the VAL64 pilot
 finishes. The report records missing expected checkpoints instead of treating
 them as a failure. No K=32/64 training is part of this phase.
+
+The published sanitized results are the [VAL64 pilot](results/M3_ORACLE_SELECT10.md)
+and [full VAL571 confirmation](results/M3_ORACLE_SELECT10_FULL.md). The full
+per-context ledgers remain local and ignored by Git.
+
+The rolling engine is the exact, tslearn-equivalent implementation used by
+Mam-Reactor's resumable FRD runner. Candidate trajectories and aligned targets
+are placed in shared memory, then one prediction per task is scheduled across
+spawn-safe CPU workers. Nonnegative group pruning is exact; it does not relax
+or approximate FRD. Use `--metric-engine tslearn --metric-workers 1` only for
+small equivalence checks.

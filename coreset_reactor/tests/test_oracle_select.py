@@ -6,6 +6,8 @@ from coreset_reactor.oracle_select import (
     Candidate,
     _deduplicate,
     _feasible,
+    _frd_contribution,
+    _rolling_frd,
     discover_checkpoints,
     refine_quality_constrained,
 )
@@ -54,3 +56,11 @@ def test_quality_constrained_refinement_never_breaks_quality_constraints():
     assert 10 not in selected
     assert 11 in selected or selected == baseline
 
+
+def test_rolling_frd_matches_legacy_tslearn_formula():
+    generator = torch.Generator().manual_seed(59)
+    target = torch.rand(3, 17, 25, generator=generator)
+    prediction = torch.rand(17, 25, generator=generator)
+    legacy = _frd_contribution(target, prediction)
+    rolling = _rolling_frd(target.numpy(), prediction.numpy())
+    assert abs(rolling - legacy) < 1e-6

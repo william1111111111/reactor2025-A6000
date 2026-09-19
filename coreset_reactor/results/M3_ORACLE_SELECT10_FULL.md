@@ -2,7 +2,7 @@
 
 This is a GT-oracle offline diagnostic. Ground truth is used to score and select the final ten; it is not an inference method.
 
-- Split/scope: `VAL deterministic same-session pilot; GT-oracle selection, not inference`, `64 contexts`
+- Split/scope: `VAL deterministic same-session pilot; GT-oracle selection, not inference`, `571 contexts`
 - Pool construction: `80.00` candidates/context before selection, `80.00` after exact deduplication
 - Main candidate checkpoints: `8`; analysis-only mode-adapter checkpoints: `1`; ignored non-main checkpoints: `17`
 - Baseline: `m1_seed_20260918`; selection size: `10`
@@ -46,56 +46,56 @@ Values are means across contexts. `FRC` is higher-is-better; exact `FRD` is lowe
 
 | method | FRC | exact FRD | FRDiv | FRVar | strict feasible contexts |
 |---|---:|---:|---:|---:|---:|
-| baseline | 0.750812 | 82.047779 | 0.012697 | 0.035116 | 0 |
-| max_FRDiv_unconstrained | 0.790013 | 82.937493 | 0.034481 | 0.039151 | 0 |
-| quality_constrained_FRC_slack_0.25pct | 0.816581 | 80.943000 | 0.030962 | 0.038404 | 64 |
-| quality_constrained_FRC_slack_0.5pct | 0.815991 | 80.916165 | 0.031041 | 0.038444 | 64 |
-| quality_only | 0.971429 | 82.832959 | 0.016969 | 0.040760 | 0 |
-| strict_quality_constrained | 0.817863 | 80.928443 | 0.030908 | 0.038401 | 64 |
+| baseline | 0.810111 | 82.480135 | 0.013611 | 0.039200 | 0 |
+| max_FRDiv_unconstrained | 0.829212 | 82.756349 | 0.036974 | 0.042754 | 0 |
+| quality_constrained_FRC_slack_0.25pct | 0.862802 | 81.090919 | 0.033638 | 0.042239 | 571 |
+| quality_constrained_FRC_slack_0.5pct | 0.861680 | 81.112051 | 0.033735 | 0.042264 | 571 |
+| quality_only | 1.009611 | 82.453890 | 0.017302 | 0.044157 | 0 |
+| strict_quality_constrained | 0.864074 | 81.107519 | 0.033547 | 0.042234 | 571 |
 
 ### Relative to matched M1
 
 | method | ΔFRC mean/p10/p90 | ΔFRD mean/p10/p90 | ΔFRDiv mean/p10/p90 |
 |---|---:|---:|---:|
-| max_FRDiv_unconstrained | 0.039200 / -0.120183 / 0.208685 | 0.889714 / -4.605771 / 5.516981 | 0.021783 / 0.011409 / 0.034295 |
-| quality_constrained_FRC_slack_0.25pct | 0.065769 / -0.001783 / 0.189305 | -1.104779 / -3.644807 / -0.024698 | 0.018265 / 0.009107 / 0.027056 |
-| quality_constrained_FRC_slack_0.5pct | 0.065178 / -0.005013 / 0.189305 | -1.131615 / -4.120554 / -0.016654 | 0.018344 / 0.009584 / 0.027221 |
-| quality_only | 0.220617 / 0.066079 / 0.488391 | 0.785179 / -3.902860 / 6.635546 | 0.004272 / -0.002064 / 0.012305 |
-| strict_quality_constrained | 0.067050 / 0.000389 / 0.189305 | -1.119337 / -3.903003 / -0.024698 | 0.018211 / 0.009016 / 0.026854 |
+| max_FRDiv_unconstrained | 0.019100 / -0.126106 / 0.166898 | 0.276214 / -4.319363 / 4.920304 | 0.023363 / 0.012542 / 0.035253 |
+| quality_constrained_FRC_slack_0.25pct | 0.052691 / -0.002025 / 0.162572 | -1.389215 / -4.201571 / -0.024877 | 0.020027 / 0.009314 / 0.031300 |
+| quality_constrained_FRC_slack_0.5pct | 0.051568 / -0.004949 / 0.162572 | -1.368083 / -3.980427 / -0.020474 | 0.020123 / 0.009482 / 0.031300 |
+| quality_only | 0.199500 / 0.060789 / 0.424417 | -0.026244 / -5.551017 / 5.994933 | 0.003690 / -0.004148 / 0.012667 |
+| strict_quality_constrained | 0.053963 / 0.000485 / 0.162572 | -1.372615 / -3.980427 / -0.023619 | 0.019936 / 0.009253 / 0.031296 |
 
 ## Full-VAL distribution and pool ceiling
 
-- `baseline`: FRC=0.750812 (p10 0.233399, p90 1.381438), FRDiv=0.012697 (p10 0.005184, p90 0.018747), FRVar=0.035116 (p10 0.009815, p90 0.060550), exact_FRD=82.047779 (p10 66.937589, p90 100.464382)
-- `max_FRDiv_unconstrained`: FRC=0.790013 (p10 0.242197, p90 1.413760), FRDiv=0.034481 (p10 0.017958, p90 0.050266), FRVar=0.039151 (p10 0.013929, p90 0.062867), exact_FRD=82.937493 (p10 68.254326, p90 100.285472)
-- `quality_constrained_FRC_slack_0.25pct`: FRC=0.816581 (p10 0.278675, p90 1.411605), FRDiv=0.030962 (p10 0.016982, p90 0.042400), FRVar=0.038404 (p10 0.013955, p90 0.062384), exact_FRD=80.943000 (p10 65.645935, p90 99.189301)
-- `quality_constrained_FRC_slack_0.5pct`: FRC=0.815991 (p10 0.278675, p90 1.411605), FRDiv=0.031041 (p10 0.017113, p90 0.042448), FRVar=0.038444 (p10 0.013955, p90 0.062384), exact_FRD=80.916165 (p10 65.645935, p90 99.189301)
-- `quality_only`: FRC=0.971429 (p10 0.344917, p90 1.619983), FRDiv=0.016969 (p10 0.006699, p90 0.026294), FRVar=0.040760 (p10 0.013230, p90 0.068439), exact_FRD=82.832959 (p10 66.589691, p90 103.393220)
-- `strict_quality_constrained`: FRC=0.817863 (p10 0.278675, p90 1.411605), FRDiv=0.030908 (p10 0.016809, p90 0.042317), FRVar=0.038401 (p10 0.013955, p90 0.062384), exact_FRD=80.928443 (p10 65.645935, p90 99.189301)
+- `baseline`: FRC=0.810111 (p10 0.219691, p90 1.541036), FRDiv=0.013611 (p10 0.006639, p90 0.019126), FRVar=0.039200 (p10 0.015716, p90 0.062109), exact_FRD=82.480135 (p10 64.892858, p90 100.585429)
+- `max_FRDiv_unconstrained`: FRC=0.829212 (p10 0.243092, p90 1.520684), FRDiv=0.036974 (p10 0.020426, p90 0.053042), FRVar=0.042754 (p10 0.019610, p90 0.064295), exact_FRD=82.756349 (p10 66.319093, p90 99.936306)
+- `quality_constrained_FRC_slack_0.25pct`: FRC=0.862802 (p10 0.255797, p90 1.618926), FRDiv=0.033638 (p10 0.018157, p90 0.048200), FRVar=0.042239 (p10 0.019157, p90 0.063670), exact_FRD=81.090919 (p10 64.278546, p90 98.942184)
+- `quality_constrained_FRC_slack_0.5pct`: FRC=0.861680 (p10 0.254581, p90 1.612827), FRDiv=0.033735 (p10 0.018573, p90 0.048999), FRVar=0.042264 (p10 0.019157, p90 0.063824), exact_FRD=81.112051 (p10 64.240302, p90 98.949335)
+- `quality_only`: FRC=1.009611 (p10 0.360207, p90 1.821062), FRDiv=0.017302 (p10 0.007450, p90 0.028369), FRVar=0.044157 (p10 0.018028, p90 0.067602), exact_FRD=82.453890 (p10 64.613768, p90 99.134908)
+- `strict_quality_constrained`: FRC=0.864074 (p10 0.256873, p90 1.623356), FRDiv=0.033547 (p10 0.018117, p90 0.048200), FRVar=0.042234 (p10 0.019251, p90 0.064113), exact_FRD=81.107519 (p10 64.278546, p90 98.910687)
 
-- Maximum single pairwise diversity in a context: mean `0.054302`, p90 `0.081949`.
-- Maximum 10-set FRDiv available in the pool (unconstrained): mean `0.034481`.
+- Maximum single pairwise diversity in a context: mean `0.058670`, p90 `0.087328`.
+- Maximum 10-set FRDiv available in the pool (unconstrained): mean `0.036974`.
 
 ## Phase B attribution
 
-The strict selected set draws from `4.28` distinct checkpoints per context on average (median `4`, min `3`, max `7`).
+The strict selected set draws from `4.20` distinct checkpoints per context on average (median `4`, min `2`, max `7`).
 
 Selected-candidate source composition (canonical source; byte-identical aliases are retained in JSON):
 
 | source | selected count | mean FRC contribution | mean exact-FRD contribution | mean min distance to selected peers |
 |---|---:|---:|---:|---:|
-| m1_seed_20260918 | 39 | 0.097367 | 7.534200 | 0.011400 |
-| m1_seed_20260919 | 132 | 0.079361 | 8.247302 | 0.015365 |
-| m1_seed_20260920 | 178 | 0.084523 | 7.972832 | 0.012961 |
-| route_0.005 | 13 | 0.088920 | 7.319956 | 0.008977 |
-| route_0.010 | 13 | 0.123052 | 8.235905 | 0.006341 |
-| route_0.015 | 13 | 0.078544 | 7.883476 | 0.004757 |
-| route_0.020 | 39 | 0.077118 | 8.267601 | 0.005134 |
-| route_0.050 | 213 | 0.076248 | 8.218923 | 0.011600 |
+| m1_seed_20260918 | 324 | 0.094351 | 7.859233 | 0.012604 |
+| m1_seed_20260919 | 1174 | 0.090066 | 8.223782 | 0.016568 |
+| m1_seed_20260920 | 1574 | 0.090390 | 8.032738 | 0.012996 |
+| route_0.005 | 99 | 0.087428 | 7.861487 | 0.010322 |
+| route_0.010 | 74 | 0.102069 | 8.150425 | 0.007674 |
+| route_0.015 | 122 | 0.080413 | 8.362513 | 0.006310 |
+| route_0.020 | 372 | 0.079216 | 8.197061 | 0.007131 |
+| route_0.050 | 1971 | 0.080831 | 8.126231 | 0.012938 |
 
 Behavioral statistics of selected candidates by source family:
 
-- `m1`: count `349`, AU mean `0.1402`, 602-D descriptor L2 `5.8099` (mean `0.0860`, std `0.2204`), AU active fraction `0.1402`, VA mean `[-0.1287 0.1408]`, velocity `0.0089`, latency proxy `0.0039`.
-- `route`: count `291`, AU mean `0.1174`, 602-D descriptor L2 `5.6899` (mean `0.0817`, std `0.2168`), AU active fraction `0.1174`, VA mean `[-0.1531 0.1383]`, velocity `0.0093`, latency proxy `0.0038`.
+- `m1`: count `3072`, AU mean `0.1498`, 602-D descriptor L2 `5.9305` (mean `0.0895`, std `0.2243`), AU active fraction `0.1498`, VA mean `[-0.1169 0.1385]`, velocity `0.0095`, latency proxy `0.0041`.
+- `route`: count `2638`, AU mean `0.1201`, 602-D descriptor L2 `5.7086` (mean `0.0830`, std `0.2172`), AU active fraction `0.1201`, VA mean `[-0.1547 0.1367]`, velocity `0.0098`, latency proxy `0.0037`.
 
 ## Interpretation guardrails
 

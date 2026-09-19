@@ -23,14 +23,17 @@ import hashlib
 import itertools
 import json
 import math
+import multiprocessing as mp
 import random
 import re
+import signal
 import statistics
 import sys
 import time
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
+from multiprocessing import shared_memory
 from pathlib import Path
 from typing import Iterable, Sequence
 
@@ -58,6 +61,17 @@ if str(MAM_ROOT) not in sys.path:
     sys.path.insert(0, str(MAM_ROOT))
 
 POOL_SIZE = 10
+FRD_GROUPS = ((0, 15, 1.0 / 15.0),
+              (15, 17, 1.0),
+              (17, 25, 1.0 / 8.0))
+
+_SHARED_PREDICTIONS: np.ndarray | None = None
+_SHARED_TARGETS: np.ndarray | None = None
+_SHARED_PREDICTIONS_HANDLE = None
+_SHARED_TARGETS_HANDLE = None
+_WORKER_CONTEXT_ID: int | None = None
+_WORKER_TARGET_GROUPS: tuple[np.ndarray, ...] | None = None
+_WORKER_TARGET_TENSOR: torch.Tensor | None = None
 EXPECTED_MAIN = {
     "m1_seed_20260918": {"family": "m1", "seed": 20260918,
                          "route_weight": 0.10},
@@ -295,17 +309,178 @@ def _quality_worker(payload: tuple[np.ndarray, np.ndarray]) -> tuple[float, floa
             _frd_contribution(target_tensor, prediction_tensor))
 
 
+def _rolling_frd(target: np.ndarray, prediction: np.ndarray) -> float:
+    """Mam-Reactor's exact rolling-DTW contribution for one prediction."""
+    from tools.compute_frd_resumable import rolling_dtw
+
+    prediction_groups = tuple(
+        np.ascontiguousarray(prediction[:, start:end], dtype=np.float32)
+        for start, end, _ in FRD_GROUPS
+    )
+    target_groups = tuple(
+        np.ascontiguousarray(target[..., start:end], dtype=np.float32)
+        for start, end, _ in FRD_GROUPS
+    )
+    best = math.inf
+    for target_index in range(target.shape[0]):
+        total = 0.0
+        for group_index, (_, _, weight) in enumerate(FRD_GROUPS):
+            total += weight * float(rolling_dtw(
+                prediction_groups[group_index],
+                target_groups[group_index][target_index]))
+            # Identical to compute_frd_resumable.py: all remaining terms are
+            # nonnegative, so pruning cannot change the exact minimum.
+            if total >= best:
+                break
+        if total < best:
+            best = total
+    return best
+
+
+def _rolling_quality_worker(payload: tuple[np.ndarray, np.ndarray]) -> tuple[float, float]:
+    target, prediction = payload
+    return (_frc_contribution(torch.from_numpy(target),
+                              torch.from_numpy(prediction)),
+            _rolling_frd(target, prediction))
+
+
+def _initialize_shared_quality_worker(predictions_name: str,
+                                      predictions_shape: tuple[int, ...],
+                                      targets_name: str,
+                                      targets_shape: tuple[int, ...]) -> None:
+    """Attach a spawn-safe CPU worker to shared prediction/target buffers."""
+    global _SHARED_PREDICTIONS, _SHARED_TARGETS
+    global _SHARED_PREDICTIONS_HANDLE, _SHARED_TARGETS_HANDLE
+    global _WORKER_CONTEXT_ID, _WORKER_TARGET_GROUPS, _WORKER_TARGET_TENSOR
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    _SHARED_PREDICTIONS_HANDLE = shared_memory.SharedMemory(
+        name=predictions_name)
+    _SHARED_TARGETS_HANDLE = shared_memory.SharedMemory(name=targets_name)
+    _SHARED_PREDICTIONS = np.ndarray(
+        predictions_shape, dtype=np.float32,
+        buffer=_SHARED_PREDICTIONS_HANDLE.buf)
+    _SHARED_TARGETS = np.ndarray(
+        targets_shape, dtype=np.float32,
+        buffer=_SHARED_TARGETS_HANDLE.buf)
+    _WORKER_CONTEXT_ID = None
+    _WORKER_TARGET_GROUPS = None
+    _WORKER_TARGET_TENSOR = None
+
+
+def _shared_quality_worker(task: tuple[int, int, int, int]) -> tuple[int, float, float]:
+    candidate_index, frames, target_count, context_id = task
+    global _WORKER_CONTEXT_ID, _WORKER_TARGET_GROUPS, _WORKER_TARGET_TENSOR
+    if _SHARED_PREDICTIONS is None or _SHARED_TARGETS is None:
+        raise RuntimeError("shared quality worker was not initialized")
+    target = _SHARED_TARGETS[:target_count, :frames]
+    if _WORKER_CONTEXT_ID != context_id:
+        _WORKER_CONTEXT_ID = context_id
+        _WORKER_TARGET_GROUPS = tuple(
+            np.ascontiguousarray(target[..., start:end], dtype=np.float32)
+            for start, end, _ in FRD_GROUPS
+        )
+        _WORKER_TARGET_TENSOR = torch.from_numpy(
+            np.ascontiguousarray(target, dtype=np.float32))
+    prediction = np.ascontiguousarray(
+        _SHARED_PREDICTIONS[candidate_index, :frames], dtype=np.float32)
+    frc = _frc_contribution(_WORKER_TARGET_TENSOR,
+                            torch.from_numpy(prediction))
+
+    from tools.compute_frd_resumable import rolling_dtw
+    prediction_groups = tuple(
+        np.ascontiguousarray(prediction[:, start:end], dtype=np.float32)
+        for start, end, _ in FRD_GROUPS
+    )
+    best = math.inf
+    for target_index in range(target_count):
+        total = 0.0
+        for group_index, (_, _, weight) in enumerate(FRD_GROUPS):
+            total += weight * float(rolling_dtw(
+                prediction_groups[group_index],
+                _WORKER_TARGET_GROUPS[group_index][target_index]))
+            if total >= best:
+                break
+        if total < best:
+            best = total
+    return candidate_index, frc, best
+
+
+class SharedQualityPool:
+    """Persistent Mam-style per-candidate exact FRC/FRD worker pool."""
+
+    def __init__(self, workers: int, max_candidates: int,
+                 max_frames: int = 750, features: int = 25):
+        if workers < 2:
+            raise ValueError("shared quality pool requires at least two workers")
+        self.workers = workers
+        self.context_id = 0
+        prediction_shape = (max_candidates, max_frames, features)
+        target_shape = (POOL_SIZE, max_frames, features)
+        self.predictions_shm = shared_memory.SharedMemory(
+            create=True, size=int(np.prod(prediction_shape)) * 4)
+        self.targets_shm = shared_memory.SharedMemory(
+            create=True, size=int(np.prod(target_shape)) * 4)
+        self.predictions = np.ndarray(
+            prediction_shape, dtype=np.float32,
+            buffer=self.predictions_shm.buf)
+        self.targets = np.ndarray(
+            target_shape, dtype=np.float32, buffer=self.targets_shm.buf)
+        # Spawned workers never inherit the parent's CUDA state. Prediction
+        # and target tensors move through fixed shared buffers, not IPC copies.
+        context = mp.get_context("spawn")
+        self.pool = context.Pool(
+            processes=workers,
+            initializer=_initialize_shared_quality_worker,
+            initargs=(self.predictions_shm.name, prediction_shape,
+                      self.targets_shm.name, target_shape))
+        self.closed = False
+
+    def score(self, candidates: Sequence[Candidate],
+              target: torch.Tensor) -> tuple[np.ndarray, np.ndarray]:
+        if self.closed:
+            raise RuntimeError("quality pool is closed")
+        frames = int(target.shape[1])
+        target_count = int(target.shape[0])
+        if len(candidates) > self.predictions.shape[0] or \
+           frames > self.predictions.shape[1] or target_count > self.targets.shape[0]:
+            raise ValueError("candidate/target batch exceeds shared quality buffers")
+        self.context_id += 1
+        self.predictions[:len(candidates), :frames] = np.stack([
+            candidate.trajectory.numpy() for candidate in candidates])
+        self.targets[:target_count, :frames] = target.numpy()
+        tasks = [(index, frames, target_count, self.context_id)
+                 for index in range(len(candidates))]
+        scores = self.pool.map(_shared_quality_worker, tasks, chunksize=1)
+        scores.sort(key=lambda item: item[0])
+        return (np.asarray([item[1] for item in scores], dtype=np.float64),
+                np.asarray([item[2] for item in scores], dtype=np.float64))
+
+    def close(self) -> None:
+        if self.closed:
+            return
+        self.closed = True
+        self.pool.close()
+        self.pool.join()
+        self.predictions_shm.close()
+        self.targets_shm.close()
+        self.predictions_shm.unlink()
+        self.targets_shm.unlink()
+
+
 def _quality_terms(candidates: Sequence[Candidate], target: torch.Tensor,
-                   workers: int = 1) -> tuple[np.ndarray, np.ndarray]:
+                   workers: int = 1, engine: str = "rolling",
+                   shared_pool: SharedQualityPool | None = None) -> tuple[np.ndarray, np.ndarray]:
     payloads = [(target.numpy(), item.trajectory.numpy()) for item in candidates]
-    if workers <= 1:
-        scores = [_quality_worker(payload) for payload in payloads]
+    if shared_pool is not None:
+        return shared_pool.score(candidates, target)
+    worker = _rolling_quality_worker if engine == "rolling" else _quality_worker
+    if workers <= 1 or engine == "rolling":
+        scores = [worker(payload) for payload in payloads]
     else:
-        # tslearn's DTW releases the GIL in its numerical kernels. Threads
-        # avoid forking an already-initialized CUDA context and preserve the
-        # exact official formulas while parallelizing independent candidates.
+        # Retained only for legacy-tslearn comparisons. The production path
+        # uses SharedQualityPool with Mam-Reactor's rolling-DTW process pool.
         with ThreadPoolExecutor(max_workers=workers) as pool:
-            scores = list(pool.map(_quality_worker, payloads))
+            scores = list(pool.map(worker, payloads))
     frc = np.asarray([score[0] for score in scores], dtype=np.float64)
     frd = np.asarray([score[1] for score in scores], dtype=np.float64)
     return frc, frd
@@ -516,6 +691,7 @@ def _markdown_report(summary: dict) -> str:
         f"- Pool construction: `{summary['pool_size_mean']:.2f}` candidates/context before selection, `{summary['unique_pool_size_mean']:.2f}` after exact deduplication",
         f"- Main candidate checkpoints: `{len(summary['main_checkpoints'])}`; analysis-only mode-adapter checkpoints: `{len(summary['analysis_checkpoints'])}`; ignored non-main checkpoints: `{len(summary['ignored_checkpoints'])}`",
         f"- Baseline: `{summary['baseline_label']}`; selection size: `{POOL_SIZE}`",
+        f"- Candidate quality engine: `{summary.get('metric_engine', 'legacy-tslearn')}`, workers: `{summary.get('metric_workers', 1)}`",
         f"- Source SHA: `{summary['source_sha256']}`",
         "",
         "## Available checkpoints",
@@ -553,7 +729,18 @@ def _markdown_report(summary: dict) -> str:
             for key, value in metrics.items()))
     lines += ["", f"- Maximum single pairwise diversity in a context: mean `{summary['pool_max_pairwise']['mean']:.6f}`, p90 `{summary['pool_max_pairwise']['p90']:.6f}`.",
               f"- Maximum 10-set FRDiv available in the pool (unconstrained): mean `{summary['pool_max10_frdiv']['mean']:.6f}`.",
-              "", "## Phase B attribution", "", "Selected-candidate source composition (canonical source; byte-identical aliases are retained in JSON):", ""]
+              "", "## Phase B attribution", ""]
+    strict_models = summary.get("selected_model_count_distribution", {}).get(
+        "strict_quality_constrained", {})
+    if strict_models:
+        lines += [
+            "The strict selected set draws from "
+            f"`{strict_models['mean']:.2f}` distinct checkpoints per context on average "
+            f"(median `{strict_models['median']:.0f}`, min `{strict_models['min']:.0f}`, "
+            f"max `{strict_models['max']:.0f}`).",
+            "",
+        ]
+    lines += ["Selected-candidate source composition (canonical source; byte-identical aliases are retained in JSON):", ""]
     lines.append("| source | selected count | mean FRC contribution | mean exact-FRD contribution | mean min distance to selected peers |")
     lines.append("|---|---:|---:|---:|---:|")
     for source, value in summary["source_attribution"].items():
@@ -586,6 +773,9 @@ def run_oracle(
     max_pair_candidates: int = 40,
     mam_root: Path | None = None,
     metric_workers: int = 1,
+    metric_engine: str = "rolling",
+    context_start: int = 0,
+    context_stop: int | None = None,
 ) -> dict:
     """Run Phase A/B and return a JSON-serializable sanitized summary."""
     main_specs = [spec for spec in checkpoint_specs if spec.main_candidate]
@@ -611,6 +801,13 @@ def run_oracle(
         normalization_dir=mam_root / "external" / "FaceVerse")
     selected_indices = sorted(random.Random(eval_seed).sample(
         range(len(dataset)), min(max_examples, len(dataset))))
+    total_selected = len(selected_indices)
+    context_start = max(0, int(context_start))
+    context_stop = total_selected if context_stop is None else min(
+        total_selected, int(context_stop))
+    if context_start >= context_stop:
+        raise ValueError(f"empty context slice [{context_start}, {context_stop})")
+    selected_indices = selected_indices[context_start:context_stop]
     if not selected_indices:
         raise ValueError("no VAL contexts selected")
 
@@ -621,11 +818,16 @@ def run_oracle(
                           ckpt_dir=str(mam_root / "pretrained_models" / "post_processor"),
                           clip_len_test=1000, device=device, num_preds=POOL_SIZE)
     models = _load_models(active_specs, device)
+    quality_pool = (SharedQualityPool(
+        metric_workers, max_candidates=len(active_specs) * POOL_SIZE,
+        max_frames=750)
+        if metric_engine == "rolling" and metric_workers > 1 else None)
     spec_by_label = {spec.label: spec for spec in active_specs}
     records: list[dict] = []
     local_times: defaultdict[str, list[float]] = defaultdict(list)
 
-    for context_number, index in enumerate(selected_indices):
+    for local_number, index in enumerate(selected_indices):
+        context_number = context_start + local_number
         sample = dataset[index]
         source_length = int(sample["source_lengths"])
         inputs = (sample["speaker_audio"][None, :source_length].to(device),
@@ -660,7 +862,9 @@ def run_oracle(
         for candidate, descriptor in zip(candidates, descriptors):
             candidate.descriptor = descriptor.detach().cpu()
         distance = normalized_squared_distances(torch.stack(trajectories))
-        frc, frd = _quality_terms(candidates, targets, workers=metric_workers)
+        frc, frd = _quality_terms(
+            candidates, targets, workers=metric_workers,
+            engine=metric_engine, shared_pool=quality_pool)
         baseline = _baseline_indices(candidates, baseline_label)
         if len(baseline) != POOL_SIZE:
             raise ValueError(f"baseline {baseline_label} has {len(baseline)} unique candidates in context {context_number}")
@@ -746,9 +950,13 @@ def run_oracle(
             ],
             "candidate_sources": [candidate.public_origins() for candidate in candidates],
         })
-        if context_number == 0 or (context_number + 1) % 8 == 0 or context_number + 1 == len(selected_indices):
-            print(f"[oracle] processed {context_number + 1}/{len(selected_indices)} contexts",
+        if local_number == 0 or (local_number + 1) % 8 == 0 or local_number + 1 == len(selected_indices):
+            print(f"[oracle] processed {context_number + 1}/{total_selected} contexts "
+                  f"(slice {context_start}:{context_stop})",
                   flush=True)
+
+    if quality_pool is not None:
+        quality_pool.close()
 
     fields = ["FRC", "exact_FRD", "FRDiv", "FRVar"]
     method_names = ["baseline", "quality_only", "max_FRDiv_unconstrained",
@@ -793,8 +1001,12 @@ def run_oracle(
     summary = {
         "split": "VAL deterministic same-session pilot; GT-oracle selection, not inference",
         "contexts": len(records),
+        "context_start": context_start,
+        "context_stop": context_stop,
+        "context_total": total_selected,
         "eval_seed": eval_seed,
         "metric_workers": metric_workers,
+        "metric_engine": metric_engine,
         "pool_size_mean": float(np.mean([r["raw_pool_size"] for r in records])),
         "unique_pool_size_mean": float(np.mean([r["unique_pool_size"] for r in records])),
         "unique_pool_size_distribution": _quantiles([r["unique_pool_size"] for r in records]),
@@ -811,6 +1023,13 @@ def run_oracle(
         "feasible_counts": feasible_counts,
         "delta_summary": {method: _delta_summary(records, method)
                            for method in method_means if method != "baseline"},
+        "selected_model_count_distribution": {
+            method: _quantiles([
+                len(record["methods"][method]["selected_sources"])
+                for record in records if method in record["methods"]
+            ])
+            for method in method_means
+        },
         "source_attribution": source_attribution,
         "feature_attribution": feature_attribution,
         "inference_latency_s_mean": {
@@ -843,7 +1062,11 @@ def main() -> None:
     parser.add_argument("--include-mode-adapter", action="store_true")
     parser.add_argument("--max-pair-candidates", type=int, default=40)
     parser.add_argument("--metric-workers", type=int, default=1,
-                        help="Thread workers for independent official FRC/FRD candidate scores")
+                        help="Mam-style CPU workers for independent candidate quality scores")
+    parser.add_argument("--metric-engine", choices=("rolling", "tslearn"),
+                        default="rolling")
+    parser.add_argument("--context-start", type=int, default=0)
+    parser.add_argument("--context-stop", type=int, default=None)
     args = parser.parse_args()
 
     specs = discover_checkpoints(args.search_root, args.checkpoint)
@@ -860,7 +1083,10 @@ def main() -> None:
         include_analysis=args.include_mode_adapter,
         max_pair_candidates=args.max_pair_candidates,
         mam_root=args.mam_root,
-        metric_workers=args.metric_workers)
+        metric_workers=args.metric_workers,
+        metric_engine=args.metric_engine,
+        context_start=args.context_start,
+        context_stop=args.context_stop)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(summary, indent=2, sort_keys=True))
     args.report.parent.mkdir(parents=True, exist_ok=True)

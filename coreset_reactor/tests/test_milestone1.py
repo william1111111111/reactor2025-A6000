@@ -1,10 +1,14 @@
+import random
+
 import numpy as np
 import torch
 
 from coreset_reactor.dataset import (CACHE_VERSION, build_train_cache,
                                      fixed_reaction, full_reaction_descriptor)
 from coreset_reactor.descriptor import DescriptorScaler, reaction_descriptor
-from coreset_reactor.evaluate import official_prediction
+from coreset_reactor.evaluate import (_deterministic_postprocess,
+                                      exact_quality_metrics,
+                                      official_prediction)
 from coreset_reactor.losses import descriptor_distance, descriptor_set_loss, unpaired_softdtw_cost
 from coreset_reactor.model import ParallelTCN
 from coreset_reactor.sampler import exact_reference_indices
@@ -67,6 +71,51 @@ def test_official_au_rounding_keeps_continuous_diagnostics():
     assert torch.equal(official[1, :, :15], torch.ones_like(official[1, :, :15]))
     assert torch.equal(official[..., 15:], pred[..., 15:])
     assert torch.equal(pred, before)
+
+
+def test_serial_quality_metrics_match_official_per_context_formulas():
+    from framework.metrics.FRC import _func as frc_one
+    from framework.metrics.FRD import _func as frd_one
+    torch.manual_seed(19)
+    predictions = [torch.rand(2, 8, 25), torch.rand(2, 7, 25)]
+    targets = [torch.rand(2, 8, 25), torch.rand(2, 7, 25)]
+    frc, frd = exact_quality_metrics(predictions, targets, workers=1)
+    assert np.isclose(frc, np.mean([frc_one(target, pred)
+                                    for pred, target in zip(predictions, targets)]))
+    assert np.isclose(frd, np.mean([frd_one(target, pred)
+                                    for pred, target in zip(predictions, targets)]))
+
+
+def test_numpy_ipc_quality_metrics_match_serial_formulas():
+    torch.manual_seed(23)
+    predictions = [torch.rand(2, 8, 25), torch.rand(2, 7, 25)]
+    targets = [torch.rand(2, 8, 25), torch.rand(2, 7, 25)]
+    serial = exact_quality_metrics(predictions, targets, workers=1)
+    parallel = exact_quality_metrics(predictions, targets, workers=2)
+    assert np.allclose(parallel, serial)
+
+
+def test_postprocessor_rng_is_deterministic_and_restored():
+    class StochasticProcessor:
+        def forward(self, predictions, targets):
+            value = random.random() + np.random.rand() + float(torch.rand(()))
+            return [torch.full_like(predictions[0], value)]
+
+    random.seed(29)
+    np.random.seed(29)
+    torch.manual_seed(29)
+    expected_next = (random.random(), np.random.rand(), float(torch.rand(())))
+    random.seed(29)
+    np.random.seed(29)
+    torch.manual_seed(29)
+    pred = torch.zeros(2, 4, 25)
+    args = (StochasticProcessor(), pred, [pred[0]], torch.device("cpu"),
+            1234, "speaker/session/example")
+    first = _deterministic_postprocess(*args)
+    second = _deterministic_postprocess(*args)
+    observed_next = (random.random(), np.random.rand(), float(torch.rand(())))
+    assert torch.equal(first, second)
+    assert np.allclose(observed_next, expected_next)
 
 
 def test_train_cache_describes_full_raw_gt(tmp_path):

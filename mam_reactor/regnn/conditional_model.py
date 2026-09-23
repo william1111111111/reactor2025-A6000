@@ -272,13 +272,13 @@ class ConditionalREGNN(nn.Module):
         expression = torch.softmax(raw_reaction[..., 17:25], dim=-1)
         return torch.cat((au, valence_arousal, expression), dim=-1)
 
-    def forward(
+    def encode_conditions(
         self,
         speaker_audio: torch.Tensor,
         speaker_emotion: torch.Tensor,
         speaker_3dmm: torch.Tensor,
         lengths: torch.Tensor,
-    ) -> Dict[str, torch.Tensor]:
+    ) -> tuple[torch.Tensor, torch.Tensor]:
         if speaker_audio.ndim != 3:
             raise ValueError("speaker_audio must have shape [B,T,768]")
         frames = speaker_audio.shape[1]
@@ -301,7 +301,15 @@ class ConditionalREGNN(nn.Module):
             src_key_padding_mask=padding_mask,
         )
         context = context * valid_mask.unsqueeze(-1).to(context)
+        return context, valid_mask
 
+    def decode_context(
+        self,
+        context: torch.Tensor,
+        valid_mask: torch.Tensor,
+    ) -> Dict[str, torch.Tensor]:
+        if context.ndim != 3 or valid_mask.shape != context.shape[:2]:
+            raise ValueError("context/valid_mask shapes must be [B,T,C]/[B,T]")
         raw_reaction = self.to_initial_reaction(context)
         for graph_block in self.graph_blocks:
             raw_reaction = graph_block(
@@ -321,6 +329,18 @@ class ConditionalREGNN(nn.Module):
             "context": context,
             "valid_mask": valid_mask,
         }
+
+    def forward(
+        self,
+        speaker_audio: torch.Tensor,
+        speaker_emotion: torch.Tensor,
+        speaker_3dmm: torch.Tensor,
+        lengths: torch.Tensor,
+    ) -> Dict[str, torch.Tensor]:
+        context, valid_mask = self.encode_conditions(
+            speaker_audio, speaker_emotion, speaker_3dmm, lengths,
+        )
+        return self.decode_context(context, valid_mask)
 
 
 def masked_ccc(
@@ -372,6 +392,7 @@ class ConditionalREGNNLoss(nn.Module):
         prediction: torch.Tensor,
         target: torch.Tensor,
         valid_mask: torch.Tensor,
+        velocity_supervision: Optional[torch.Tensor] = None,
     ) -> Dict[str, torch.Tensor]:
         weights = valid_mask.unsqueeze(-1).to(prediction)
         denominator = (weights.sum() * prediction.shape[-1]).clamp_min(1.0)
@@ -383,6 +404,14 @@ class ConditionalREGNNLoss(nn.Module):
 
         if prediction.shape[1] > 1:
             pair_mask = valid_mask[:, 1:] & valid_mask[:, :-1]
+            if velocity_supervision is not None:
+                velocity_supervision = torch.as_tensor(
+                    velocity_supervision, device=pair_mask.device,
+                    dtype=torch.bool,
+                )
+                if velocity_supervision.shape != (prediction.shape[0],):
+                    raise ValueError("velocity_supervision must have shape [B]")
+                pair_mask = pair_mask & velocity_supervision.unsqueeze(1)
             pair_weights = pair_mask.unsqueeze(-1).to(prediction)
             prediction_velocity = prediction[:, 1:] - prediction[:, :-1]
             target_velocity = target[:, 1:] - target[:, :-1]

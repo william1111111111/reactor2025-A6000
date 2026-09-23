@@ -409,13 +409,14 @@ class SharedQualityPool:
     """Persistent Mam-style per-candidate exact FRC/FRD worker pool."""
 
     def __init__(self, workers: int, max_candidates: int,
-                 max_frames: int = 750, features: int = 25):
+                 max_frames: int = 750, features: int = 25,
+                 max_targets: int = POOL_SIZE):
         if workers < 2:
             raise ValueError("shared quality pool requires at least two workers")
         self.workers = workers
         self.context_id = 0
         prediction_shape = (max_candidates, max_frames, features)
-        target_shape = (POOL_SIZE, max_frames, features)
+        target_shape = (max_targets, max_frames, features)
         self.predictions_shm = shared_memory.SharedMemory(
             create=True, size=int(np.prod(prediction_shape)) * 4)
         self.targets_shm = shared_memory.SharedMemory(

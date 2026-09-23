@@ -78,6 +78,7 @@ def load_models(output_root: Path, epoch: int,
         "epochs", "batch_size", "clip_length", "lr", "weight_decay",
         "ccc_weight", "velocity_weight", "seed", "precision",
         "fixed_pair_count", "fixed_pair_seed",
+        "fixed_pair_manifest_sha256",
     )
     for field in matched_fields:
         if len({checkpoint["training_config"].get(field)
@@ -132,7 +133,9 @@ def evaluate(args: argparse.Namespace) -> dict:
         cfg_dir=str(args.asset_mam_root),
         ckpt_dir=str(args.asset_mam_root / "pretrained_models" / "post_processor"),
         clip_len_test=1000, device=device, num_preds=MODEL_COUNT)
-    quality_pool = SharedQualityPool(args.metric_workers, MODEL_COUNT, 750)
+    all_gt = getattr(args, 'all_session_gt', False)
+    quality_pool = SharedQualityPool(args.metric_workers, MODEL_COUNT, 750,
+                                   max_targets=max(map(len, target_pool.values())) if all_gt else 10)
     predictions, speakers = [], []
     frc_rows, frd_rows, diagnostics, latencies = [], [], [], []
     full_gt_cache = {}
@@ -163,6 +166,8 @@ def evaluate(args: argparse.Namespace) -> dict:
             target_paths = [paired] + (rng.sample(alternatives, 9)
                                        if len(alternatives) >= 9
                                        else rng.choices(alternatives or [paired], k=9))
+            if all_gt:
+                target_paths = [paired] + alternatives
             raw_targets = [torch.from_numpy(
                 np.load(path, allow_pickle=False).astype(np.float32))
                 for path in target_paths]
@@ -177,6 +182,12 @@ def evaluate(args: argparse.Namespace) -> dict:
                 engine="rolling", shared_pool=quality_pool)
             frc_rows.append(float(frc.sum()))
             frd_rows.append(float(frd.sum()))
+            _save_json(args.output.with_suffix('.progress.json'), {
+                'completed': number, 'total': len(selected),
+                'gt_count': len(target_paths), 'all_session_gt': all_gt,
+                'partial_FRC': float(np.mean(frc_rows)),
+                'partial_exact_FRD': float(np.mean(frd_rows)),
+            })
 
             if session not in full_gt_cache:
                 descriptors = []
@@ -222,7 +233,9 @@ def evaluate(args: argparse.Namespace) -> dict:
     speed = {
         "single_model_parameters": parameters,
         "ensemble_parameters": parameters * MODEL_COUNT,
-        "training_model_steps": batches * args.epoch * MODEL_COUNT,
+        "training_model_steps": sum(
+            min(batches * args.epoch, checkpoint['training_config'].get('max_train_steps', 0) or batches * args.epoch)
+            for checkpoint in checkpoints),
         "inference_latency_s_mean": float(np.mean(latencies)),
         "metric_workers": args.metric_workers,
     }
@@ -232,12 +245,15 @@ def evaluate(args: argparse.Namespace) -> dict:
             "architecture": "Mam-Reactor ConditionalREGNN 25D anchor",
             "rank_0": "true same-basename paired listener",
             "ranks_1_to_9": "fixed distinct same-session listeners",
+            "target_manifest_sha256": checkpoints[0]["training_config"].get("fixed_pair_manifest_sha256"),
             "target_processing": (
                 "ReactionDataset diffusion crop offset and speaker-emotion "
                 "tail fill"
             ),
             "models": MODEL_COUNT, "outputs_per_model": 1,
             "evaluation_scope": (
+                "full VAL speaker sources; center750; all opposite-role session GT"
+                if all_gt else
                 "deterministic VAL; paired plus nine seeded same-session "
                 "targets; not official TEST"
             ),
@@ -252,7 +268,7 @@ def evaluate(args: argparse.Namespace) -> dict:
     lines = [
         "# Mam anchor ensemble: true pair plus nine fixed targets", "",
         "Ten independent ConditionalREGNN anchors share architecture, initialization seed, source/crop schedule and optimizer settings. Rank 0 uses the true same-basename paired listener; ranks 1-9 use deterministic distinct same-session listeners. Once selected, every target follows the original diffusion `ReactionDataset` crop offset and short-target speaker-emotion tail-fill path.", "",
-        f"- Training: `{args.epoch}` epochs/model, batch `{config['batch_size']}`, seed `{config['seed']}`, `{speed['training_model_steps']}` total model-steps",
+        f"- Checkpoint epoch label: `{args.epoch}`; step cap/model: `{config.get('max_train_steps', 0)}` (0 means uncapped); batch `{config['batch_size']}`, seed `{config['seed']}`, `{speed['training_model_steps']}` total model-steps",
         f"- Optimizer: AdamW lr `{config['lr']}`, weight decay `{config['weight_decay']}`, cosine decay; BF16 `{config['precision'] == 'bf16'}`",
         f"- Loss: MSE + `{config['ccc_weight']}` × (1-CCC) + `{config['velocity_weight']}` × velocity MSE",
         f"- Parameters: `{parameters}` per model, `{parameters * MODEL_COUNT}` total",
@@ -264,7 +280,7 @@ def evaluate(args: argparse.Namespace) -> dict:
         f"Additional diagnostics: prediction validity `{metrics['prediction_validity']:.6f}`, candidate utilization `{metrics['candidate_utilization']:.6f}`, cluster coverage `{metrics['cluster_coverage']:.6f}`.", "",
         "TLCC uses the repository's official implementation, which returns after its first prediction; it is reproduced for completeness but is not a ten-output aggregate.", "",
         "This is not compute-matched to M1: ten full ConditionalREGNN backbones are trained and retained.", "",
-        "Verdict: fixed one-to-one target specialization produces substantially more diverse reactions, but it is not quality-safe. FRDiv rises strongly while exact FRD and descriptor coverage become materially worse.", "",
+        "Interpret results against the matched random-fixed-target ten-anchor baseline; target selection alone does not guarantee improved prediction quality.", "",
     ]
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text("\n".join(lines))
@@ -281,6 +297,7 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--epoch", type=int, default=50)
+    parser.add_argument("--all-session-gt", action="store_true")
     parser.add_argument("--device", default="cuda:5")
     parser.add_argument("--max-examples", type=int, default=571)
     parser.add_argument("--eval-seed", type=int, default=1234)

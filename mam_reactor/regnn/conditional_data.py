@@ -1,4 +1,5 @@
 import hashlib
+import json
 import os
 import random
 from pathlib import Path
@@ -6,6 +7,7 @@ from typing import Dict, List, Optional, Sequence, Tuple, Union
 
 import numpy as np
 import torch
+import torch.nn.functional as F
 from torch.utils.data import Dataset
 
 from regnn.query_mamba import (
@@ -46,6 +48,29 @@ def diffusion_listener_crop(
     return value[:length]
 
 
+def relative_time_resample_reaction(
+    target: torch.Tensor,
+    output_length: int,
+) -> torch.Tensor:
+    """Resample a cross-listener reaction without inventing synchronized frames."""
+    if target.ndim != 2 or target.shape[1] != 25 or target.shape[0] < 1:
+        raise ValueError("target must have nonempty shape [T,25]")
+    if output_length < 1:
+        raise ValueError("output_length must be positive")
+    source = target.transpose(0, 1).unsqueeze(0)
+    au = F.interpolate(source[:, :15], size=output_length, mode="nearest")
+    continuous = F.interpolate(
+        source[:, 15:17], size=output_length, mode="linear",
+        align_corners=True,
+    )
+    expression = F.interpolate(
+        source[:, 17:25], size=output_length, mode="linear",
+        align_corners=True,
+    ).clamp_min(0)
+    expression = expression / expression.sum(1, keepdim=True).clamp_min(1e-8)
+    return torch.cat((au, continuous, expression), dim=1)[0].transpose(0, 1)
+
+
 class ConditionalReactionDataset(Dataset):
     """Efficient diffusion-condition dataset for Conditional-REGNN.
 
@@ -72,6 +97,8 @@ class ConditionalReactionDataset(Dataset):
         fixed_pair_rank: Optional[int] = None,
         fixed_pair_count: int = 10,
         fixed_pair_seed: Optional[int] = None,
+        fixed_pair_manifest: Optional[str] = None,
+        fixed_pair_alignment_policy: str = "diffusion_legacy",
     ):
         super().__init__()
         if clip_length <= 0:
@@ -125,6 +152,19 @@ class ConditionalReactionDataset(Dataset):
         ):
             raise ValueError("fixed_pair_rank must be within fixed_pair_count")
         self.fixed_pair_rank = fixed_pair_rank
+        if fixed_pair_alignment_policy not in {
+            "diffusion_legacy", "relative_time_masked",
+        }:
+            raise ValueError("Unknown fixed_pair_alignment_policy")
+        self.fixed_pair_alignment_policy = fixed_pair_alignment_policy
+        self.fixed_pair_mapping = None
+        if fixed_pair_manifest is not None:
+            if split != "train" or fixed_pair_rank is None:
+                raise ValueError("fixed manifest requires TRAIN fixed-pair mode")
+            manifest = json.loads(Path(fixed_pair_manifest).read_text())
+            if manifest["split"] != "train":
+                raise ValueError("manifest must be TRAIN-only")
+            self.fixed_pair_mapping = manifest["mapping"]
         self.fixed_pair_count = int(fixed_pair_count)
         self.fixed_pair_seed = int(
             seed if fixed_pair_seed is None else fixed_pair_seed
@@ -317,6 +357,13 @@ class ConditionalReactionDataset(Dataset):
     def _fixed_pair_targets(self, record: Path) -> List[Path]:
         """True paired target followed by fixed distinct session alternatives."""
         paired = self._paired_target(record)
+        if self.fixed_pair_mapping is not None:
+            paths = [Path(p) for p in self.fixed_pair_mapping[record.as_posix()]]
+            legal = {paired, *self._session_alternatives(record)}
+            if (len(paths) != self.fixed_pair_count or paths[0] != paired
+                    or len(set(paths)) != len(paths) or not set(paths) <= legal):
+                raise ValueError(f"Invalid fixed target mapping for {record}")
+            return paths
         alternatives = sorted(
             self._session_alternatives(record),
             key=lambda value: value.as_posix(),
@@ -461,18 +508,36 @@ class ConditionalReactionDataset(Dataset):
                 coefficients = (coefficients - self.mean_face) / self.std_face
                 result["target_3dmm"] = crop_and_pad(coefficients, start, self.clip_length)
             if self.fixed_pair_rank is not None:
-                # Only target selection changes in the ten-model experiment;
-                # all selected targets retain ReactionDataset processing.
-                result["target"] = diffusion_listener_crop(
-                    target,
-                    result["speaker_emotion"],
-                    start,
-                    self.clip_length,
-                )
-                result["length"] = torch.tensor(
-                    valid_source_length,
-                    dtype=torch.long,
-                )
+                if self.fixed_pair_alignment_policy == "diffusion_legacy":
+                    # Historical comparison: exactly retain ReactionDataset's
+                    # speaker-tail fill, including for cross-listener targets.
+                    result["target"] = diffusion_listener_crop(
+                        target, result["speaker_emotion"], start,
+                        self.clip_length,
+                    )
+                    result["length"] = torch.tensor(valid_source_length)
+                    result["velocity_supervision"] = torch.tensor(True)
+                elif self.fixed_pair_rank == 0:
+                    valid_length = min(
+                        valid_source_length, max(0, target.shape[0] - start),
+                    )
+                    result["target"] = crop_and_pad(
+                        target, start, self.clip_length,
+                    )
+                    result["length"] = torch.tensor(valid_length)
+                    result["velocity_supervision"] = torch.tensor(True)
+                else:
+                    # Cross-listener candidates are appropriate at session
+                    # level, not frame-synchronized. Map relative time to the
+                    # source valid span and disable pointwise velocity loss.
+                    aligned = relative_time_resample_reaction(
+                        target, valid_source_length,
+                    )
+                    result["target"] = crop_and_pad(
+                        aligned, 0, self.clip_length,
+                    )
+                    result["length"] = torch.tensor(valid_source_length)
+                    result["velocity_supervision"] = torch.tensor(False)
             else:
                 valid_length = min(
                     valid_source_length,

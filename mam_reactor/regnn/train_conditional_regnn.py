@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import random
@@ -119,6 +120,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--fixed-pair-count", type=int, default=10)
     parser.add_argument("--fixed-pair-seed", type=int)
+    parser.add_argument("--fixed-pair-manifest", type=Path)
+    parser.add_argument(
+        "--fixed-pair-alignment-policy",
+        choices=("diffusion_legacy", "relative_time_masked"),
+        default="diffusion_legacy",
+    )
     return parser.parse_args()
 
 
@@ -350,6 +357,10 @@ def main() -> None:
         raise RuntimeError("Conditional-REGNN formal training requires CUDA")
 
     args.data_dir = args.data_dir.resolve()
+    args.fixed_pair_manifest_sha256 = (
+        hashlib.sha256(args.fixed_pair_manifest.read_bytes()).hexdigest()
+        if args.fixed_pair_manifest is not None else None
+    )
     args.run_dir = args.run_dir.resolve()
     session_allowlist, session_split_manifest_sha256 = (
         load_session_allowlist(
@@ -386,6 +397,8 @@ def main() -> None:
         fixed_pair_rank=args.fixed_pair_rank,
         fixed_pair_count=args.fixed_pair_count,
         fixed_pair_seed=args.fixed_pair_seed,
+        fixed_pair_manifest=args.fixed_pair_manifest,
+        fixed_pair_alignment_policy=args.fixed_pair_alignment_policy,
     )
     sampler = ExpandedCropViewSampler(
         len(dataset),
@@ -552,6 +565,7 @@ def main() -> None:
                     prediction,
                     target,
                     valid_mask,
+                    batch.get("velocity_supervision"),
                 )
             if args.listener_3dmm_weight > 0:
                 from regnn.anchor_3dmm_loss import geometry_loss

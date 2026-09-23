@@ -150,7 +150,6 @@ def main() -> None:
         "graph_dim": 64, "graph_layers": 2, "graph_heads": 4,
         "dropout": .1, "max_seq_len": 750, "listener_3dmm": False,
     }
-    args.expected_checkpoint_epoch = (args.max_steps // max(1, speaker_count // args.batch_size)) + 1
     # The formal sampler drops the last partial batch. Compute the exact epoch
     # containing step 600 instead of assuming a fixed dataset size.
     args.expected_checkpoint_epoch = (args.max_steps - 1) // batches_per_epoch + 1

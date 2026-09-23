@@ -66,7 +66,8 @@ def source_schedule_sha256(dataset_size: int, seed: int, epochs: int) -> str:
 
 
 def run_one(
-    root: Path, data_root: Path, mam_root: Path, run_root: Path,
+    root: Path, data_root: Path, code_mam_root: Path, asset_mam_root: Path,
+    run_root: Path,
     arm: str, rank: int, gpu: int, manifest: Path, args: argparse.Namespace,
 ) -> None:
     run_dir = run_root / "arms" / arm / f"rank_{rank:02d}"
@@ -74,10 +75,12 @@ def run_one(
     env = dict(os.environ)
     env.update({
         "CUDA_VISIBLE_DEVICES": str(gpu),
-        "MAM_REACTOR_ROOT": str(mam_root),
+        # Import the frozen source snapshot from this worktree.  The external
+        # deployment supplies only FaceVerse/assets through this variable.
+        "MAM_REACTOR_ROOT": str(asset_mam_root),
         "OMP_NUM_THREADS": str(args.omp_threads),
         "MKL_NUM_THREADS": str(args.omp_threads),
-        "PYTHONPATH": f"{mam_root}:{root}",
+        "PYTHONPATH": f"{code_mam_root}:{root}",
     })
     command = [
         sys.executable, "-m", "regnn.train_conditional_regnn",
@@ -120,7 +123,8 @@ def main() -> None:
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     data_root = args.data_root.resolve()
-    mam_root = args.mam_root.resolve()
+    asset_mam_root = args.mam_root.resolve()
+    code_mam_root = root / "mam_reactor"
     manifest_root = args.manifest_root.resolve()
     run_root = args.run_root.resolve()
     if not args.gpus:
@@ -156,7 +160,7 @@ def main() -> None:
         "source_snapshot_sha256": source_snapshot_sha256(root),
         "data_fingerprint": source_sha,
         "faceverse_stats": {
-            name: file_sha256(mam_root / "external" / "FaceVerse" / name)
+            name: file_sha256(asset_mam_root / "external" / "FaceVerse" / name)
             for name in ("mean_face.npy", "std_face.npy")
         },
         "frozen_target_manifest_source_sha256": source_sha,
@@ -192,7 +196,8 @@ def main() -> None:
             for arm in ("T0", "T1") for rank in range(10)
             for manifest in [manifest_paths[(arm, rank)]]]
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(args.gpus)) as executor:
-        futures = [executor.submit(run_one, root, data_root, mam_root, run_root,
+        futures = [executor.submit(run_one, root, data_root, code_mam_root,
+                                   asset_mam_root, run_root,
                                    arm, rank, gpu, manifest, args)
                    for arm, rank, gpu, manifest in jobs]
         for future in futures:

@@ -36,6 +36,27 @@ M2-v2 keeps the 172,122-parameter M1 architecture and adds only TRAIN-derived be
 
 Raw experiment reports, cached descriptors, datasets, and checkpoints are local-only and are not distributed in this source repository. Training and evaluation also require the FaceVerse statistics and post-processor checkpoint referenced by the existing Mam-Reactor code.
 
+The TRAIN-only Max-FRDiv teacher-target audit is implemented in
+`maxfrdiv_teacher_manifest.py`. It builds T0 random fixed-pair, T1
+paired-constrained trajectory-Max-FRDiv, and T2 unconstrained diagnostic
+manifests. T1 membership uses Mam-Reactor's
+`relative_time_resample_reaction`; descriptor prototypes are used only for
+canonical q1--q9 slot ordering. The complete manifest is intentionally local:
+
+```bash
+PYTHONPATH=/path/to/reactor2025-A6000/mam_reactor \
+  .venv/bin/python -m coreset_reactor.maxfrdiv_teacher_manifest \
+  --data-root /path/to/REACT2025/data \
+  --mam-root /path/to/reactor2025-A6000/mam_reactor \
+  --output /path/to/local/reports/maxfrdiv_teacher/train_manifest.json \
+  --report coreset_reactor/results/MAXFRDIV_TEACHER_TARGETS.md
+```
+
+The default T1/T2 selector is explicitly an approximate lower bound. Use
+`--exact-t1` or `--exact-t2` only for small representative solver probes; a
+set is called exact only when HiGHS returns optimal status. The dataset-level
+session ceiling has a separate entry point, `exact_max10.py`.
+
 ## M3 offline candidate-pool oracle
 
 `oracle_select.py` answers an upper-bound question before any overcomplete

@@ -139,10 +139,10 @@ def main() -> None:
     }
     if any(not path.exists() for path in manifest_paths.values()):
         raise FileNotFoundError("manifest root does not contain all T0/T1 ranks")
-    speaker_count = len(list((data_root / "train" / "facial-attributes" / "speaker").glob("*/*.npy")))
-    if speaker_count <= 0:
-        raise FileNotFoundError("no TRAIN speaker facial attributes")
-    batches_per_epoch = speaker_count // args.batch_size
+    record_count = len(list((data_root / "train" / "facial-attributes").glob("*/*/*.npy")))
+    if record_count <= 0:
+        raise FileNotFoundError("no TRAIN facial attributes")
+    batches_per_epoch = record_count // args.batch_size
     if batches_per_epoch <= 0 or args.max_steps >= args.epochs * batches_per_epoch:
         raise ValueError("pilot max-steps must be below the formal schedule length")
     model_args = {
@@ -174,6 +174,7 @@ def main() -> None:
         "epochs_formal_schedule": args.epochs,
         "max_train_steps": args.max_steps,
         "batch_size": args.batch_size,
+        "dataset_records": record_count,
         "batches_per_epoch": batches_per_epoch,
         "precision": args.precision,
         "fixed_pair_alignment_policy": "relative_time_masked",
@@ -185,7 +186,7 @@ def main() -> None:
             args.seed, {"repo_root": root, "model_args": model_args}
         ),
         "source_schedule_sha256": source_schedule_sha256(
-            speaker_count, args.seed, args.epochs
+            record_count, args.seed, args.epochs
         ),
         "gpus": args.gpus,
         "expected_checkpoint_epoch": args.expected_checkpoint_epoch,

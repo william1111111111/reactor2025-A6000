@@ -62,7 +62,10 @@ def load_models(output_root: Path, epoch: int,
                 device: torch.device) -> tuple[list[ConditionalREGNN], list[dict]]:
     models, checkpoints = [], []
     for rank in range(MODEL_COUNT):
-        path = (output_root / f"model_{rank:02d}" /
+        model_dir = output_root / f"model_{rank:02d}"
+        if not model_dir.exists():
+            model_dir = output_root / f"rank_{rank:02d}"
+        path = (model_dir /
                 f"conditional-epoch{epoch:04d}-seed1.pth")
         checkpoint = torch.load(path, map_location="cpu", weights_only=False)
         training = checkpoint["training_config"]
@@ -78,7 +81,7 @@ def load_models(output_root: Path, epoch: int,
         "epochs", "batch_size", "clip_length", "lr", "weight_decay",
         "ccc_weight", "velocity_weight", "seed", "precision",
         "fixed_pair_count", "fixed_pair_seed",
-        "fixed_pair_manifest_sha256",
+        "fixed_pair_alignment_policy",
     )
     for field in matched_fields:
         if len({checkpoint["training_config"].get(field)
@@ -138,6 +141,8 @@ def evaluate(args: argparse.Namespace) -> dict:
                                    max_targets=max(map(len, target_pool.values())) if all_gt else 10)
     predictions, speakers = [], []
     frc_rows, frd_rows, diagnostics, latencies = [], [], [], []
+    per_rank_frc, per_rank_frd = [], []
+    specialization_rows = []
     full_gt_cache = {}
     try:
         for number, data_index in enumerate(selected, 1):
@@ -182,6 +187,31 @@ def evaluate(args: argparse.Namespace) -> dict:
                 engine="rolling", shared_pool=quality_pool)
             frc_rows.append(float(frc.sum()))
             frd_rows.append(float(frd.sum()))
+            per_rank_frc.append(frc)
+            per_rank_frd.append(frd)
+            descriptor_centers = reaction_descriptor(prediction)
+            descriptor_distance = torch.cdist(
+                descriptor_centers[None], descriptor_centers[None]
+            )[0] / descriptor_centers.shape[-1] ** .5
+            upper = torch.triu_indices(MODEL_COUNT, MODEL_COUNT, offset=1)
+            slot_pairwise = official[:, :, :].detach().cpu()
+            slot_distance = ((slot_pairwise[:, None] - slot_pairwise[None]) ** 2).mean((2, 3))
+            expression_modes = official[:, :, 17:25].mean(1).argmax(-1)
+            specialization_rows.append({
+                "slot_pair_frdiv": float(slot_distance[upper[0], upper[1]].mean()),
+                "descriptor_centroid_distance": float(
+                    descriptor_distance[upper[0], upper[1]].mean()
+                ),
+                "au_activation_range": float(
+                    official[:, :, :15].mean((1, 2)).max()
+                    - official[:, :, :15].mean((1, 2)).min()
+                ),
+                "va_mean_range": float(
+                    official[:, :, 15:17].mean((1, 2)).max()
+                    - official[:, :, 15:17].mean((1, 2)).min()
+                ),
+                "distinct_expression_modes": int(expression_modes.unique().numel()),
+            })
             _save_json(args.output.with_suffix('.progress.json'), {
                 'completed': number, 'total': len(selected),
                 'gt_count': len(target_paths), 'all_session_gt': all_gt,
@@ -227,7 +257,22 @@ def evaluate(args: argparse.Namespace) -> dict:
             row["candidate_utilization"] for row in diagnostics])),
         "cluster_coverage": float(np.mean([
             row["cluster_coverage"] for row in diagnostics])),
+        "per_rank_FRC": np.mean(np.asarray(per_rank_frc), axis=0).tolist(),
+        "per_rank_exact_FRD": np.mean(np.asarray(per_rank_frd), axis=0).tolist(),
+        "specialization": {
+            key: float(np.mean([row[key] for row in specialization_rows]))
+            for key in (
+                "slot_pair_frdiv", "descriptor_centroid_distance",
+                "au_activation_range", "va_mean_range",
+                "distinct_expression_modes",
+            )
+        },
     }
+    if args.target_frdiv is not None:
+        metrics["target_set_FRDiv"] = float(args.target_frdiv)
+        metrics["gt_to_teacher_transfer_ratio"] = float(
+            metrics["FRDiv"] / max(args.target_frdiv, 1e-12)
+        )
     parameters = sum(parameter.numel() for parameter in models[0].parameters())
     batches = 3320 // int(checkpoints[0]["training_config"]["batch_size"])
     speed = {
@@ -245,10 +290,13 @@ def evaluate(args: argparse.Namespace) -> dict:
             "architecture": "Mam-Reactor ConditionalREGNN 25D anchor",
             "rank_0": "true same-basename paired listener",
             "ranks_1_to_9": "fixed distinct same-session listeners",
-            "target_manifest_sha256": checkpoints[0]["training_config"].get("fixed_pair_manifest_sha256"),
+            "target_manifest_sha256": [
+                checkpoint["training_config"].get("fixed_pair_manifest_sha256")
+                for checkpoint in checkpoints
+            ],
             "target_processing": (
-                "ReactionDataset diffusion crop offset and speaker-emotion "
-                "tail fill"
+                "deterministic post-processor alignment against all same-session "
+                "opposite-role GT; not the fixed training target path"
             ),
             "models": MODEL_COUNT, "outputs_per_model": 1,
             "evaluation_scope": (
@@ -303,6 +351,7 @@ def main() -> None:
     parser.add_argument("--eval-seed", type=int, default=1234)
     parser.add_argument("--metric-workers", type=int, default=16)
     parser.add_argument("--cpu-threads", type=int, default=4)
+    parser.add_argument("--target-frdiv", type=float)
     evaluate(parser.parse_args())
 
 

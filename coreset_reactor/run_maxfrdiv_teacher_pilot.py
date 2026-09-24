@@ -68,7 +68,9 @@ def source_schedule_sha256(dataset_size: int, seed: int, epochs: int) -> str:
 def run_one(
     root: Path, data_root: Path, code_mam_root: Path, asset_mam_root: Path,
     run_root: Path,
-    arm: str, rank: int, gpu: int, manifest: Path, args: argparse.Namespace,
+    arm: str, rank: int, gpu: int, manifest: Path,
+    session_split_manifest: Path | None,
+    args: argparse.Namespace,
 ) -> None:
     run_dir = run_root / "arms" / arm / f"rank_{rank:02d}"
     run_dir.mkdir(parents=True, exist_ok=False)
@@ -94,6 +96,11 @@ def run_one(
         "--max-train-steps", str(args.max_steps),
         "--save-every", str(args.save_every), "--print-every", str(args.print_every),
     ]
+    if session_split_manifest is not None:
+        command.extend([
+            "--session-split-manifest", str(session_split_manifest),
+            "--session-split-name", args.session_split_name,
+        ])
     log_path = run_dir / "train.log"
     with log_path.open("x") as log:
         subprocess.run(command, cwd=root, env=env, stdout=log,
@@ -109,6 +116,14 @@ def main() -> None:
     parser.add_argument("--data-root", type=Path, required=True)
     parser.add_argument("--mam-root", type=Path, required=True)
     parser.add_argument("--manifest-root", type=Path, required=True)
+    parser.add_argument(
+        "--session-split-manifest", type=Path,
+        help="Optional session allowlist passed to every fixed-pair teacher.",
+    )
+    parser.add_argument(
+        "--session-split-name", choices=("B_fit", "B_cal", "B_confirm"),
+        default="B_fit",
+    )
     parser.add_argument("--run-root", type=Path, required=True)
     parser.add_argument("--gpus", type=int, nargs="+", default=[1, 5, 6])
     parser.add_argument("--seed", type=int, default=1)
@@ -126,6 +141,10 @@ def main() -> None:
     asset_mam_root = args.mam_root.resolve()
     code_mam_root = root / "mam_reactor"
     manifest_root = args.manifest_root.resolve()
+    session_split_manifest = (
+        args.session_split_manifest.resolve()
+        if args.session_split_manifest is not None else None
+    )
     run_root = args.run_root.resolve()
     if not args.gpus:
         raise ValueError("at least one GPU is required")
@@ -189,6 +208,10 @@ def main() -> None:
         ),
         "gpus": args.gpus,
         "expected_checkpoint_epoch": args.expected_checkpoint_epoch,
+        "session_split_manifest": (
+            str(session_split_manifest) if session_split_manifest else None
+        ),
+        "session_split_name": args.session_split_name if session_split_manifest else None,
     }
     run_root.mkdir(parents=True, exist_ok=True)
     (run_root / "pilot_provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
@@ -198,7 +221,8 @@ def main() -> None:
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(args.gpus)) as executor:
         futures = [executor.submit(run_one, root, data_root, code_mam_root,
                                    asset_mam_root, run_root,
-                                   arm, rank, gpu, manifest, args)
+                                   arm, rank, gpu, manifest,
+                                   session_split_manifest, args)
                    for arm, rank, gpu, manifest in jobs]
         for future in futures:
             future.result()

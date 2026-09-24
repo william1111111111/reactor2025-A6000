@@ -250,6 +250,7 @@ def build_manifest(
     exact_t2: bool = False,
     exact_time_limit: float = 300.0,
     session_limit: int | None = None,
+    skip_ineligible_sessions: bool = False,
 ) -> dict:
     data_root = data_root.resolve()
     facial = data_root / "train" / "facial-attributes"
@@ -263,6 +264,20 @@ def build_manifest(
     for path in source_paths:
         sources_by_session[path.parent.name].append(path)
     sessions = sorted(sources_by_session)
+    skipped_ineligible_sessions = {
+        session: len(target_by_session.get(session, []))
+        for session in sessions if len(target_by_session.get(session, [])) < 10
+    }
+    if skipped_ineligible_sessions and not skip_ineligible_sessions:
+        raise ValueError(
+            "sessions with fewer than ten listener GTs: "
+            f"{skipped_ineligible_sessions}; pass --skip-ineligible-sessions"
+        )
+    if skip_ineligible_sessions:
+        sessions = [
+            session for session in sessions
+            if session not in skipped_ineligible_sessions
+        ]
     if session_limit is not None:
         sessions = sessions[:session_limit]
 
@@ -400,6 +415,7 @@ def build_manifest(
         "prototype_centers": centers.tolist(),
         "contexts": len(records),
         "sessions": len(sessions),
+        "skipped_ineligible_sessions": skipped_ineligible_sessions,
         "exact_t1": exact_t1,
         "exact_t2": exact_t2,
         "exact_time_limit_seconds": exact_time_limit,
@@ -422,6 +438,7 @@ def write_sanitized_report(manifest: dict, output: Path) -> None:
         "",
         f"- contexts: {manifest['contexts']}",
         f"- sessions: {manifest['sessions']}",
+        f"- skipped ineligible sessions: {len(manifest.get('skipped_ineligible_sessions', {}))}",
         f"- frames: {manifest['frames']}",
         f"- selection: `{manifest['selection_version']}`",
         f"- alignment: `{manifest['alignment_policy']}`",
@@ -462,6 +479,7 @@ def main() -> None:
     parser.add_argument("--exact-t2", action="store_true")
     parser.add_argument("--exact-time-limit", type=float, default=300.0)
     parser.add_argument("--session-limit", type=int)
+    parser.add_argument("--skip-ineligible-sessions", action="store_true")
     args = parser.parse_args()
     if args.mam_root is not None:
         sys.path.insert(0, str(args.mam_root.resolve()))
@@ -469,6 +487,7 @@ def main() -> None:
         args.data_root, args.output, args.seed, args.frames,
         args.exact_t1, args.exact_t2, args.exact_time_limit,
         args.session_limit,
+        args.skip_ineligible_sessions,
     )
     if args.report:
         write_sanitized_report(manifest, args.report)

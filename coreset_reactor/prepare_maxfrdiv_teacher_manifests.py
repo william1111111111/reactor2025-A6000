@@ -40,6 +40,8 @@ def _augment_reverse_role(payload: dict, data_root: Path) -> dict[str, list[str]
         target_by_session.setdefault(path.parent.name, []).append(path)
     target_cache = {}
     for session, target_paths in target_by_session.items():
+        if len(target_paths) < 10:
+            continue
         target_ids = [path.relative_to(facial).as_posix() for path in target_paths]
         raw = [_load_raw(path) for path in target_paths]
         reactions = torch.stack([_relative_resample(value, int(payload["frames"]))
@@ -54,6 +56,8 @@ def _augment_reverse_role(payload: dict, data_root: Path) -> dict[str, list[str]
         )
     for source in source_paths:
         session = source.parent.name
+        if session not in target_cache:
+            continue
         target_ids, distance, values = target_cache[session]
         lookup = {value: index for index, value in enumerate(target_ids)}
         paired_id = f"speaker/{session}/{source.name}"

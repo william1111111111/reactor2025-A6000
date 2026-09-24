@@ -13,7 +13,8 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from coreset_reactor.dataset import TrainSetData, full_reaction_descriptor
+from coreset_reactor.dataset import full_reaction_descriptor
+from coreset_reactor.descriptor import DescriptorScaler
 from coreset_reactor.descriptor import reaction_descriptor
 from coreset_reactor.evaluate import (_cluster_coverage,
                                       _deterministic_postprocess,
@@ -121,8 +122,14 @@ def evaluate(args: argparse.Namespace) -> dict:
     if device.type == "cuda":
         torch.cuda.set_device(device)
     models, checkpoints = load_models(args.output_root, args.epoch, device)
-    cache = TrainSetData(args.data_root, args.cache)
-    scaler = cache.scaler.to(device)
+    # Only the TRAIN descriptor statistics are needed here.  Avoid
+    # constructing the React2025-specific PairedReactionDataset inside
+    # TrainSetData: React2024 has fewer than 90 GTs in some sessions and its
+    # FaceVerse assets live under the explicitly supplied Mam-Reactor root.
+    cache_state = torch.load(args.cache, map_location="cpu")
+    scaler = DescriptorScaler(
+        cache_state["descriptor_mean"], cache_state["descriptor_std"]
+    ).to(device)
     data = PairedReactionDataset(
         args.data_root, "val", 750, crop_mode="center",
         normalization_dir=args.asset_mam_root / "external" / "FaceVerse")

@@ -93,6 +93,7 @@ def run_one(
         "--fixed-pair-rank", str(rank), "--fixed-pair-count", "10",
         "--fixed-pair-manifest", str(manifest),
         "--fixed-pair-alignment-policy", "relative_time_masked",
+        "--graph-layers", str(args.graph_layers),
         "--max-train-steps", str(args.max_steps),
         "--save-every", str(args.save_every), "--print-every", str(args.print_every),
     ]
@@ -125,6 +126,9 @@ def main() -> None:
         default="B_fit",
     )
     parser.add_argument("--run-root", type=Path, required=True)
+    parser.add_argument("--arms", nargs="+", choices=("T0", "T1"),
+                        default=["T0", "T1"],
+                        help="Teacher arms to launch; default runs both.")
     parser.add_argument("--gpus", type=int, nargs="+", default=[1, 5, 6])
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--epochs", type=int, default=50)
@@ -135,6 +139,7 @@ def main() -> None:
     parser.add_argument("--precision", choices=("bf16", "fp32"), default="bf16")
     parser.add_argument("--save-every", type=int, default=5)
     parser.add_argument("--print-every", type=int, default=20)
+    parser.add_argument("--graph-layers", type=int, default=2)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     data_root = args.data_root.resolve()
@@ -154,7 +159,7 @@ def main() -> None:
     source_sha = index["source_manifest_file_sha256"]
     manifest_paths = {
         (arm, rank): manifest_root / arm / f"rank_{rank:02d}.json"
-        for arm in ("T0", "T1") for rank in range(10)
+        for arm in args.arms for rank in range(10)
     }
     if any(not path.exists() for path in manifest_paths.values()):
         raise FileNotFoundError("manifest root does not contain all T0/T1 ranks")
@@ -166,7 +171,7 @@ def main() -> None:
         raise ValueError("pilot max-steps must be below the formal schedule length")
     model_args = {
         "hidden_dim": 256, "temporal_layers": 4, "temporal_heads": 8,
-        "graph_dim": 64, "graph_layers": 2, "graph_heads": 4,
+        "graph_dim": 64, "graph_layers": args.graph_layers, "graph_heads": 4,
         "dropout": .1, "max_seq_len": 750, "listener_3dmm": False,
     }
     # The formal sampler drops the last partial batch. Compute the exact epoch
@@ -186,7 +191,7 @@ def main() -> None:
             f"{arm}/rank_{rank:02d}": file_sha256(path)
             for (arm, rank), path in manifest_paths.items()
         },
-        "arms": ["T0", "T1"],
+        "arms": args.arms,
         "models_per_arm": 10,
         "seed": args.seed,
         "epochs_formal_schedule": args.epochs,
@@ -216,7 +221,7 @@ def main() -> None:
     run_root.mkdir(parents=True, exist_ok=True)
     (run_root / "pilot_provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
     jobs = [(arm, rank, args.gpus[(rank + (0 if arm == "T0" else 1)) % len(args.gpus)], manifest)
-            for arm in ("T0", "T1") for rank in range(10)
+            for arm in args.arms for rank in range(10)
             for manifest in [manifest_paths[(arm, rank)]]]
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(args.gpus)) as executor:
         futures = [executor.submit(run_one, root, data_root, code_mam_root,

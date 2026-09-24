@@ -95,16 +95,24 @@ def load_models(output_root: Path, epoch: int,
 def ensemble_forward(models: list[ConditionalREGNN],
                      inputs: tuple[torch.Tensor, ...],
                      lengths: torch.Tensor,
-                     device: torch.device) -> torch.Tensor:
+                     device: torch.device,
+                     bypass_graph: bool = False) -> torch.Tensor:
+    def forward_one(model: ConditionalREGNN) -> torch.Tensor:
+        if not bypass_graph:
+            return model(*inputs, lengths)["prediction"]
+        context, valid_mask = model.encode_conditions(*inputs, lengths)
+        raw_reaction = model.to_initial_reaction(context)
+        return model.constrain_reaction(raw_reaction)
+
     if device.type != "cuda":
         return torch.cat([
-            model(*inputs, lengths)["prediction"] for model in models
+            forward_one(model) for model in models
         ], dim=0).cpu()
     streams = [torch.cuda.Stream(device=device) for _ in models]
     outputs = [None] * len(models)
     for index, (model, stream) in enumerate(zip(models, streams)):
         with torch.cuda.stream(stream):
-            outputs[index] = model(*inputs, lengths)["prediction"]
+            outputs[index] = forward_one(model)
     current = torch.cuda.current_stream(device)
     for stream in streams:
         current.wait_stream(stream)
@@ -162,7 +170,9 @@ def evaluate(args: argparse.Namespace) -> dict:
             if device.type == "cuda":
                 torch.cuda.synchronize(device)
             tick = time.perf_counter()
-            prediction = ensemble_forward(models, inputs, lengths, device)
+            prediction = ensemble_forward(
+                models, inputs, lengths, device, args.bypass_graph
+            )
             if device.type == "cuda":
                 torch.cuda.synchronize(device)
             latencies.append(time.perf_counter() - tick)
@@ -294,7 +304,11 @@ def evaluate(args: argparse.Namespace) -> dict:
     result = {
         "metrics": metrics, "speed": speed,
         "protocol": {
-            "architecture": "Mam-Reactor ConditionalREGNN 25D anchor",
+            "architecture": (
+                "Mam-Reactor ConditionalREGNN 25D anchor with graph bypass"
+                if args.bypass_graph else
+                "Mam-Reactor ConditionalREGNN 25D anchor"
+            ),
             "rank_0": "true same-basename paired listener",
             "ranks_1_to_9": "fixed distinct same-session listeners",
             "target_manifest_sha256": [
@@ -359,6 +373,10 @@ def main() -> None:
     parser.add_argument("--metric-workers", type=int, default=16)
     parser.add_argument("--cpu-threads", type=int, default=4)
     parser.add_argument("--target-frdiv", type=float)
+    parser.add_argument(
+        "--bypass-graph", action="store_true",
+        help="Use the trained checkpoint's Transformer-to-linear path only.",
+    )
     evaluate(parser.parse_args())
 
 

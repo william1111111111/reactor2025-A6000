@@ -1,0 +1,2047 @@
+{
+  "metrics": {
+    "kd_basic": {
+      "FRC": 1.4648389388685235,
+      "exact_FRD": 100.7740943913207,
+      "FRDiv": 0.17119048374024873,
+      "FRVar": 0.07030005961160735,
+      "soft_FRDiv": 0.08692770918436518
+    },
+    "kd_assignment": {
+      "FRC": 1.4839295486424215,
+      "exact_FRD": 100.5784295588846,
+      "FRDiv": 0.17451596693274435,
+      "FRVar": 0.07201370773037762,
+      "soft_FRDiv": 0.08949636902836283
+    },
+    "kd_dynamic": {
+      "FRC": 1.453440398744511,
+      "exact_FRD": 95.71881103412301,
+      "FRDiv": 0.16721436356548253,
+      "FRVar": 0.06687226821709222,
+      "soft_FRDiv": 0.08445742594538136
+    },
+    "kd_assignment_dynamic": {
+      "FRC": 1.4714084826164078,
+      "exact_FRD": 96.18228926973906,
+      "FRDiv": 0.1662469863004317,
+      "FRVar": 0.06788080872644894,
+      "soft_FRDiv": 0.08183246989931826
+    },
+    "kd_multihead": {
+      "FRC": 1.3967091177108166,
+      "exact_FRD": 96.9990678549791,
+      "FRDiv": 0.1888952764393778,
+      "FRVar": 0.06892428601294391,
+      "soft_FRDiv": 0.10010188941284362
+    }
+  },
+  "diagnostics": {
+    "kd_basic": {
+      "diagnostic_AU_total": 0.043313137191998564,
+      "diagnostic_AU_static": 0.02006600479287097,
+      "diagnostic_AU_dynamic": 0.023247132315944666,
+      "diagnostic_AU_velocity": 0.0008140503715429351,
+      "diagnostic_VA_total": 0.052151589926769354,
+      "diagnostic_VA_static": 0.028790013311714612,
+      "diagnostic_VA_dynamic": 0.023361577016290037,
+      "diagnostic_VA_velocity": 0.0010057037369576047,
+      "diagnostic_expression_total": 0.027992844884977032,
+      "diagnostic_expression_static": 0.01613108804628853,
+      "diagnostic_expression_dynamic": 0.01186175685989199,
+      "diagnostic_expression_velocity": 0.0004626899730611304
+    },
+    "kd_assignment": {
+      "diagnostic_AU_total": 0.04505709237737121,
+      "diagnostic_AU_static": 0.019852007920291084,
+      "diagnostic_AU_dynamic": 0.02520508457288381,
+      "diagnostic_AU_velocity": 0.0008224455214426861,
+      "diagnostic_VA_total": 0.05194180241203663,
+      "diagnostic_VA_static": 0.02867535772633897,
+      "diagnostic_VA_dynamic": 0.023266444609038883,
+      "diagnostic_VA_velocity": 0.0008473286680749173,
+      "diagnostic_expression_total": 0.028387668077718146,
+      "diagnostic_expression_static": 0.01625709012868421,
+      "diagnostic_expression_dynamic": 0.012130577971052946,
+      "diagnostic_expression_velocity": 0.0004062741025180341
+    },
+    "kd_dynamic": {
+      "diagnostic_AU_total": 0.04227670457298931,
+      "diagnostic_AU_static": 0.020861774159435527,
+      "diagnostic_AU_dynamic": 0.02141493050326086,
+      "diagnostic_AU_velocity": 0.0007250504576884073,
+      "diagnostic_VA_total": 0.04888404648744496,
+      "diagnostic_VA_static": 0.0295342745295287,
+      "diagnostic_VA_dynamic": 0.019349771812753897,
+      "diagnostic_VA_velocity": 0.0006399304904347455,
+      "diagnostic_expression_total": 0.02727916899370437,
+      "diagnostic_expression_static": 0.01625774172501681,
+      "diagnostic_expression_dynamic": 0.01102142713902006,
+      "diagnostic_expression_velocity": 0.0003867783359585871
+    },
+    "kd_assignment_dynamic": {
+      "diagnostic_AU_total": 0.04077512376506254,
+      "diagnostic_AU_static": 0.018676977629093178,
+      "diagnostic_AU_dynamic": 0.02209814611965898,
+      "diagnostic_AU_velocity": 0.0007247070172490085,
+      "diagnostic_VA_total": 0.047321450448025756,
+      "diagnostic_VA_static": 0.029503377588325542,
+      "diagnostic_VA_dynamic": 0.017818072600365206,
+      "diagnostic_VA_velocity": 0.0006002750187929175,
+      "diagnostic_expression_total": 0.02679391849570746,
+      "diagnostic_expression_static": 0.015893765477277666,
+      "diagnostic_expression_dynamic": 0.010900152967867626,
+      "diagnostic_expression_velocity": 0.00034900760315976397
+    },
+    "kd_multihead": {
+      "diagnostic_AU_total": 0.05086919791905141,
+      "diagnostic_AU_static": 0.02424849995987689,
+      "diagnostic_AU_dynamic": 0.026620697845001876,
+      "diagnostic_AU_velocity": 0.0008815683263102008,
+      "diagnostic_VA_total": 0.057815948119566446,
+      "diagnostic_VA_static": 0.03469966090693678,
+      "diagnostic_VA_dynamic": 0.02311628752905099,
+      "diagnostic_VA_velocity": 0.0008165286163776631,
+      "diagnostic_expression_total": 0.030935488403130536,
+      "diagnostic_expression_static": 0.017741971215373475,
+      "diagnostic_expression_dynamic": 0.01319351716002942,
+      "diagnostic_expression_velocity": 0.000475223900323865
+    }
+  },
+  "contrasts": {
+    "kd_multihead_minus_kd_basic": {
+      "FRC": {
+        "delta": -0.06812982115770695,
+        "ci95": [
+          -0.0832785661708757,
+          -0.05168469661042571
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "exact_FRD": {
+        "delta": -3.775026536341594,
+        "ci95": [
+          -4.817069383422839,
+          -1.5811605108991749
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRDiv": {
+        "delta": 0.017704792699129068,
+        "ci95": [
+          0.012874725476391458,
+          0.022445719071780473
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRVar": {
+        "delta": -0.0013757735986634437,
+        "ci95": [
+          -0.0018540237366176258,
+          -0.001043446105011426
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "soft_FRDiv": {
+        "delta": 0.013174180228478436,
+        "ci95": [
+          0.00844251778535545,
+          0.018348417565743888
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_total": {
+        "delta": 0.0075560607270528475,
+        "ci95": [
+          0.005037497176946807,
+          0.010226799871329835
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_static": {
+        "delta": 0.004182495167005918,
+        "ci95": [
+          0.002460978422930499,
+          0.006059732625590395
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_dynamic": {
+        "delta": 0.0033735655290572115,
+        "ci95": [
+          0.002323345170057045,
+          0.004294058204850619
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_velocity": {
+        "delta": 6.751795476726575e-05,
+        "ci95": [
+          2.8529882051509852e-05,
+          9.587058013838056e-05
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_total": {
+        "delta": 0.005664358192797091,
+        "ci95": [
+          0.0013072663832150362,
+          0.01011686384271686
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_static": {
+        "delta": 0.0059096475952221715,
+        "ci95": [
+          0.002014409900445001,
+          0.009992075767006912
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_dynamic": {
+        "delta": -0.00024528948723904516,
+        "ci95": [
+          -0.0009025150875870784,
+          0.00024266402943582438
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_velocity": {
+        "delta": -0.00018917512057994162,
+        "ci95": [
+          -0.00022039132520810896,
+          -0.0001677230831141994
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_total": {
+        "delta": 0.002942643518153506,
+        "ci95": [
+          0.00179641100494797,
+          0.004180918799676408
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_static": {
+        "delta": 0.001610883169084944,
+        "ci95": [
+          0.0004717540148256185,
+          0.00287563220511377
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_dynamic": {
+        "delta": 0.0013317603001374288,
+        "ci95": [
+          0.0011431790316894525,
+          0.0014675615058291202
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_velocity": {
+        "delta": 1.2533927262734602e-05,
+        "ci95": [
+          -2.6390273504775955e-08,
+          1.9527802925459682e-05
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      }
+    },
+    "kd_assignment_dynamic_minus_kd_basic": {
+      "FRC": {
+        "delta": 0.006569543747884287,
+        "ci95": [
+          -0.0014797284340596455,
+          0.014672952925492467
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "exact_FRD": {
+        "delta": -4.591805121581629,
+        "ci95": [
+          -5.331252491361081,
+          -3.003720111316799
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRDiv": {
+        "delta": -0.004943497439817038,
+        "ci95": [
+          -0.005711240549475249,
+          -0.004272715753062438
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRVar": {
+        "delta": -0.002419250885158412,
+        "ci95": [
+          -0.0025950791421201296,
+          -0.0021711856794343217
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "soft_FRDiv": {
+        "delta": -0.005095239285046916,
+        "ci95": [
+          -0.005697035587682886,
+          -0.004642853793704164
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_total": {
+        "delta": -0.0025380134269360278,
+        "ci95": [
+          -0.002820603647258319,
+          -0.002212171099196747
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_static": {
+        "delta": -0.001389027163777794,
+        "ci95": [
+          -0.0017508868400313742,
+          -0.0010840485018664414
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_dynamic": {
+        "delta": -0.0011489861962856846,
+        "ci95": [
+          -0.0013392422834645314,
+          -0.0009058809733911337
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_velocity": {
+        "delta": -8.93433542939265e-05,
+        "ci95": [
+          -0.00010336421017219971,
+          -7.993790774299303e-05
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_total": {
+        "delta": -0.004830139478743598,
+        "ci95": [
+          -0.005405656305958361,
+          -0.004388925162363154
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_static": {
+        "delta": 0.0007133642766109281,
+        "ci95": [
+          0.0001552333911517292,
+          0.001146221088315589
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_dynamic": {
+        "delta": -0.005543504415924829,
+        "ci95": [
+          -0.0059122755110141275,
+          -0.005265185989663424
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_velocity": {
+        "delta": -0.00040542871816468716,
+        "ci95": [
+          -0.00046746376956175335,
+          -0.00034038206842048344
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_total": {
+        "delta": -0.0011989263892695698,
+        "ci95": [
+          -0.0016243914630005721,
+          -0.0009452582767868024
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_static": {
+        "delta": -0.00023732256901086733,
+        "ci95": [
+          -0.000610311182722588,
+          -3.700030507207241e-05
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_dynamic": {
+        "delta": -0.0009616038920243651,
+        "ci95": [
+          -0.0010574872674012734,
+          -0.0008552420676460535
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_velocity": {
+        "delta": -0.00011368236990136644,
+        "ci95": [
+          -0.0001283341206571505,
+          -0.00010311092124863293
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      }
+    },
+    "kd_assignment_dynamic_minus_kd_assignment": {
+      "FRC": {
+        "delta": -0.012521066026013602,
+        "ci95": [
+          -0.0233160951653967,
+          -0.0016398184117694314
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "exact_FRD": {
+        "delta": -4.396140289145527,
+        "ci95": [
+          -4.962471406436509,
+          -3.398596873601529
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRDiv": {
+        "delta": -0.008268980632312661,
+        "ci95": [
+          -0.010078430201674524,
+          -0.006607506756217349
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRVar": {
+        "delta": -0.004132899003928681,
+        "ci95": [
+          -0.004428666006199216,
+          -0.0037807112627903576
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "soft_FRDiv": {
+        "delta": -0.007663899129044571,
+        "ci95": [
+          -0.009367178900154942,
+          -0.006161802965218215
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_total": {
+        "delta": -0.004281968612308677,
+        "ci95": [
+          -0.005247816211510119,
+          -0.0033614751122420725
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_static": {
+        "delta": -0.0011750302911979096,
+        "ci95": [
+          -0.0020281581081944074,
+          -0.00039851044697193866
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_dynamic": {
+        "delta": -0.0031069384532248284,
+        "ci95": [
+          -0.0033231608995148852,
+          -0.002788320481353863
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_velocity": {
+        "delta": -9.773850419367754e-05,
+        "ci95": [
+          -0.00011352983096679038,
+          -8.436272675454041e-05
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_total": {
+        "delta": -0.004620351964010875,
+        "ci95": [
+          -0.005068901334208038,
+          -0.004198799059207705
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_static": {
+        "delta": 0.0008280198619865703,
+        "ci95": [
+          -6.973221989499955e-05,
+          0.0015510929747369383
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_dynamic": {
+        "delta": -0.005448372008673677,
+        "ci95": [
+          -0.006386207272159502,
+          -0.004423403231120831
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_velocity": {
+        "delta": -0.00024705364928199975,
+        "ci95": [
+          -0.0002854333504525526,
+          -0.0002111999905377516
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_total": {
+        "delta": -0.001593749582010685,
+        "ci95": [
+          -0.002172884578832618,
+          -0.0009688802497636491
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_static": {
+        "delta": -0.0003633246514065462,
+        "ci95": [
+          -0.0007741355940118457,
+          0.00011117110338560005
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_dynamic": {
+        "delta": -0.0012304250031853203,
+        "ci95": [
+          -0.0014360900263330897,
+          -0.0010079269793796502
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_velocity": {
+        "delta": -5.726649935827012e-05,
+        "ci95": [
+          -6.421114440256686e-05,
+          -5.2216057499314225e-05
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      }
+    },
+    "kd_assignment_dynamic_minus_kd_dynamic": {
+      "FRC": {
+        "delta": 0.01796808387189663,
+        "ci95": [
+          0.008612734245495761,
+          0.027621780737181953
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "exact_FRD": {
+        "delta": 0.463478235616057,
+        "ci95": [
+          0.04265085936506813,
+          0.950549801457095
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRDiv": {
+        "delta": -0.0009673772650508246,
+        "ci95": [
+          -0.002340503151346159,
+          -8.093396115946707e-05
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRVar": {
+        "delta": 0.0010085405093567174,
+        "ci95": [
+          0.0005720228814100882,
+          0.001451793675852799
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "soft_FRDiv": {
+        "delta": -0.002624956046063094,
+        "ci95": [
+          -0.0032719554321589566,
+          -0.002156598322592468
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_total": {
+        "delta": -0.0015015808079267758,
+        "ci95": [
+          -0.0018912463862494878,
+          -0.0012102023078761745
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_static": {
+        "delta": -0.0021847965303423526,
+        "ci95": [
+          -0.0025430648075133937,
+          -0.0018920598978266472
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_dynamic": {
+        "delta": 0.0006832156163981207,
+        "ci95": [
+          0.0005241418363972896,
+          0.0007733370223506907
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_AU_velocity": {
+        "delta": -3.4344043939875115e-07,
+        "ci95": [
+          -9.329614404083147e-06,
+          5.9965619660268024e-06
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_total": {
+        "delta": -0.0015625960394192076,
+        "ci95": [
+          -0.0020122953886214045,
+          -0.0011037215675229232
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_static": {
+        "delta": -3.0896941203160796e-05,
+        "ci95": [
+          -0.0002758887084591711,
+          0.0004358271998022829
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_dynamic": {
+        "delta": -0.0015316992123886918,
+        "ci95": [
+          -0.0018807054791711642,
+          -0.0012455198998682605
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_VA_velocity": {
+        "delta": -3.9655471641828036e-05,
+        "ci95": [
+          -5.410839530155162e-05,
+          -2.7008225039272647e-05
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_total": {
+        "delta": -0.0004852504979969115,
+        "ci95": [
+          -0.0008644933073454477,
+          -0.0002145074508165863
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_static": {
+        "delta": -0.0003639762477391447,
+        "ci95": [
+          -0.0007157813403804769,
+          -0.00011619785517478846
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_dynamic": {
+        "delta": -0.00012127417115243428,
+        "ci95": [
+          -0.00020867110115530753,
+          -3.471857374550237e-05
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "diagnostic_expression_velocity": {
+        "delta": -3.7770732798823195e-05,
+        "ci95": [
+          -4.490875203371317e-05,
+          -3.308417001120904e-05
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      }
+    }
+  },
+  "interaction": {
+    "FRC": {
+      "delta": -0.0011225259020012565,
+      "ci95": [
+        -0.015075193181616469,
+        0.012542236055834738
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "exact_FRD": {
+      "delta": 0.6591430680521574,
+      "ci95": [
+        -0.3473119999733989,
+        1.3325285645951466
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "FRDiv": {
+      "delta": -0.004292860457546448,
+      "ci95": [
+        -0.0054358940461457445,
+        -0.0030583777480082132
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "FRVar": {
+      "delta": -0.0007051076094135512,
+      "ci95": [
+        -0.0014136805541143194,
+        -5.0520113744077814e-05
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "soft_FRDiv": {
+      "delta": -0.005193615890060749,
+      "ci95": [
+        -0.007102814044886864,
+        -0.003501173345084049
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_AU_total": {
+      "delta": -0.0032455359932994257,
+      "ci95": [
+        -0.004339052793891737,
+        -0.0022920274914209385
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_AU_static": {
+      "delta": -0.0019707996577624683,
+      "ci95": [
+        -0.0027910435127508175,
+        -0.0012644388513093742
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_AU_dynamic": {
+      "delta": -0.0012747366405410233,
+      "ci95": [
+        -0.0016366921347373156,
+        -0.0009182021772136717
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_AU_velocity": {
+      "delta": -8.738590339149777e-06,
+      "ci95": [
+        -2.3987505238145286e-05,
+        4.69104095732835e-06
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_VA_total": {
+      "delta": -0.0013528085246864844,
+      "ci95": [
+        -0.0021664878921750026,
+        -0.000432896684419613
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_VA_static": {
+      "delta": 8.37586441724814e-05,
+      "ci95": [
+        -0.0002633972496761147,
+        0.0005012331759741988
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_VA_dynamic": {
+      "delta": -0.00143656680513754,
+      "ci95": [
+        -0.002437496300271258,
+        -0.00034735302052505513
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_VA_velocity": {
+      "delta": 0.00011871959724085937,
+      "ci95": [
+        9.050510843337475e-05,
+        0.00014181501716671406
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_expression_total": {
+      "delta": -0.0008800736907380267,
+      "ci95": [
+        -0.0014294996891970938,
+        -0.00022450250570094123
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_expression_static": {
+      "delta": -0.0004899783301348235,
+      "ci95": [
+        -0.0008429284393064601,
+        3.513716361998304e-06
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_expression_dynamic": {
+      "delta": -0.00039009528231338943,
+      "ci95": [
+        -0.0006140824968241128,
+        -0.00016587469283879167
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    },
+    "diagnostic_expression_velocity": {
+      "delta": 1.864513774427313e-05,
+      "ci95": [
+        1.2317553931838837e-05,
+        2.4575830223798493e-05
+      ],
+      "sessions": 20,
+      "contexts": 571,
+      "bootstrap_seed": 270927,
+      "draws": 5000
+    }
+  },
+  "train_audit": {
+    "kd_assignment_dynamic": {
+      "arm": "kd_assignment_dynamic",
+      "updates": 8300,
+      "optimizer_steps": [
+        8300
+      ],
+      "initial_state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "source_schedule_sha256": "bbe133082642dfb382026c5971494b16f3d2b2a2b5d2eeb94a4a291f5c580093",
+      "view_schedule_sha256": "17d03843eb4a759fa6b379da550456724c9a7ebcb390c2b2a7b40a202e54bd2e",
+      "checkpoint_sha256": "be1766a464e55eccd24982079e086f7616ece334aafef252bfc06e69de375703",
+      "wall_seconds": 1097.5806981921196,
+      "peak_allocated_bytes": 6021259264,
+      "parameter_count": 3803201,
+      "all_parameters_finite": true,
+      "implementation_hashes": {
+        "$EXPLORATION_ROOT/distillation_methods.py": "2fb7202c1f7ae3913ca57ec316cf8a3ee654e8e346a0de049376fc04e6cef8ad",
+        "$EXPLORATION_ROOT/distillation_losses.py": "fee85533c09a9eb8ddb41439f2dace791fbfeb1c0f9d20ef5ff0e92574859388",
+        "$EXPLORATION_ROOT/distillation_methods_eval.py": "0d1852d840269ea26444d9e40859b6ea6276ec446a3183d69c339f54757ff3ae",
+        "$EXPLORATION_ROOT/run_distillation_methods.py": "da92552002c9ff076ade56aca96d297f7b71d67c56569b1a20fd6fe006b2258c",
+        "$EXPLORATION_ROOT/DISTILLATION_METHODS_PROTOCOL.md": "bec28e2c4ee2e372231c59e198ac5bb96339f7d7a688669f6f16ebd0ed3297af",
+        "$EXPLORATION_ROOT/test_distillation_losses.py": "7941f6bcb365f18cbc5c6c92f42a31c0af2c37f6add47878d13d092ead89a665",
+        "$EXPLORATION_ROOT/student_method_eval.py": "33bf0136134da12dbd081576e46f5c9072210b972a48f8f7f92b9dd5df1a5267",
+        "$EXPLORATION_ROOT/student_recovery.py": "0bc440ea6a78dae8f0466ecc97540e2792bc080ca47dd32892282ba037840705",
+        "$EXPLORATION_ROOT/matched_eval.py": "02614b399cac8e9f30b5b1f69a01a7f09b40d3cb80f02477a161b129656a40ab",
+        "$EXPLORATION_ROOT/matched_analysis.py": "fda7942f611d2236b0c427a57c2fc001da88977267e840333444135229491207",
+        "$EXPLORATION_ROOT/component_models.py": "bb2bc9e50191a0e5e236ae20f2ce9b4cefd554e098e8fc5534102fdc9dcaa884",
+        "$EXPLORATION_ROOT/component_ablations.py": "fedead7ee469d396d76bab1421fc6cef16d52936ffa78bf8efc85d864ed11c75",
+        "$EXPLORATION_ROOT/component_ablations_eval.py": "7315aa46302685cec2de460d448820dabe8573486dbceec2e69e45ed1f70cd2c",
+        "$EXPLORATION_ROOT/run_component_ablations.py": "206ecbd649e0b2379e347a4f58e2d1fc7a0523e3a824499fd9582e451f8c5a7a",
+        "$EXPLORATION_ROOT/component_ablations_status.py": "3afc9f86a9a65551e89b01bd3351acb3415202c0f7f583ea7329e7724dc2776d",
+        "$EXPLORATION_ROOT/test_component_ablations.py": "31d44f54e2942d84c48a16176e360ac340ad92da0d2d7a12fceba30da2e76d6b",
+        "$EXPLORATION_ROOT/COMPONENT_ABLATIONS_PROTOCOL.md": "2577bb3478d65de5c5cffb1ae6d01ad8e516d09709c6cbb3e5354c5e5a46d497"
+      },
+      "assignment_counts": [
+        [
+          666,
+          400,
+          175,
+          14714,
+          37,
+          132,
+          14,
+          17043,
+          19
+        ],
+        [
+          61,
+          11,
+          315,
+          30,
+          992,
+          4,
+          215,
+          49,
+          31523
+        ],
+        [
+          88,
+          50,
+          57,
+          17999,
+          14761,
+          19,
+          60,
+          164,
+          2
+        ],
+        [
+          111,
+          135,
+          17315,
+          45,
+          14444,
+          9,
+          166,
+          167,
+          808
+        ],
+        [
+          98,
+          39,
+          73,
+          112,
+          312,
+          10,
+          18021,
+          14434,
+          101
+        ],
+        [
+          249,
+          32347,
+          6,
+          55,
+          6,
+          16,
+          17,
+          502,
+          2
+        ],
+        [
+          20,
+          2,
+          15095,
+          37,
+          2614,
+          0,
+          14634,
+          70,
+          728
+        ],
+        [
+          15,
+          108,
+          34,
+          20,
+          7,
+          33001,
+          2,
+          13,
+          0
+        ],
+        [
+          31892,
+          108,
+          130,
+          188,
+          27,
+          9,
+          71,
+          758,
+          17
+        ]
+      ]
+    },
+    "kd_multihead": {
+      "arm": "kd_multihead",
+      "updates": 8300,
+      "optimizer_steps": [
+        8300
+      ],
+      "initial_state_sha256": "f0b05968c47537a147889e88273a1c60adb541685f40a5bcccb20977bbe5279c",
+      "source_schedule_sha256": "bbe133082642dfb382026c5971494b16f3d2b2a2b5d2eeb94a4a291f5c580093",
+      "view_schedule_sha256": "17d03843eb4a759fa6b379da550456724c9a7ebcb390c2b2a7b40a202e54bd2e",
+      "checkpoint_sha256": "f3fb53e2876d9ab6481f28af615172deb4f0c2b0c31ffc7f436bb38168da0df7",
+      "wall_seconds": 1070.8687934037298,
+      "peak_allocated_bytes": 5993716736,
+      "parameter_count": 3777954,
+      "all_parameters_finite": true,
+      "implementation_hashes": {
+        "$EXPLORATION_ROOT/distillation_methods.py": "2fb7202c1f7ae3913ca57ec316cf8a3ee654e8e346a0de049376fc04e6cef8ad",
+        "$EXPLORATION_ROOT/distillation_losses.py": "fee85533c09a9eb8ddb41439f2dace791fbfeb1c0f9d20ef5ff0e92574859388",
+        "$EXPLORATION_ROOT/distillation_methods_eval.py": "0d1852d840269ea26444d9e40859b6ea6276ec446a3183d69c339f54757ff3ae",
+        "$EXPLORATION_ROOT/run_distillation_methods.py": "da92552002c9ff076ade56aca96d297f7b71d67c56569b1a20fd6fe006b2258c",
+        "$EXPLORATION_ROOT/DISTILLATION_METHODS_PROTOCOL.md": "bec28e2c4ee2e372231c59e198ac5bb96339f7d7a688669f6f16ebd0ed3297af",
+        "$EXPLORATION_ROOT/test_distillation_losses.py": "7941f6bcb365f18cbc5c6c92f42a31c0af2c37f6add47878d13d092ead89a665",
+        "$EXPLORATION_ROOT/student_method_eval.py": "33bf0136134da12dbd081576e46f5c9072210b972a48f8f7f92b9dd5df1a5267",
+        "$EXPLORATION_ROOT/student_recovery.py": "0bc440ea6a78dae8f0466ecc97540e2792bc080ca47dd32892282ba037840705",
+        "$EXPLORATION_ROOT/matched_eval.py": "02614b399cac8e9f30b5b1f69a01a7f09b40d3cb80f02477a161b129656a40ab",
+        "$EXPLORATION_ROOT/matched_analysis.py": "fda7942f611d2236b0c427a57c2fc001da88977267e840333444135229491207",
+        "$EXPLORATION_ROOT/component_models.py": "bb2bc9e50191a0e5e236ae20f2ce9b4cefd554e098e8fc5534102fdc9dcaa884",
+        "$EXPLORATION_ROOT/component_ablations.py": "fedead7ee469d396d76bab1421fc6cef16d52936ffa78bf8efc85d864ed11c75",
+        "$EXPLORATION_ROOT/component_ablations_eval.py": "7315aa46302685cec2de460d448820dabe8573486dbceec2e69e45ed1f70cd2c",
+        "$EXPLORATION_ROOT/run_component_ablations.py": "206ecbd649e0b2379e347a4f58e2d1fc7a0523e3a824499fd9582e451f8c5a7a",
+        "$EXPLORATION_ROOT/component_ablations_status.py": "3afc9f86a9a65551e89b01bd3351acb3415202c0f7f583ea7329e7724dc2776d",
+        "$EXPLORATION_ROOT/test_component_ablations.py": "31d44f54e2942d84c48a16176e360ac340ad92da0d2d7a12fceba30da2e76d6b",
+        "$EXPLORATION_ROOT/COMPONENT_ABLATIONS_PROTOCOL.md": "2577bb3478d65de5c5cffb1ae6d01ad8e516d09709c6cbb3e5354c5e5a46d497"
+      },
+      "assignment_counts": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  "initialization": {
+    "expert": {
+      "state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "parameters": 3803201
+    },
+    "multihead": {
+      "state_sha256": "f0b05968c47537a147889e88273a1c60adb541685f40a5bcccb20977bbe5279c",
+      "parameters": 3777954
+    }
+  },
+  "reused_controls": {
+    "kd_basic": {
+      "train": "$EXPLORATION_ROOT/runs/student_method_recovery_v1/train/kd_basic",
+      "smoke": "$EXPLORATION_ROOT/runs/distillation_methods_v1/smoke/kd_basic",
+      "complete": {
+        "arm": "kd_basic",
+        "updates": 8300,
+        "optimizer_steps": [
+          8300
+        ],
+        "initial_state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+        "source_schedule_sha256": "bbe133082642dfb382026c5971494b16f3d2b2a2b5d2eeb94a4a291f5c580093",
+        "view_schedule_sha256": "17d03843eb4a759fa6b379da550456724c9a7ebcb390c2b2a7b40a202e54bd2e",
+        "checkpoint_sha256": "10eb216b2ba8a18043a4c72a5c9880cbdc2a1b9883f7aeb0781093af169e574b",
+        "wall_seconds": 1062.8416464291513,
+        "wall_seconds_scope": "This execution only; ancestor training is additional",
+        "peak_allocated_bytes": 6021257216,
+        "all_parameters_finite": true,
+        "resumed_from": 0,
+        "new_updates": 8300,
+        "recovery_sources": {
+          "$EXPLORATION_ROOT/student_recovery.py": "0bc440ea6a78dae8f0466ecc97540e2792bc080ca47dd32892282ba037840705",
+          "$EXPLORATION_ROOT/run_student_recovery.py": "f6c0ef6eb0160d5184730dc35eb73d047d960e7d6b9e501d472d3dda867cba93",
+          "$EXPLORATION_ROOT/STUDENT_RECOVERY_PROTOCOL.md": "e4049f88f92509adc2aec3a555e3a194372440abf0e4005c441b7e75b2f62f8a",
+          "$EXPLORATION_ROOT/student_method_eval.py": "33bf0136134da12dbd081576e46f5c9072210b972a48f8f7f92b9dd5df1a5267"
+        },
+        "replay_checks": [],
+        "raw_or_teacher_supervision": "teacher"
+      }
+    },
+    "kd_assignment": {
+      "train": "$EXPLORATION_ROOT/runs/distillation_methods_v1/train/kd_assignment",
+      "smoke": "$EXPLORATION_ROOT/runs/distillation_methods_v1/smoke/kd_assignment",
+      "complete": {
+        "arm": "kd_assignment",
+        "updates": 8300,
+        "optimizer_steps": [
+          8300
+        ],
+        "initial_state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+        "source_schedule_sha256": "bbe133082642dfb382026c5971494b16f3d2b2a2b5d2eeb94a4a291f5c580093",
+        "view_schedule_sha256": "17d03843eb4a759fa6b379da550456724c9a7ebcb390c2b2a7b40a202e54bd2e",
+        "checkpoint_sha256": "45370c5a2ae5e789a11e7af313eb1f603b5b4c3ebc93a1310ee423baa2e79ebc",
+        "wall_seconds": 1081.9238081686199,
+        "peak_allocated_bytes": 6024679936,
+        "implementation_hashes": {
+          "$EXPLORATION_ROOT/distillation_methods.py": "2fb7202c1f7ae3913ca57ec316cf8a3ee654e8e346a0de049376fc04e6cef8ad",
+          "$EXPLORATION_ROOT/distillation_losses.py": "fee85533c09a9eb8ddb41439f2dace791fbfeb1c0f9d20ef5ff0e92574859388",
+          "$EXPLORATION_ROOT/distillation_methods_eval.py": "0d1852d840269ea26444d9e40859b6ea6276ec446a3183d69c339f54757ff3ae",
+          "$EXPLORATION_ROOT/run_distillation_methods.py": "da92552002c9ff076ade56aca96d297f7b71d67c56569b1a20fd6fe006b2258c",
+          "$EXPLORATION_ROOT/DISTILLATION_METHODS_PROTOCOL.md": "bec28e2c4ee2e372231c59e198ac5bb96339f7d7a688669f6f16ebd0ed3297af",
+          "$EXPLORATION_ROOT/test_distillation_losses.py": "7941f6bcb365f18cbc5c6c92f42a31c0af2c37f6add47878d13d092ead89a665",
+          "$EXPLORATION_ROOT/student_method_eval.py": "33bf0136134da12dbd081576e46f5c9072210b972a48f8f7f92b9dd5df1a5267",
+          "$EXPLORATION_ROOT/student_recovery.py": "0bc440ea6a78dae8f0466ecc97540e2792bc080ca47dd32892282ba037840705",
+          "$EXPLORATION_ROOT/matched_eval.py": "02614b399cac8e9f30b5b1f69a01a7f09b40d3cb80f02477a161b129656a40ab",
+          "$EXPLORATION_ROOT/matched_analysis.py": "fda7942f611d2236b0c427a57c2fc001da88977267e840333444135229491207"
+        },
+        "all_parameters_finite": true,
+        "assignment_counts": [
+          [
+            414,
+            17783,
+            262,
+            14248,
+            47,
+            72,
+            17,
+            338,
+            19
+          ],
+          [
+            85,
+            11,
+            17026,
+            58,
+            15185,
+            9,
+            105,
+            75,
+            646
+          ],
+          [
+            39,
+            63,
+            50,
+            18322,
+            14518,
+            20,
+            56,
+            130,
+            2
+          ],
+          [
+            60,
+            171,
+            128,
+            213,
+            158,
+            5,
+            18109,
+            14279,
+            77
+          ],
+          [
+            109,
+            14,
+            15295,
+            66,
+            2754,
+            5,
+            14603,
+            79,
+            275
+          ],
+          [
+            186,
+            15034,
+            28,
+            65,
+            7,
+            14,
+            27,
+            17837,
+            2
+          ],
+          [
+            25,
+            5,
+            261,
+            26,
+            466,
+            0,
+            202,
+            52,
+            32163
+          ],
+          [
+            14,
+            61,
+            20,
+            18,
+            6,
+            33070,
+            3,
+            8,
+            0
+          ],
+          [
+            32268,
+            58,
+            130,
+            184,
+            59,
+            5,
+            78,
+            402,
+            16
+          ]
+        ]
+      }
+    },
+    "kd_dynamic": {
+      "train": "$EXPLORATION_ROOT/runs/distillation_methods_v1/train/kd_dynamic",
+      "smoke": "$EXPLORATION_ROOT/runs/distillation_methods_v1/smoke/kd_dynamic",
+      "complete": {
+        "arm": "kd_dynamic",
+        "updates": 8300,
+        "optimizer_steps": [
+          8300
+        ],
+        "initial_state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+        "source_schedule_sha256": "bbe133082642dfb382026c5971494b16f3d2b2a2b5d2eeb94a4a291f5c580093",
+        "view_schedule_sha256": "17d03843eb4a759fa6b379da550456724c9a7ebcb390c2b2a7b40a202e54bd2e",
+        "checkpoint_sha256": "c3a5039a01909ebc10f9b9cf54f9a37ff789eb36398cb43f43fca396c9baeacc",
+        "wall_seconds": 1079.0129671916366,
+        "peak_allocated_bytes": 6021257728,
+        "implementation_hashes": {
+          "$EXPLORATION_ROOT/distillation_methods.py": "2fb7202c1f7ae3913ca57ec316cf8a3ee654e8e346a0de049376fc04e6cef8ad",
+          "$EXPLORATION_ROOT/distillation_losses.py": "fee85533c09a9eb8ddb41439f2dace791fbfeb1c0f9d20ef5ff0e92574859388",
+          "$EXPLORATION_ROOT/distillation_methods_eval.py": "0d1852d840269ea26444d9e40859b6ea6276ec446a3183d69c339f54757ff3ae",
+          "$EXPLORATION_ROOT/run_distillation_methods.py": "da92552002c9ff076ade56aca96d297f7b71d67c56569b1a20fd6fe006b2258c",
+          "$EXPLORATION_ROOT/DISTILLATION_METHODS_PROTOCOL.md": "bec28e2c4ee2e372231c59e198ac5bb96339f7d7a688669f6f16ebd0ed3297af",
+          "$EXPLORATION_ROOT/test_distillation_losses.py": "7941f6bcb365f18cbc5c6c92f42a31c0af2c37f6add47878d13d092ead89a665",
+          "$EXPLORATION_ROOT/student_method_eval.py": "33bf0136134da12dbd081576e46f5c9072210b972a48f8f7f92b9dd5df1a5267",
+          "$EXPLORATION_ROOT/student_recovery.py": "0bc440ea6a78dae8f0466ecc97540e2792bc080ca47dd32892282ba037840705",
+          "$EXPLORATION_ROOT/matched_eval.py": "02614b399cac8e9f30b5b1f69a01a7f09b40d3cb80f02477a161b129656a40ab",
+          "$EXPLORATION_ROOT/matched_analysis.py": "fda7942f611d2236b0c427a57c2fc001da88977267e840333444135229491207"
+        },
+        "all_parameters_finite": true,
+        "assignment_counts": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    }
+  },
+  "benchmark": {
+    "results": {
+      "kd_basic": {
+        "parameters": 3803201,
+        "median_ms": 19.316581077873707,
+        "q25_q75_ms": [
+          19.25085112452507,
+          19.333000760525465
+        ],
+        "all_ms": [
+          20.140673965215683,
+          20.1070886105299,
+          20.105762407183647,
+          20.096279680728912,
+          19.84361559152603,
+          19.25048418343067,
+          19.231177866458893,
+          19.20951157808304,
+          19.226327538490295,
+          19.220441579818726,
+          19.251951947808266,
+          19.20991949737072,
+          19.241902977228165,
+          19.232025370001793,
+          19.287731498479843,
+          19.305789843201637,
+          19.323959946632385,
+          19.324203953146935,
+          19.31864023208618,
+          19.30960640311241,
+          19.322868436574936,
+          19.314521923661232,
+          19.34055984020233,
+          19.310899078845978,
+          19.360674545168877,
+          19.33581754565239,
+          19.32455040514469,
+          19.31988075375557,
+          19.311893731355667,
+          19.32094432413578
+        ],
+        "peak_allocated_bytes": 663240704,
+        "allocated_before_bytes": 27063296,
+        "peak_increment_bytes": 636177408,
+        "profiler": {
+          "partial_flops": 43696783900,
+          "counted_operators": {
+            "aten::addmm": 40136934400,
+            "aten::add": 75447000,
+            "aten::mm": 1179648000,
+            "aten::bmm": 2304000000,
+            "aten::mul": 754500
+          },
+          "uncounted_operators": [
+            "aten::__or__",
+            "aten::_addmm_activation",
+            "aten::_efficient_attention_forward",
+            "aten::_local_scalar_dense",
+            "aten::_masked_softmax",
+            "aten::_native_multi_head_attention",
+            "aten::_reshape_alias",
+            "aten::_scaled_dot_product_efficient_attention",
+            "aten::_softmax",
+            "aten::_to_copy",
+            "aten::_transform_bias_rescale_qkv",
+            "aten::_transformer_encoder_layer_fwd",
+            "aten::_unsafe_view",
+            "aten::add_",
+            "aten::any",
+            "aten::arange",
+            "aten::as_strided",
+            "aten::bitwise_not",
+            "aten::bitwise_or",
+            "aten::cat",
+            "aten::chunk",
+            "aten::clamp",
+            "aten::clone",
+            "aten::contiguous",
+            "aten::copy_",
+            "aten::dropout",
+            "aten::embedding",
+            "aten::empty",
+            "aten::empty_like",
+            "aten::empty_strided",
+            "aten::expand",
+            "aten::fill_",
+            "aten::ge",
+            "aten::gelu",
+            "aten::index_select",
+            "aten::is_nonzero",
+            "aten::item",
+            "aten::layer_norm",
+            "aten::linear",
+            "aten::lt",
+            "aten::masked_fill_",
+            "aten::narrow",
+            "aten::native_layer_norm",
+            "aten::permute",
+            "aten::reshape",
+            "aten::resize_",
+            "aten::scaled_dot_product_attention",
+            "aten::sigmoid",
+            "aten::slice",
+            "aten::softmax",
+            "aten::split",
+            "aten::t",
+            "aten::tanh",
+            "aten::to",
+            "aten::transpose",
+            "aten::unsqueeze",
+            "aten::view",
+            "aten::zero_",
+            "aten::zeros_like",
+            "cudaDeviceSynchronize",
+            "cudaLaunchKernel",
+            "cudaMemcpyAsync",
+            "cudaMemsetAsync",
+            "cudaOccupancyMaxActiveBlocksPerMultiprocessor",
+            "cudaStreamIsCapturing",
+            "cudaStreamSynchronize"
+          ]
+        }
+      },
+      "kd_multihead": {
+        "parameters": 3777954,
+        "median_ms": 22.61418104171753,
+        "q25_q75_ms": [
+          22.598031908273697,
+          22.632626816630363
+        ],
+        "all_ms": [
+          22.646106779575348,
+          22.636758163571358,
+          22.62023277580738,
+          22.589340806007385,
+          22.60630391538143,
+          22.597098723053932,
+          22.579554468393326,
+          22.64789678156376,
+          22.60780893266201,
+          22.590212523937225,
+          22.61662855744362,
+          22.602813318371773,
+          22.652408108115196,
+          22.61459268629551,
+          22.5969310849905,
+          22.595006972551346,
+          22.60083146393299,
+          22.602347657084465,
+          22.593587636947632,
+          22.643961012363434,
+          22.617420181632042,
+          22.594256326556206,
+          22.617144510149956,
+          22.640198469161987,
+          22.777192294597626,
+          22.615784779191017,
+          22.647347301244736,
+          22.61376939713955,
+          22.612543776631355,
+          22.61989563703537
+        ],
+        "peak_allocated_bytes": 655299072,
+        "allocated_before_bytes": 26966016,
+        "peak_increment_bytes": 628333056,
+        "profiler": {
+          "partial_flops": 43693225500,
+          "counted_operators": {
+            "aten::addmm": 39643776000,
+            "aten::add": 73527000,
+            "aten::mm": 1671168000,
+            "aten::bmm": 2304000000,
+            "aten::mul": 754500
+          },
+          "uncounted_operators": [
+            "aten::_addmm_activation",
+            "aten::_efficient_attention_forward",
+            "aten::_masked_softmax",
+            "aten::_native_multi_head_attention",
+            "aten::_reshape_alias",
+            "aten::_scaled_dot_product_efficient_attention",
+            "aten::_softmax",
+            "aten::_to_copy",
+            "aten::_transform_bias_rescale_qkv",
+            "aten::_transformer_encoder_layer_fwd",
+            "aten::_unsafe_view",
+            "aten::add_",
+            "aten::arange",
+            "aten::as_strided",
+            "aten::bitwise_not",
+            "aten::cat",
+            "aten::chunk",
+            "aten::clamp",
+            "aten::clone",
+            "aten::contiguous",
+            "aten::copy_",
+            "aten::detach_",
+            "aten::dropout",
+            "aten::empty",
+            "aten::empty_like",
+            "aten::empty_strided",
+            "aten::expand",
+            "aten::fill_",
+            "aten::flatten",
+            "aten::ge",
+            "aten::gelu",
+            "aten::layer_norm",
+            "aten::lift_fresh",
+            "aten::linear",
+            "aten::masked_fill_",
+            "aten::matmul",
+            "aten::narrow",
+            "aten::native_layer_norm",
+            "aten::permute",
+            "aten::reshape",
+            "aten::resize_",
+            "aten::scaled_dot_product_attention",
+            "aten::sigmoid",
+            "aten::slice",
+            "aten::softmax",
+            "aten::split",
+            "aten::stack",
+            "aten::t",
+            "aten::tanh",
+            "aten::to",
+            "aten::transpose",
+            "aten::unsqueeze",
+            "aten::view",
+            "aten::zero_",
+            "aten::zeros_like",
+            "cudaDeviceSynchronize",
+            "cudaLaunchKernel",
+            "cudaMemcpyAsync",
+            "cudaMemsetAsync",
+            "cudaOccupancyMaxActiveBlocksPerMultiprocessor",
+            "cudaStreamIsCapturing",
+            "cudaStreamSynchronize"
+          ]
+        }
+      },
+      "kd_assignment_dynamic": {
+        "parameters": 3803201,
+        "median_ms": 19.439028576016426,
+        "q25_q75_ms": [
+          19.427731167525053,
+          19.452691078186035
+        ],
+        "all_ms": [
+          19.51892115175724,
+          19.468151032924652,
+          19.421588629484177,
+          19.43018287420273,
+          19.442560151219368,
+          19.422268494963646,
+          19.4596815854311,
+          19.438903778791428,
+          19.426696002483368,
+          19.494157284498215,
+          19.429268315434456,
+          19.477711990475655,
+          19.420087337493896,
+          19.427897408604622,
+          19.458571448922157,
+          19.44078505039215,
+          19.450416788458824,
+          19.426200538873672,
+          19.453449174761772,
+          19.427675753831863,
+          19.43173073232174,
+          19.460832700133324,
+          19.437050446867943,
+          19.436562433838844,
+          19.42528784275055,
+          19.445305690169334,
+          19.424937665462494,
+          19.439375028014183,
+          19.439710304141045,
+          19.439153373241425
+        ],
+        "peak_allocated_bytes": 663240704,
+        "allocated_before_bytes": 27063296,
+        "peak_increment_bytes": 636177408,
+        "profiler": {
+          "partial_flops": 43696783900,
+          "counted_operators": {
+            "aten::addmm": 40136934400,
+            "aten::add": 75447000,
+            "aten::mm": 1179648000,
+            "aten::bmm": 2304000000,
+            "aten::mul": 754500
+          },
+          "uncounted_operators": [
+            "aten::__or__",
+            "aten::_addmm_activation",
+            "aten::_efficient_attention_forward",
+            "aten::_local_scalar_dense",
+            "aten::_masked_softmax",
+            "aten::_native_multi_head_attention",
+            "aten::_reshape_alias",
+            "aten::_scaled_dot_product_efficient_attention",
+            "aten::_softmax",
+            "aten::_to_copy",
+            "aten::_transform_bias_rescale_qkv",
+            "aten::_transformer_encoder_layer_fwd",
+            "aten::_unsafe_view",
+            "aten::add_",
+            "aten::any",
+            "aten::arange",
+            "aten::as_strided",
+            "aten::bitwise_not",
+            "aten::bitwise_or",
+            "aten::cat",
+            "aten::chunk",
+            "aten::clamp",
+            "aten::clone",
+            "aten::contiguous",
+            "aten::copy_",
+            "aten::dropout",
+            "aten::embedding",
+            "aten::empty",
+            "aten::empty_like",
+            "aten::empty_strided",
+            "aten::expand",
+            "aten::fill_",
+            "aten::ge",
+            "aten::gelu",
+            "aten::index_select",
+            "aten::is_nonzero",
+            "aten::item",
+            "aten::layer_norm",
+            "aten::linear",
+            "aten::lt",
+            "aten::masked_fill_",
+            "aten::narrow",
+            "aten::native_layer_norm",
+            "aten::permute",
+            "aten::reshape",
+            "aten::resize_",
+            "aten::scaled_dot_product_attention",
+            "aten::sigmoid",
+            "aten::slice",
+            "aten::softmax",
+            "aten::split",
+            "aten::t",
+            "aten::tanh",
+            "aten::to",
+            "aten::transpose",
+            "aten::unsqueeze",
+            "aten::view",
+            "aten::zero_",
+            "aten::zeros_like",
+            "cudaDeviceSynchronize",
+            "cudaLaunchKernel",
+            "cudaMemcpyAsync",
+            "cudaMemsetAsync",
+            "cudaOccupancyMaxActiveBlocksPerMultiprocessor",
+            "cudaStreamIsCapturing",
+            "cudaStreamSynchronize"
+          ]
+        }
+      }
+    },
+    "device": "cuda:5",
+    "gpu": "NVIDIA RTX A6000",
+    "torch_version": "2.1.0+cu121",
+    "dtype": "float32",
+    "batch": 1,
+    "frames": 750,
+    "outputs": 10,
+    "warmup": 5,
+    "repeats": 30,
+    "implementation_hashes": {
+      "$EXPLORATION_ROOT/distillation_methods.py": "2fb7202c1f7ae3913ca57ec316cf8a3ee654e8e346a0de049376fc04e6cef8ad",
+      "$EXPLORATION_ROOT/distillation_losses.py": "fee85533c09a9eb8ddb41439f2dace791fbfeb1c0f9d20ef5ff0e92574859388",
+      "$EXPLORATION_ROOT/distillation_methods_eval.py": "0d1852d840269ea26444d9e40859b6ea6276ec446a3183d69c339f54757ff3ae",
+      "$EXPLORATION_ROOT/run_distillation_methods.py": "da92552002c9ff076ade56aca96d297f7b71d67c56569b1a20fd6fe006b2258c",
+      "$EXPLORATION_ROOT/DISTILLATION_METHODS_PROTOCOL.md": "bec28e2c4ee2e372231c59e198ac5bb96339f7d7a688669f6f16ebd0ed3297af",
+      "$EXPLORATION_ROOT/test_distillation_losses.py": "7941f6bcb365f18cbc5c6c92f42a31c0af2c37f6add47878d13d092ead89a665",
+      "$EXPLORATION_ROOT/student_method_eval.py": "33bf0136134da12dbd081576e46f5c9072210b972a48f8f7f92b9dd5df1a5267",
+      "$EXPLORATION_ROOT/student_recovery.py": "0bc440ea6a78dae8f0466ecc97540e2792bc080ca47dd32892282ba037840705",
+      "$EXPLORATION_ROOT/matched_eval.py": "02614b399cac8e9f30b5b1f69a01a7f09b40d3cb80f02477a161b129656a40ab",
+      "$EXPLORATION_ROOT/matched_analysis.py": "fda7942f611d2236b0c427a57c2fc001da88977267e840333444135229491207",
+      "$EXPLORATION_ROOT/component_models.py": "bb2bc9e50191a0e5e236ae20f2ce9b4cefd554e098e8fc5534102fdc9dcaa884",
+      "$EXPLORATION_ROOT/component_ablations.py": "fedead7ee469d396d76bab1421fc6cef16d52936ffa78bf8efc85d864ed11c75",
+      "$EXPLORATION_ROOT/component_ablations_eval.py": "7315aa46302685cec2de460d448820dabe8573486dbceec2e69e45ed1f70cd2c",
+      "$EXPLORATION_ROOT/run_component_ablations.py": "206ecbd649e0b2379e347a4f58e2d1fc7a0523e3a824499fd9582e451f8c5a7a",
+      "$EXPLORATION_ROOT/component_ablations_status.py": "3afc9f86a9a65551e89b01bd3351acb3415202c0f7f583ea7329e7724dc2776d",
+      "$EXPLORATION_ROOT/test_component_ablations.py": "31d44f54e2942d84c48a16176e360ac340ad92da0d2d7a12fceba30da2e76d6b",
+      "$EXPLORATION_ROOT/COMPONENT_ABLATIONS_PROTOCOL.md": "2577bb3478d65de5c5cffb1ae6d01ad8e516d09709c6cbb3e5354c5e5a46d497"
+    },
+    "limits": "Synthetic fixed-length GPU inference only; excludes IO/scoring; concurrent host load possible. Profiler FLOPs are partial operator counts, not complete model FLOPs."
+  },
+  "implementation_hashes": {
+    "$EXPLORATION_ROOT/distillation_methods.py": "2fb7202c1f7ae3913ca57ec316cf8a3ee654e8e346a0de049376fc04e6cef8ad",
+    "$EXPLORATION_ROOT/distillation_losses.py": "fee85533c09a9eb8ddb41439f2dace791fbfeb1c0f9d20ef5ff0e92574859388",
+    "$EXPLORATION_ROOT/distillation_methods_eval.py": "0d1852d840269ea26444d9e40859b6ea6276ec446a3183d69c339f54757ff3ae",
+    "$EXPLORATION_ROOT/run_distillation_methods.py": "da92552002c9ff076ade56aca96d297f7b71d67c56569b1a20fd6fe006b2258c",
+    "$EXPLORATION_ROOT/DISTILLATION_METHODS_PROTOCOL.md": "bec28e2c4ee2e372231c59e198ac5bb96339f7d7a688669f6f16ebd0ed3297af",
+    "$EXPLORATION_ROOT/test_distillation_losses.py": "7941f6bcb365f18cbc5c6c92f42a31c0af2c37f6add47878d13d092ead89a665",
+    "$EXPLORATION_ROOT/student_method_eval.py": "33bf0136134da12dbd081576e46f5c9072210b972a48f8f7f92b9dd5df1a5267",
+    "$EXPLORATION_ROOT/student_recovery.py": "0bc440ea6a78dae8f0466ecc97540e2792bc080ca47dd32892282ba037840705",
+    "$EXPLORATION_ROOT/matched_eval.py": "02614b399cac8e9f30b5b1f69a01a7f09b40d3cb80f02477a161b129656a40ab",
+    "$EXPLORATION_ROOT/matched_analysis.py": "fda7942f611d2236b0c427a57c2fc001da88977267e840333444135229491207",
+    "$EXPLORATION_ROOT/component_models.py": "bb2bc9e50191a0e5e236ae20f2ce9b4cefd554e098e8fc5534102fdc9dcaa884",
+    "$EXPLORATION_ROOT/component_ablations.py": "fedead7ee469d396d76bab1421fc6cef16d52936ffa78bf8efc85d864ed11c75",
+    "$EXPLORATION_ROOT/component_ablations_eval.py": "7315aa46302685cec2de460d448820dabe8573486dbceec2e69e45ed1f70cd2c",
+    "$EXPLORATION_ROOT/run_component_ablations.py": "206ecbd649e0b2379e347a4f58e2d1fc7a0523e3a824499fd9582e451f8c5a7a",
+    "$EXPLORATION_ROOT/component_ablations_status.py": "3afc9f86a9a65551e89b01bd3351acb3415202c0f7f583ea7329e7724dc2776d",
+    "$EXPLORATION_ROOT/test_component_ablations.py": "31d44f54e2942d84c48a16176e360ac340ad92da0d2d7a12fceba30da2e76d6b",
+    "$EXPLORATION_ROOT/COMPONENT_ABLATIONS_PROTOCOL.md": "2577bb3478d65de5c5cffb1ae6d01ad8e516d09709c6cbb3e5354c5e5a46d497"
+  },
+  "combined_rows_sha256": "2a50afa354c7124f05a10ea993f87e76b8adaaf53478f89775118410f39aa98f",
+  "scope": "Single training seed; complete VAL571/all-session. No additional seeds and no independent TEST.",
+  "limits": "5000 bootstrap draws over 20 sessions; no training-seed uncertainty or multiple-testing correction. Architecture has common pretrained weights, not identical complete initial functions. Interaction is joint-assignment-dynamic+basic; its sign alone does not establish Pareto improvement."
+}

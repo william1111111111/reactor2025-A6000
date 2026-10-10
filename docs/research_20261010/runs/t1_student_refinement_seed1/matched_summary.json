@@ -1,0 +1,306 @@
+{
+  "matched_checks": "passed",
+  "parent_run_root": "$SOURCE_ROOT/coreset_reactor/reports/t1_student_distillation_seed1",
+  "metrics": {
+    "control": {
+      "contexts": 571,
+      "FRC": 1.1330050617988592,
+      "FRC_per_expert": [
+        0.12951380648666538,
+        0.11146323059702289,
+        0.10205855331473895,
+        0.10596391788545949,
+        0.1746978875256149,
+        0.1308786796992137,
+        0.06739860624102227,
+        0.1288778347346815,
+        0.08953669786545851,
+        0.09261584744898145
+      ],
+      "FRDiv": 0.18700793385505676,
+      "FRVar": 0.06588815897703171,
+      "soft_FRDiv": 0.09431100636720657,
+      "exact_FRD": 96.7055966356275
+    },
+    "au_decision": {
+      "contexts": 571,
+      "FRC": 1.1334384262649433,
+      "FRC_per_expert": [
+        0.12918132748988187,
+        0.11178135393707328,
+        0.10207269654029838,
+        0.10598750995812305,
+        0.17492981344437197,
+        0.13110367762893127,
+        0.067448870561391,
+        0.12880365965457669,
+        0.08952132740932706,
+        0.09260818964096863
+      ],
+      "FRDiv": 0.186752051115036,
+      "FRVar": 0.06559226661920547,
+      "soft_FRDiv": 0.09597010910511017,
+      "exact_FRD": 96.6446029411284
+    },
+    "au_logit": {
+      "contexts": 571,
+      "FRC": 1.1325406571721839,
+      "FRC_per_expert": [
+        0.12849865127375615,
+        0.1126502643845512,
+        0.10255548154643082,
+        0.1053801979237698,
+        0.17506958244566534,
+        0.1306454018802197,
+        0.06752369007938454,
+        0.12791453572929565,
+        0.08955275109000825,
+        0.09275010081910254
+      ],
+      "FRDiv": 0.18615281581878662,
+      "FRVar": 0.06521020084619522,
+      "soft_FRDiv": 0.0931219607591629,
+      "exact_FRD": 96.47409214693806
+    }
+  },
+  "provenance": {
+    "control": {
+      "git_commit_sha": "c421f509f8cb7997e9341592cae2eb1e721b0e8e",
+      "initialization_checkpoint_hash": "5ef5a3a3a69e0314e1d643286a48c3f8bd98a0f935a41304c3ecc35fab8a7d21",
+      "initial_student_state_sha256": "b4dec995b9fc0254d61648517b2abbab5c248da9b6940adb7125b46e97173bde",
+      "cache_manifest_hash": "062857282a606b9c67ddf5d348958e5d4cd717f37ef12fec738effa7e7fd973d",
+      "teacher_checkpoint_hashes": [
+        "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+        "7f94e2034d3eb24a921aaa203b401bafb76e71bf4255742b1e39446092a9d38a",
+        "a66da4b0889c9bbfb1d542bade65be7543e8b29b88d65f383539e7c8da1932e2",
+        "090abef41a0a06d057ffd5f10f4f9e00f085e96588752f174cb63ffbbd0dcd0d",
+        "07f55b8fd29c75d097a626d64c1b72bd7a24245d23c74badc523cd40186ee541",
+        "a19db09a77413dac3cc7dc89625c3ae73526333793a793a42e273e8ca725b555",
+        "51bd4555099a675bfda29f3cd3855a9bd876ce503dfb90282892f2e4d9e0c074",
+        "06320a644f44c3623e841727e76165a97d6f5b4ffe06cb9b98c0e1da8a15bb8d",
+        "0ee0421aa7fd8230ef00e98dd517e6dc3601a4b86a940bd3edfd66d95929b612",
+        "388c974242750089de29ef8f22a7808aee6fb34300a5e5d350dd4c6dca677a63"
+      ],
+      "source_hashes": {
+        "coreset_reactor/refine_expert_student.py": "97159bb10a5606cdbbdf7655801463d3100d5b4c215e09946f68aa0249256afe",
+        "coreset_reactor/relation_distillation.py": "ffa7aaaef369cbd6122b720706788ce70b523fb53191589a7430c1dd2595a304",
+        "coreset_reactor/train_expert_student.py": "f973d72dc8af8a330415f1e8d7ef10257cb071df8ce1268180af78ef369ae570",
+        "mam_reactor/regnn/expert_student.py": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77",
+        "mam_reactor/regnn/conditional_model.py": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec"
+      },
+      "optimizer_policy": "identical AdamW reset, not resume",
+      "parent_updates": 8300,
+      "extra_calibration": {
+        "objective": "control",
+        "weight": 0.0,
+        "target_gradient_ratio": 0.25,
+        "TRAIN_probe_indices": [],
+        "probes": []
+      },
+      "observed_source_schedule_sha256": "9c5013ce081878d35d52668ebf5496ba839dcb20c2fd6c9c7ccf4e7ec8735a5f"
+    },
+    "au_decision": {
+      "git_commit_sha": "c421f509f8cb7997e9341592cae2eb1e721b0e8e",
+      "initialization_checkpoint_hash": "5ef5a3a3a69e0314e1d643286a48c3f8bd98a0f935a41304c3ecc35fab8a7d21",
+      "initial_student_state_sha256": "b4dec995b9fc0254d61648517b2abbab5c248da9b6940adb7125b46e97173bde",
+      "cache_manifest_hash": "062857282a606b9c67ddf5d348958e5d4cd717f37ef12fec738effa7e7fd973d",
+      "teacher_checkpoint_hashes": [
+        "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+        "7f94e2034d3eb24a921aaa203b401bafb76e71bf4255742b1e39446092a9d38a",
+        "a66da4b0889c9bbfb1d542bade65be7543e8b29b88d65f383539e7c8da1932e2",
+        "090abef41a0a06d057ffd5f10f4f9e00f085e96588752f174cb63ffbbd0dcd0d",
+        "07f55b8fd29c75d097a626d64c1b72bd7a24245d23c74badc523cd40186ee541",
+        "a19db09a77413dac3cc7dc89625c3ae73526333793a793a42e273e8ca725b555",
+        "51bd4555099a675bfda29f3cd3855a9bd876ce503dfb90282892f2e4d9e0c074",
+        "06320a644f44c3623e841727e76165a97d6f5b4ffe06cb9b98c0e1da8a15bb8d",
+        "0ee0421aa7fd8230ef00e98dd517e6dc3601a4b86a940bd3edfd66d95929b612",
+        "388c974242750089de29ef8f22a7808aee6fb34300a5e5d350dd4c6dca677a63"
+      ],
+      "source_hashes": {
+        "coreset_reactor/refine_expert_student.py": "97159bb10a5606cdbbdf7655801463d3100d5b4c215e09946f68aa0249256afe",
+        "coreset_reactor/relation_distillation.py": "ffa7aaaef369cbd6122b720706788ce70b523fb53191589a7430c1dd2595a304",
+        "coreset_reactor/train_expert_student.py": "f973d72dc8af8a330415f1e8d7ef10257cb071df8ce1268180af78ef369ae570",
+        "mam_reactor/regnn/expert_student.py": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77",
+        "mam_reactor/regnn/conditional_model.py": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec"
+      },
+      "optimizer_policy": "identical AdamW reset, not resume",
+      "parent_updates": 8300,
+      "extra_calibration": {
+        "objective": "au_decision",
+        "weight": 0.09983372241902858,
+        "target_gradient_ratio": 0.25,
+        "TRAIN_probe_indices": [
+          821,
+          1782,
+          1351,
+          3126,
+          412,
+          2708,
+          2614,
+          2866,
+          2774,
+          901,
+          2864,
+          3128,
+          283,
+          2494,
+          848,
+          411
+        ],
+        "probes": [
+          {
+            "primary_gradient": 0.8661211133003235,
+            "extra_gradient": 2.1363942623138428
+          },
+          {
+            "primary_gradient": 0.989737331867218,
+            "extra_gradient": 2.233828067779541
+          },
+          {
+            "primary_gradient": 0.7586213946342468,
+            "extra_gradient": 2.277829885482788
+          },
+          {
+            "primary_gradient": 0.797870397567749,
+            "extra_gradient": 2.028876781463623
+          }
+        ]
+      },
+      "observed_source_schedule_sha256": "9c5013ce081878d35d52668ebf5496ba839dcb20c2fd6c9c7ccf4e7ec8735a5f"
+    },
+    "au_logit": {
+      "git_commit_sha": "c421f509f8cb7997e9341592cae2eb1e721b0e8e",
+      "initialization_checkpoint_hash": "5ef5a3a3a69e0314e1d643286a48c3f8bd98a0f935a41304c3ecc35fab8a7d21",
+      "initial_student_state_sha256": "b4dec995b9fc0254d61648517b2abbab5c248da9b6940adb7125b46e97173bde",
+      "cache_manifest_hash": "062857282a606b9c67ddf5d348958e5d4cd717f37ef12fec738effa7e7fd973d",
+      "teacher_checkpoint_hashes": [
+        "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+        "7f94e2034d3eb24a921aaa203b401bafb76e71bf4255742b1e39446092a9d38a",
+        "a66da4b0889c9bbfb1d542bade65be7543e8b29b88d65f383539e7c8da1932e2",
+        "090abef41a0a06d057ffd5f10f4f9e00f085e96588752f174cb63ffbbd0dcd0d",
+        "07f55b8fd29c75d097a626d64c1b72bd7a24245d23c74badc523cd40186ee541",
+        "a19db09a77413dac3cc7dc89625c3ae73526333793a793a42e273e8ca725b555",
+        "51bd4555099a675bfda29f3cd3855a9bd876ce503dfb90282892f2e4d9e0c074",
+        "06320a644f44c3623e841727e76165a97d6f5b4ffe06cb9b98c0e1da8a15bb8d",
+        "0ee0421aa7fd8230ef00e98dd517e6dc3601a4b86a940bd3edfd66d95929b612",
+        "388c974242750089de29ef8f22a7808aee6fb34300a5e5d350dd4c6dca677a63"
+      ],
+      "source_hashes": {
+        "coreset_reactor/refine_expert_student.py": "97159bb10a5606cdbbdf7655801463d3100d5b4c215e09946f68aa0249256afe",
+        "coreset_reactor/relation_distillation.py": "ffa7aaaef369cbd6122b720706788ce70b523fb53191589a7430c1dd2595a304",
+        "coreset_reactor/train_expert_student.py": "f973d72dc8af8a330415f1e8d7ef10257cb071df8ce1268180af78ef369ae570",
+        "mam_reactor/regnn/expert_student.py": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77",
+        "mam_reactor/regnn/conditional_model.py": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec"
+      },
+      "optimizer_policy": "identical AdamW reset, not resume",
+      "parent_updates": 8300,
+      "extra_calibration": {
+        "objective": "au_logit",
+        "weight": 0.10262709644833162,
+        "target_gradient_ratio": 0.25,
+        "TRAIN_probe_indices": [
+          821,
+          1782,
+          1351,
+          3126,
+          412,
+          2708,
+          2614,
+          2866,
+          2774,
+          901,
+          2864,
+          3128,
+          283,
+          2494,
+          848,
+          411
+        ],
+        "probes": [
+          {
+            "primary_gradient": 0.8661211133003235,
+            "extra_gradient": 1.9433209896087646
+          },
+          {
+            "primary_gradient": 0.989737331867218,
+            "extra_gradient": 2.2002615928649902
+          },
+          {
+            "primary_gradient": 0.7586213946342468,
+            "extra_gradient": 2.021235704421997
+          },
+          {
+            "primary_gradient": 0.797870397567749,
+            "extra_gradient": 2.321007013320923
+          }
+        ]
+      },
+      "observed_source_schedule_sha256": "9c5013ce081878d35d52668ebf5496ba839dcb20c2fd6c9c7ccf4e7ec8735a5f"
+    }
+  },
+  "configs": {
+    "control": {
+      "data_root": "$PROJECT_ROOT/data",
+      "cache_manifest": "$SOURCE_ROOT/coreset_reactor/reports/t1_student_distillation_seed1/train_cache/manifest.json",
+      "initialize_student": "$SOURCE_ROOT/coreset_reactor/reports/t1_student_distillation_seed1/contrast/student.pth",
+      "run_dir": "$SOURCE_ROOT/coreset_reactor/reports/t1_student_refinement_seed1/control",
+      "device": "cuda:1",
+      "objective": "control",
+      "extra_grad_ratio": 0.25,
+      "epochs": 5,
+      "max_steps": 0,
+      "batch_size": 4,
+      "workers": 4,
+      "seed": 1,
+      "lr": 2e-05,
+      "parameter_count": 3803201,
+      "relation_weight": 0.2697612302992961,
+      "extra_weight": 0.0,
+      "training_seconds": 532.3798602763563,
+      "updates": 4150,
+      "peak_memory_bytes": 5982393344
+    },
+    "au_decision": {
+      "data_root": "$PROJECT_ROOT/data",
+      "cache_manifest": "$SOURCE_ROOT/coreset_reactor/reports/t1_student_distillation_seed1/train_cache/manifest.json",
+      "initialize_student": "$SOURCE_ROOT/coreset_reactor/reports/t1_student_distillation_seed1/contrast/student.pth",
+      "run_dir": "$SOURCE_ROOT/coreset_reactor/reports/t1_student_refinement_seed1/au_decision",
+      "device": "cuda:5",
+      "objective": "au_decision",
+      "extra_grad_ratio": 0.25,
+      "epochs": 5,
+      "max_steps": 0,
+      "batch_size": 4,
+      "workers": 4,
+      "seed": 1,
+      "lr": 2e-05,
+      "parameter_count": 3803201,
+      "relation_weight": 0.2697612302992961,
+      "extra_weight": 0.09983372241902858,
+      "training_seconds": 533.8177903797477,
+      "updates": 4150,
+      "peak_memory_bytes": 7508364288
+    },
+    "au_logit": {
+      "data_root": "$PROJECT_ROOT/data",
+      "cache_manifest": "$SOURCE_ROOT/coreset_reactor/reports/t1_student_distillation_seed1/train_cache/manifest.json",
+      "initialize_student": "$SOURCE_ROOT/coreset_reactor/reports/t1_student_distillation_seed1/contrast/student.pth",
+      "run_dir": "$SOURCE_ROOT/coreset_reactor/reports/t1_student_refinement_seed1/au_logit",
+      "device": "cuda:6",
+      "objective": "au_logit",
+      "extra_grad_ratio": 0.25,
+      "epochs": 5,
+      "max_steps": 0,
+      "batch_size": 4,
+      "workers": 4,
+      "seed": 1,
+      "lr": 2e-05,
+      "parameter_count": 3803201,
+      "relation_weight": 0.2697612302992961,
+      "extra_weight": 0.10262709644833162,
+      "training_seconds": 531.8868304789066,
+      "updates": 4150,
+      "peak_memory_bytes": 7508470272
+    }
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "verified_unix": 1790773758.184471,
+  "copied_text_files_checked": 8672,
+  "curated_table_rows_checked": 23,
+  "curated_metric_cells_checked": 92,
+  "frozen_student_weights_independently_checked": 2,
+  "table_checks": [
+    {
+      "label": "Mode-reference 教师 count8 corrected",
+      "source": "evidence/persistent_coreset/reports/react2025_key_component_ablations_seed1/summary.json",
+      "json_path": "teacher.mode",
+      "expected": [
+        "1.370792",
+        "95.772670",
+        "0.190244",
+        "0.069174"
+      ],
+      "passed": true
+    },
+    {
+      "label": "Uniform-reference 教师 corrected control",
+      "source": "evidence/persistent_coreset/reports/react2025_key_component_ablations_seed1/summary.json",
+      "json_path": "teacher.uniform",
+      "expected": [
+        "2.038626",
+        "95.410771",
+        "0.091645",
+        "0.070391"
+      ],
+      "passed": true
+    },
+    {
+      "label": "相同固定真实 GT 直接监督学生",
+      "source": "evidence/persistent_coreset/reports/react2025_key_component_ablations_seed1/summary.json",
+      "json_path": "student.direct_GT",
+      "expected": [
+        "1.066966",
+        "97.427886",
+        "0.177390",
+        "0.064775"
+      ],
+      "passed": true
+    },
+    {
+      "label": "学生 Full KD",
+      "source": "evidence/persistent_coreset/reports/react2025_student_loss_pruning_seed1/summary.json",
+      "json_path": "metrics.full",
+      "expected": [
+        "1.444718",
+        "97.540968",
+        "0.170190",
+        "0.067888"
+      ],
+      "passed": true
+    },
+    {
+      "label": "学生 Minimal KD",
+      "source": "evidence/persistent_coreset/reports/react2025_student_loss_pruning_seed1/summary.json",
+      "json_path": "metrics.minimal",
+      "expected": [
+        "1.454643",
+        "99.714605",
+        "0.170338",
+        "0.069951"
+      ],
+      "passed": true
+    },
+    {
+      "label": "学生 Velocity only",
+      "source": "evidence/persistent_coreset/reports/react2025_student_loss_pruning_seed1/summary.json",
+      "json_path": "metrics.velocity",
+      "expected": [
+        "1.454373",
+        "99.752944",
+        "0.170335",
+        "0.069890"
+      ],
+      "passed": true
+    },
+    {
+      "label": "学生 Residual only 建议简化版",
+      "source": "evidence/persistent_coreset/reports/react2025_student_loss_pruning_seed1/summary.json",
+      "json_path": "metrics.residual",
+      "expected": [
+        "1.445507",
+        "97.463281",
+        "0.170130",
+        "0.067918"
+      ],
+      "passed": true
+    },
+    {
+      "label": "Mode-reference teacher count8",
+      "source": "evidence/persistent_coreset/reports/react2024_reference_count4_student_seed1/summary.json",
+      "json_path": "metrics.teacher_count8",
+      "expected": [
+        "0.657408",
+        "85.626572",
+        "0.146408",
+        "0.058906"
+      ],
+      "passed": true
+    },
+    {
+      "label": "Mode-reference teacher count4",
+      "source": "evidence/persistent_coreset/reports/react2024_reference_count4_student_seed1/summary.json",
+      "json_path": "metrics.teacher_count4",
+      "expected": [
+        "0.648193",
+        "86.151776",
+        "0.152807",
+        "0.060486"
+      ],
+      "passed": true
+    },
+    {
+      "label": "count8 对应 Full 学生",
+      "source": "evidence/persistent_coreset/reports/react2024_reference_count4_student_seed1/summary.json",
+      "json_path": "metrics.student_count8",
+      "expected": [
+        "0.671193",
+        "85.730786",
+        "0.127287",
+        "0.057549"
+      ],
+      "passed": true
+    },
+    {
+      "label": "count4 对应 Full 学生",
+      "source": "evidence/persistent_coreset/reports/react2024_student_loss_pruning_seed1/summary.json",
+      "json_path": "metrics.full",
+      "expected": [
+        "0.655348",
+        "86.025763",
+        "0.132445",
+        "0.058831"
+      ],
+      "passed": true
+    },
+    {
+      "label": "count4 对应 Minimal 学生",
+      "source": "evidence/persistent_coreset/reports/react2024_student_loss_pruning_seed1/summary.json",
+      "json_path": "metrics.minimal",
+      "expected": [
+        "0.656854",
+        "88.964175",
+        "0.135939",
+        "0.060444"
+      ],
+      "passed": true
+    },
+    {
+      "label": "count4 对应 Velocity-only 学生",
+      "source": "evidence/persistent_coreset/reports/react2024_student_loss_pruning_seed1/summary.json",
+      "json_path": "metrics.velocity",
+      "expected": [
+        "0.655127",
+        "88.886196",
+        "0.135477",
+        "0.060246"
+      ],
+      "passed": true
+    },
+    {
+      "label": "count4 对应 Residual-only 学生",
+      "source": "evidence/persistent_coreset/reports/react2024_student_loss_pruning_seed1/summary.json",
+      "json_path": "metrics.residual",
+      "expected": [
+        "0.656394",
+        "86.033383",
+        "0.132724",
+        "0.058911"
+      ],
+      "passed": true
+    },
+    {
+      "label": "正常输入",
+      "json_path": "arms.baseline.metrics",
+      "expected": [
+        "1.445507",
+        "97.463281",
+        "0.170130",
+        "0.023024"
+      ],
+      "passed": true
+    },
+    {
+      "label": "Audio 替换 TRAIN 均值",
+      "json_path": "arms.audio_train_mean.metrics",
+      "expected": [
+        "1.040990",
+        "107.261897",
+        "0.184895",
+        "0.008205"
+      ],
+      "passed": true
+    },
+    {
+      "label": "Emotion 与 3DMM 替换 TRAIN 均值",
+      "json_path": "arms.visual_train_mean.metrics",
+      "expected": [
+        "1.463702",
+        "96.862408",
+        "0.176463",
+        "0.018947"
+      ],
+      "passed": true
+    },
+    {
+      "label": "三模态同步打乱 25-frame 时间块",
+      "json_path": "arms.temporal_blocks.metrics",
+      "expected": [
+        "1.347071",
+        "97.413746",
+        "0.170761",
+        "0.013755"
+      ],
+      "passed": true
+    },
+    {
+      "label": "固定十个 TRAIN 模板",
+      "json_path": "arms.global_train_templates.metrics",
+      "expected": [
+        "0.635839",
+        "105.207555",
+        "0.298558",
+        "0.001041"
+      ],
+      "passed": true
+    },
+    {
+      "label": "按 speaker 特征最近邻检索 TRAIN 集合",
+      "json_path": "arms.train_nearest_set.metrics",
+      "expected": [
+        "0.790439",
+        "107.080023",
+        "0.276032",
+        "0.002138"
+      ],
+      "passed": true
+    },
+    {
+      "label": "该 cohort 正常 baseline",
+      "json_path": "arms.same_session_donor.matched_baseline_metrics",
+      "expected": [
+        "1.346684",
+        "101.167203",
+        "0.162625",
+        "0.020274"
+      ],
+      "passed": true
+    },
+    {
+      "label": "Same-session donor",
+      "json_path": "arms.same_session_donor.metrics",
+      "expected": [
+        "1.346905",
+        "101.159770",
+        "0.162625",
+        "0.010958"
+      ],
+      "passed": true
+    },
+    {
+      "label": "Cross-session donor",
+      "json_path": "arms.cross_session_donor.metrics",
+      "expected": [
+        "1.289366",
+        "102.561947",
+        "0.162625",
+        "0.011053"
+      ],
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "passed": true,
+  "note": "Checks artifact consistency; does not certify historical scientific conclusions or unmeasured metrics."
+}

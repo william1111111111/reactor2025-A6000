@@ -1,0 +1,101 @@
+{
+  "git_commit_sha": "c421f509f8cb7997e9341592cae2eb1e721b0e8e",
+  "source_hashes": {
+    "coreset_reactor/train_expert_student.py": "f973d72dc8af8a330415f1e8d7ef10257cb071df8ce1268180af78ef369ae570",
+    "coreset_reactor/relation_distillation.py": "ffa7aaaef369cbd6122b720706788ce70b523fb53191589a7430c1dd2595a304",
+    "mam_reactor/regnn/expert_student.py": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77",
+    "mam_reactor/regnn/conditional_model.py": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec"
+  },
+  "relation_calibration": {
+    "train_scale_examples": 32,
+    "gradient_probe_examples": 16,
+    "sample_indices": [
+      821,
+      1782,
+      1351,
+      3126,
+      412,
+      2708,
+      2614,
+      2866,
+      2774,
+      901,
+      2864,
+      3128,
+      283,
+      2494,
+      848,
+      411,
+      2127,
+      2485,
+      91,
+      1028,
+      1500,
+      1683,
+      1816,
+      1556,
+      2711,
+      2733,
+      474,
+      1092,
+      1006,
+      1396,
+      114,
+      1505
+    ],
+    "scale": [
+      0.32778552174568176,
+      0.34031346440315247,
+      0.25885310769081116
+    ],
+    "weight": 0.3291488264202468,
+    "target_gradient_ratio": 0.25,
+    "probes": [
+      {
+        "kd_loss": 0.8708515167236328,
+        "relation_loss": 0.45841464400291443,
+        "kd_gradient": 0.974565327167511,
+        "relation_gradient": 0.6772937774658203,
+        "weighted_gradient_ratio": 0.22874859773899245
+      },
+      {
+        "kd_loss": 0.8745965361595154,
+        "relation_loss": 0.46664199233055115,
+        "kd_gradient": 0.9026569128036499,
+        "relation_gradient": 0.7558169364929199,
+        "weighted_gradient_ratio": 0.2756044451734075
+      },
+      {
+        "kd_loss": 0.9378904104232788,
+        "relation_loss": 0.4747048318386078,
+        "kd_gradient": 1.1246315240859985,
+        "relation_gradient": 0.7265640497207642,
+        "weighted_gradient_ratio": 0.21264538576676442
+      },
+      {
+        "kd_loss": 0.9069662690162659,
+        "relation_loss": 0.5813494920730591,
+        "kd_gradient": 0.7986921072006226,
+        "relation_gradient": 0.8446825742721558,
+        "weighted_gradient_ratio": 0.34810194756247403
+      }
+    ],
+    "objective": "centered_residual"
+  },
+  "cache_manifest_hash": "3f3c2cb9f9f1f2681e93d095d9a67dc4836bce8def8eaabbea669d32e321f22a",
+  "initialization_checkpoint_hash": "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+  "initial_student_state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+  "teacher_checkpoint_hashes": [
+    "bfbe0ad5a2283687e8ba943ba72566558574b6ee50acc7ff481e4734f27afdd5",
+    "0bae4911a138289be13f7bbd559bcf7430e6f90980992ea5b63b1c8e36e93cd5",
+    "6c665a8581ecd8818cb6aa0659bd44ab4052964804be0c7bd1253a9540e087d5",
+    "8b9017b14bcf1be0fa06f736e71cb426af3083ff3e1daf7c724e94e3e26a12cf",
+    "c62f1f92dea2a02546acac43513d14d7d61c8337823b7be505cc83652399cc2b",
+    "e0184c6fa5a18b10ef2c775d20500187e922714d43883c9f282c2429e9e5ff82",
+    "f99023d008daa6aa3a61cdcba514fdcf79f7596138d9cb2bd768794d5dbf2c6c",
+    "6c81ca1d7a5adbeae7e943c67616f1fcd805b2a1aaf84ded8c3b836b0cf2ea55",
+    "5a90ac722fd80e3ede68977d39536cda0fe1a8e00c48aaf1c41bfa1de4e631fa",
+    "82359e7bf3473ff6b5b480e979be5718757aae0c743760611122929312d0abc4"
+  ],
+  "observed_source_schedule_sha256": "25d047b93ce072e09f73a1848f0a5b449b5302d4fc75cde568c522979152647a"
+}

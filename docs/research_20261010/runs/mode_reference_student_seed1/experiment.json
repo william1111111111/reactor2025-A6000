@@ -1,0 +1,90 @@
+{
+  "git_commit_sha": "c421f509f8cb7997e9341592cae2eb1e721b0e8e",
+  "source_hashes": {
+    "coreset_reactor/run_mode_reference_student.py": "2e667bde7f76c954da97b9732238f90ecd38162c4eef218d6888f8d519418ed6",
+    "coreset_reactor/run_t1_student_distillation.py": "9d41cd128e7c52e2c3a14ab5ed952281cd43459abd02a39b5ce5420e6c6def0f",
+    "coreset_reactor/teacher_cache.py": "441f258237adb075ffd1ed4f3956cd950451350328f0515c6fb76da16146513d",
+    "coreset_reactor/train_expert_student.py": "f973d72dc8af8a330415f1e8d7ef10257cb071df8ce1268180af78ef369ae570",
+    "coreset_reactor/relation_distillation.py": "ffa7aaaef369cbd6122b720706788ce70b523fb53191589a7430c1dd2595a304",
+    "coreset_reactor/eval_expert_student_fast.py": "97ce33e3423d73d7a8d7b62d953d23f77442e650116d0d41f90ae36a8585d785",
+    "coreset_reactor/fast_frc.py": "80f4d9a48bf9d88b177684c38751fde99e138fae56702ee8981fda13839e118c",
+    "coreset_reactor/oracle_select.py": "aba704a9b3175fdf8a00823430948434cbaa579ccf219b92a4738414c00527af",
+    "coreset_reactor/evaluate.py": "38055ca86576522f637741abf2843dcfb1241e890890c52889de542e9d2fb185",
+    "mam_reactor/regnn/expert_student.py": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77",
+    "mam_reactor/regnn/conditional_model.py": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec",
+    "mam_reactor/regnn/conditional_data.py": "346a4e34e215726aeb3c8963c6f8f2cfbe37201f9178cc4e1bcdec1407a1bef6",
+    "mam_reactor/framework/metrics/ACC.py": "f1880a6905b05b52349fda75ab657df19dec8426c9ff2694af8624315bfe2d7c",
+    "mam_reactor/framework/metrics/FRC.py": "f104754206490234847eea9ecc2a02218d9c4a41bc9fa88635c295023d1520b9",
+    "mam_reactor/framework/metrics/TLCC.py": "ce9ed5db7d74774e1fa5c40ec47a5cdeb331b3d9c856981063da4a94d78e61cf",
+    "mam_reactor/framework/metrics/FRDvs.py": "99c0aad10b4ccfe2e90e7261d2cf930d7c58e4d5c2144b671bb97fe5fe5a685d",
+    "mam_reactor/framework/metrics/metric.py": "ed28d0ac6ad4b8d9518ec6ad15bd1ce81f556ee2adc8ed89ab1c75050cc9c193",
+    "mam_reactor/framework/metrics/__init__.py": "b667df300465de4fae8848366cb90f2116d12e3f4777399034ed74d09b59c30c",
+    "mam_reactor/framework/metrics/FRVar.py": "e306cfe7a7d31572e86004ddd097804c5aec128624de646042775063dfe924f9",
+    "mam_reactor/framework/metrics/S_MSE.py": "0e4e9280ea676abf5ce34bbd78a303a93e9b3714e72fe88a169b47e0d57f4b40",
+    "mam_reactor/framework/metrics/FRD.py": "0b01ae09383dfd7b36342186e8afc84f3a3b23b9990183bd654f70cfe12741b0",
+    "mam_reactor/framework/metrics/TLCCRobust.py": "f552fdaa3828ae16888cf86cf7a0bb9b5c7ead87f50673c8511e26a9204ce44a"
+  },
+  "teachers": [
+    "$RUN_ROOT/teacher_convergence_2400_seed1/arms/T1/rank_00/conditional-step000600-seed1.pth",
+    "$RUN_ROOT/mode_reference_teacher_v2_seed1/rank_01/conditional-step000600-seed1.pth",
+    "$RUN_ROOT/mode_reference_teacher_v2_seed1/rank_02/conditional-step000600-seed1.pth",
+    "$RUN_ROOT/mode_reference_teacher_v2_seed1/rank_03/conditional-step000600-seed1.pth",
+    "$RUN_ROOT/mode_reference_teacher_v2_seed1/rank_04/conditional-step000600-seed1.pth",
+    "$RUN_ROOT/mode_reference_teacher_v2_seed1/rank_05/conditional-step000600-seed1.pth",
+    "$RUN_ROOT/mode_reference_teacher_v2_seed1/rank_06/conditional-step000600-seed1.pth",
+    "$RUN_ROOT/mode_reference_teacher_v2_seed1/rank_07/conditional-step000600-seed1.pth",
+    "$RUN_ROOT/mode_reference_teacher_v2_seed1/rank_08/conditional-step000600-seed1.pth",
+    "$RUN_ROOT/mode_reference_teacher_v2_seed1/rank_09/conditional-step000600-seed1.pth"
+  ],
+  "teacher_sha256": [
+    "bfbe0ad5a2283687e8ba943ba72566558574b6ee50acc7ff481e4734f27afdd5",
+    "0bae4911a138289be13f7bbd559bcf7430e6f90980992ea5b63b1c8e36e93cd5",
+    "6c665a8581ecd8818cb6aa0659bd44ab4052964804be0c7bd1253a9540e087d5",
+    "8b9017b14bcf1be0fa06f736e71cb426af3083ff3e1daf7c724e94e3e26a12cf",
+    "c62f1f92dea2a02546acac43513d14d7d61c8337823b7be505cc83652399cc2b",
+    "e0184c6fa5a18b10ef2c775d20500187e922714d43883c9f282c2429e9e5ff82",
+    "f99023d008daa6aa3a61cdcba514fdcf79f7596138d9cb2bd768794d5dbf2c6c",
+    "6c81ca1d7a5adbeae7e943c67616f1fcd805b2a1aaf84ded8c3b836b0cf2ea55",
+    "5a90ac722fd80e3ede68977d39536cda0fe1a8e00c48aaf1c41bfa1de4e631fa",
+    "82359e7bf3473ff6b5b480e979be5718757aae0c743760611122929312d0abc4"
+  ],
+  "initialization": "$RUN_ROOT/maxfrdiv_teacher_pilot_600_v3/arms/T1/rank_00/conditional-epoch0006-seed1.pth",
+  "initialization_sha256": "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+  "old_student_run": "$RUN_ROOT/t1_student_distillation_seed1",
+  "teacher_run": "$RUN_ROOT/mode_reference_teacher_v2_seed1",
+  "teacher_metrics": {
+    "contexts": 571,
+    "FRC": 1.3707917039597448,
+    "FRC_per_expert": [
+      0.12262133899280561,
+      0.14937112097911975,
+      0.11184719163198656,
+      0.14445942659849664,
+      0.20485510719103983,
+      0.1924367793927651,
+      0.10371393184711374,
+      0.13519437481567423,
+      0.10542632847949629,
+      0.10086610403124724
+    ],
+    "FRDiv": 0.19024357199668884,
+    "FRVar": 0.06917420774698257,
+    "soft_FRDiv": 0.1004527136683464,
+    "exact_FRD": 95.77266995996682
+  },
+  "arms": [
+    "basic",
+    "contrast"
+  ],
+  "epochs": 10,
+  "expected_updates": 8300,
+  "seed": 1,
+  "batch_size": 4,
+  "gpus": [
+    1,
+    5
+  ],
+  "selection": "Both frozen recipes, no VAL tuning; TRAIN-only recalibration",
+  "evaluation": "full VAL571 all-session GT, AU round, exact rolling DTW",
+  "inference": "one shared student, ten IDs; no GT, teachers, noise or scaling"
+}

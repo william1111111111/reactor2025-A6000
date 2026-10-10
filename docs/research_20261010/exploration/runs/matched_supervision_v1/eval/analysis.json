@@ -1,0 +1,331 @@
+{
+  "metrics": {
+    "fixed": {
+      "FRC": 1.0723521667827811,
+      "exact_FRD": 96.79965753346761,
+      "FRDiv": 0.2054255267575827,
+      "FRVar": 0.06809676779783128,
+      "soft_FRDiv": 0.10943050629046669,
+      "descriptor_GT_to_prediction": 0.988875361123561,
+      "descriptor_prediction_to_GT": 0.8807241786173472,
+      "descriptor_energy_score": 0.8307903202319104
+    },
+    "uniform": {
+      "FRC": 2.0387949403713588,
+      "exact_FRD": 95.42072494484786,
+      "FRDiv": 0.09164112070395942,
+      "FRVar": 0.0703987852521828,
+      "soft_FRDiv": 0.038368507290027394,
+      "descriptor_GT_to_prediction": 0.9809720409730688,
+      "descriptor_prediction_to_GT": 0.7538452268481881,
+      "descriptor_energy_score": 0.8541070759400804
+    },
+    "mode": {
+      "FRC": 1.3708233566960923,
+      "exact_FRD": 95.77160315527567,
+      "FRDiv": 0.19024725039138893,
+      "FRVar": 0.06917817361535417,
+      "soft_FRDiv": 0.10044150545070969,
+      "descriptor_GT_to_prediction": 0.9862909572763326,
+      "descriptor_prediction_to_GT": 0.870505563014443,
+      "descriptor_energy_score": 0.8299654950820001
+    },
+    "shuffled": {
+      "FRC": 1.593316992765757,
+      "exact_FRD": 94.94253419516566,
+      "FRDiv": 0.1396306947317307,
+      "FRVar": 0.06703330828252065,
+      "soft_FRDiv": 0.06555358685174673,
+      "descriptor_GT_to_prediction": 0.9771741355154435,
+      "descriptor_prediction_to_GT": 0.797226000688122,
+      "descriptor_energy_score": 0.8286793439693083
+    }
+  },
+  "contrasts": {
+    "uniform_minus_fixed": {
+      "FRC": {
+        "delta": 0.966442773588578,
+        "ci95": [
+          0.7836112121746807,
+          1.12518602073809
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "exact_FRD": {
+        "delta": -1.3789325886197354,
+        "ci95": [
+          -3.3033601753025974,
+          0.3356419703795176
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRDiv": {
+        "delta": -0.11378440605362326,
+        "ci95": [
+          -0.12539333464507565,
+          -0.10222403593385293
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRVar": {
+        "delta": 0.0023020174543515186,
+        "ci95": [
+          -0.0037914897303037622,
+          0.009693302280414356
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "soft_FRDiv": {
+        "delta": -0.07106199900043929,
+        "ci95": [
+          -0.08107226214382758,
+          -0.06199562485368392
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "descriptor_GT_to_prediction": {
+        "delta": -0.007903320150492278,
+        "ci95": [
+          -0.021843738216602248,
+          0.009242858947782961
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "descriptor_prediction_to_GT": {
+        "delta": -0.12687895176915906,
+        "ci95": [
+          -0.16543987612251776,
+          -0.10341936118913823
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "descriptor_energy_score": {
+        "delta": 0.02331675570817002,
+        "ci95": [
+          0.0025113762994164878,
+          0.049494301729751694
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      }
+    },
+    "mode_minus_uniform": {
+      "FRC": {
+        "delta": -0.6679715836752668,
+        "ci95": [
+          -0.8029010431552972,
+          -0.5294801274588622
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "exact_FRD": {
+        "delta": 0.3508782104278181,
+        "ci95": [
+          -1.211349752702285,
+          2.3381960900632386
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRDiv": {
+        "delta": 0.09860612968742952,
+        "ci95": [
+          0.08581573735563917,
+          0.1130926887821868
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRVar": {
+        "delta": -0.0012206116368286247,
+        "ci95": [
+          -0.005464900424216716,
+          0.0025815823034353413
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "soft_FRDiv": {
+        "delta": 0.06207299816068229,
+        "ci95": [
+          0.05245589875152152,
+          0.07281765557414441
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "descriptor_GT_to_prediction": {
+        "delta": 0.005318916303263863,
+        "ci95": [
+          -0.006901413481407395,
+          0.01609192293348813
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "descriptor_prediction_to_GT": {
+        "delta": 0.1166603361662549,
+        "ci95": [
+          0.09230563489254931,
+          0.15491622595451998
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "descriptor_energy_score": {
+        "delta": -0.024141580858080273,
+        "ci95": [
+          -0.04340997836249591,
+          -0.007916378555023992
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      }
+    },
+    "mode_minus_shuffled": {
+      "FRC": {
+        "delta": -0.2224936360696646,
+        "ci95": [
+          -0.34124645086280786,
+          -0.13445948282217549
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "exact_FRD": {
+        "delta": 0.829068960110019,
+        "ci95": [
+          -0.46907533795182543,
+          3.1222610113133604
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRDiv": {
+        "delta": 0.05061655565965823,
+        "ci95": [
+          0.0460008317578779,
+          0.05669203722363064
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "FRVar": {
+        "delta": 0.002144865332833522,
+        "ci95": [
+          -0.0004894903794877995,
+          0.004555931874557134
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "soft_FRDiv": {
+        "delta": 0.03488791859896296,
+        "ci95": [
+          0.029997939030227308,
+          0.040482224863916484
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "descriptor_GT_to_prediction": {
+        "delta": 0.00911682176088911,
+        "ci95": [
+          0.0033204708794979353,
+          0.012309956831572696
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "descriptor_prediction_to_GT": {
+        "delta": 0.07327956232632105,
+        "ci95": [
+          0.05170406744617449,
+          0.10942410359952365
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      },
+      "descriptor_energy_score": {
+        "delta": 0.0012861511126917424,
+        "ci95": [
+          -0.006521048326490557,
+          0.00834392649861446
+        ],
+        "sessions": 20,
+        "contexts": 571,
+        "bootstrap_seed": 270927,
+        "draws": 5000
+      }
+    }
+  },
+  "training": {
+    "jobs": 36,
+    "updates": 21600,
+    "summed_job_wall_seconds": 8572.78747677803,
+    "initialization_hashes": [
+      "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b"
+    ],
+    "source_schedule_hashes": [
+      "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61"
+    ]
+  },
+  "scope": "Single training seed; exploratory VAL571, not TEST. Cluster CI excludes training-seed uncertainty; no multiplicity correction.",
+  "descriptor_caveat": "Ancillary mean/std50D, scaled by TRAIN only; same descriptor family as mode prior, not independent proof of temporal mode coverage. Lower distances/energy are better.",
+  "synchrony_caveat": "Archived TLCC implementation returns inside candidate loop and evaluates q0 only; q0 is shared across arms. Do not report it as a discriminating all-candidate metric.",
+  "analysis_sha256": "fda7942f611d2236b0c427a57c2fc001da88977267e840333444135229491207"
+}

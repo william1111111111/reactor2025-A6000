@@ -1,0 +1,416 @@
+{
+  "matched_checks": "passed",
+  "metrics": {
+    "basic": {
+      "contexts": 571,
+      "FRC": 1.12232932067952,
+      "FRC_per_expert": [
+        0.12907070517475733,
+        0.109397291141273,
+        0.09995667581108426,
+        0.10112635546526735,
+        0.17063002350598874,
+        0.13162985402439556,
+        0.07162071155170274,
+        0.12578937323364678,
+        0.09270799899930812,
+        0.09040033177209596
+      ],
+      "FRDiv": 0.18972539901733398,
+      "FRVar": 0.06881334632635117,
+      "soft_FRDiv": 0.09650547057390213,
+      "exact_FRD": 100.69034680164943
+    },
+    "distance": {
+      "contexts": 571,
+      "FRC": 1.1106156372167582,
+      "FRC_per_expert": [
+        0.12710682812294546,
+        0.10992455166551744,
+        0.0974152557491013,
+        0.10437525123254497,
+        0.1711679567051056,
+        0.13171021389735715,
+        0.07448667076735782,
+        0.10573619862655087,
+        0.09221891517658713,
+        0.09647379527369043
+      ],
+      "FRDiv": 0.18930141627788544,
+      "FRVar": 0.06793718785047531,
+      "soft_FRDiv": 0.0991990864276886,
+      "exact_FRD": 100.09573675274595
+    },
+    "contrast": {
+      "contexts": 571,
+      "FRC": 1.121614716960534,
+      "FRC_per_expert": [
+        0.12849371834883055,
+        0.10862770474989525,
+        0.10117908420461945,
+        0.10166882269064327,
+        0.17023985273767706,
+        0.12867283714493638,
+        0.07026185835408301,
+        0.12749780047351092,
+        0.0915740184858736,
+        0.09339901977046446
+      ],
+      "FRDiv": 0.18396785855293274,
+      "FRVar": 0.0659865140914917,
+      "soft_FRDiv": 0.0906817689538002,
+      "exact_FRD": 96.61718116586498
+    },
+    "au_decision": {
+      "contexts": 571,
+      "FRC": 1.1301677806859742,
+      "FRC_per_expert": [
+        0.12908882057914767,
+        0.11094887737959941,
+        0.09980816814382105,
+        0.10381900592155405,
+        0.17086862872823455,
+        0.13454027397817367,
+        0.07335938812530143,
+        0.12558627092471983,
+        0.09395547402193458,
+        0.08819287288348805
+      ],
+      "FRDiv": 0.19047915935516357,
+      "FRVar": 0.06826567649841309,
+      "soft_FRDiv": 0.10047400742769241,
+      "exact_FRD": 100.26324029220505
+    }
+  },
+  "provenance": {
+    "basic": {
+      "git_commit_sha": "c421f509f8cb7997e9341592cae2eb1e721b0e8e",
+      "source_hashes": {
+        "coreset_reactor/train_expert_student.py": "cabf252baf46a479dc1a6601a9c2957cf7a4a398fa8c86ec215cdc2392040ad4",
+        "coreset_reactor/relation_distillation.py": "0b053c33810988655cac4c224cc583eb5e6ecc96044baacf3c3989891c20cc86",
+        "mam_reactor/regnn/expert_student.py": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77",
+        "mam_reactor/regnn/conditional_model.py": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec"
+      },
+      "relation_calibration": {},
+      "cache_manifest_hash": "062857282a606b9c67ddf5d348958e5d4cd717f37ef12fec738effa7e7fd973d",
+      "initialization_checkpoint_hash": "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+      "initial_student_state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "teacher_checkpoint_hashes": [
+        "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+        "7f94e2034d3eb24a921aaa203b401bafb76e71bf4255742b1e39446092a9d38a",
+        "a66da4b0889c9bbfb1d542bade65be7543e8b29b88d65f383539e7c8da1932e2",
+        "090abef41a0a06d057ffd5f10f4f9e00f085e96588752f174cb63ffbbd0dcd0d",
+        "07f55b8fd29c75d097a626d64c1b72bd7a24245d23c74badc523cd40186ee541",
+        "a19db09a77413dac3cc7dc89625c3ae73526333793a793a42e273e8ca725b555",
+        "51bd4555099a675bfda29f3cd3855a9bd876ce503dfb90282892f2e4d9e0c074",
+        "06320a644f44c3623e841727e76165a97d6f5b4ffe06cb9b98c0e1da8a15bb8d",
+        "0ee0421aa7fd8230ef00e98dd517e6dc3601a4b86a940bd3edfd66d95929b612",
+        "388c974242750089de29ef8f22a7808aee6fb34300a5e5d350dd4c6dca677a63"
+      ],
+      "observed_source_schedule_sha256": "25d047b93ce072e09f73a1848f0a5b449b5302d4fc75cde568c522979152647a"
+    },
+    "distance": {
+      "git_commit_sha": "c421f509f8cb7997e9341592cae2eb1e721b0e8e",
+      "source_hashes": {
+        "coreset_reactor/train_expert_student.py": "cabf252baf46a479dc1a6601a9c2957cf7a4a398fa8c86ec215cdc2392040ad4",
+        "coreset_reactor/relation_distillation.py": "0b053c33810988655cac4c224cc583eb5e6ecc96044baacf3c3989891c20cc86",
+        "mam_reactor/regnn/expert_student.py": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77",
+        "mam_reactor/regnn/conditional_model.py": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec"
+      },
+      "relation_calibration": {
+        "train_scale_examples": 32,
+        "gradient_probe_examples": 16,
+        "sample_indices": [
+          821,
+          1782,
+          1351,
+          3126,
+          412,
+          2708,
+          2614,
+          2866,
+          2774,
+          901,
+          2864,
+          3128,
+          283,
+          2494,
+          848,
+          411,
+          2127,
+          2485,
+          91,
+          1028,
+          1500,
+          1683,
+          1816,
+          1556,
+          2711,
+          2733,
+          474,
+          1092,
+          1006,
+          1396,
+          114,
+          1505
+        ],
+        "scale": [
+          0.34161651134490967,
+          0.3588804602622986,
+          0.26715022325515747
+        ],
+        "weight": 0.12761693142086034,
+        "target_gradient_ratio": 0.25,
+        "probes": [
+          {
+            "kd_loss": 0.9154321551322937,
+            "relation_loss": 0.8486893177032471,
+            "kd_gradient": 0.6277073621749878,
+            "relation_gradient": 1.338435411453247,
+            "weighted_gradient_ratio": 0.27211250083612
+          },
+          {
+            "kd_loss": 0.9255302548408508,
+            "relation_loss": 0.874591588973999,
+            "kd_gradient": 0.7362079620361328,
+            "relation_gradient": 1.333832025527954,
+            "weighted_gradient_ratio": 0.23121123229633564
+          },
+          {
+            "kd_loss": 0.9701603055000305,
+            "relation_loss": 0.8492962718009949,
+            "kd_gradient": 0.7538170218467712,
+            "relation_gradient": 1.3258851766586304,
+            "weighted_gradient_ratio": 0.2244648140831903
+          },
+          {
+            "kd_loss": 0.9413301944732666,
+            "relation_loss": 0.9478465914726257,
+            "kd_gradient": 0.6153281927108765,
+            "relation_gradient": 1.3146082162857056,
+            "weighted_gradient_ratio": 0.27264518117384645
+          }
+        ],
+        "objective": "distance"
+      },
+      "cache_manifest_hash": "062857282a606b9c67ddf5d348958e5d4cd717f37ef12fec738effa7e7fd973d",
+      "initialization_checkpoint_hash": "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+      "initial_student_state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "teacher_checkpoint_hashes": [
+        "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+        "7f94e2034d3eb24a921aaa203b401bafb76e71bf4255742b1e39446092a9d38a",
+        "a66da4b0889c9bbfb1d542bade65be7543e8b29b88d65f383539e7c8da1932e2",
+        "090abef41a0a06d057ffd5f10f4f9e00f085e96588752f174cb63ffbbd0dcd0d",
+        "07f55b8fd29c75d097a626d64c1b72bd7a24245d23c74badc523cd40186ee541",
+        "a19db09a77413dac3cc7dc89625c3ae73526333793a793a42e273e8ca725b555",
+        "51bd4555099a675bfda29f3cd3855a9bd876ce503dfb90282892f2e4d9e0c074",
+        "06320a644f44c3623e841727e76165a97d6f5b4ffe06cb9b98c0e1da8a15bb8d",
+        "0ee0421aa7fd8230ef00e98dd517e6dc3601a4b86a940bd3edfd66d95929b612",
+        "388c974242750089de29ef8f22a7808aee6fb34300a5e5d350dd4c6dca677a63"
+      ],
+      "observed_source_schedule_sha256": "25d047b93ce072e09f73a1848f0a5b449b5302d4fc75cde568c522979152647a"
+    },
+    "contrast": {
+      "git_commit_sha": "c421f509f8cb7997e9341592cae2eb1e721b0e8e",
+      "source_hashes": {
+        "coreset_reactor/train_expert_student.py": "cabf252baf46a479dc1a6601a9c2957cf7a4a398fa8c86ec215cdc2392040ad4",
+        "coreset_reactor/relation_distillation.py": "0b053c33810988655cac4c224cc583eb5e6ecc96044baacf3c3989891c20cc86",
+        "mam_reactor/regnn/expert_student.py": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77",
+        "mam_reactor/regnn/conditional_model.py": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec"
+      },
+      "relation_calibration": {
+        "train_scale_examples": 32,
+        "gradient_probe_examples": 16,
+        "sample_indices": [
+          821,
+          1782,
+          1351,
+          3126,
+          412,
+          2708,
+          2614,
+          2866,
+          2774,
+          901,
+          2864,
+          3128,
+          283,
+          2494,
+          848,
+          411,
+          2127,
+          2485,
+          91,
+          1028,
+          1500,
+          1683,
+          1816,
+          1556,
+          2711,
+          2733,
+          474,
+          1092,
+          1006,
+          1396,
+          114,
+          1505
+        ],
+        "scale": [
+          0.34161651134490967,
+          0.3588804602622986,
+          0.26715022325515747
+        ],
+        "weight": 0.2697612302992961,
+        "target_gradient_ratio": 0.25,
+        "probes": [
+          {
+            "kd_loss": 0.9154321551322937,
+            "relation_loss": 0.4486938714981079,
+            "kd_gradient": 0.6277073621749878,
+            "relation_gradient": 0.6150327324867249,
+            "weighted_gradient_ratio": 0.26431422759656115
+          },
+          {
+            "kd_loss": 0.9255302548408508,
+            "relation_loss": 0.47249579429626465,
+            "kd_gradient": 0.7362079620361328,
+            "relation_gradient": 0.6472261548042297,
+            "weighted_gradient_ratio": 0.2371565275102289
+          },
+          {
+            "kd_loss": 0.9701603055000305,
+            "relation_loss": 0.44882458448410034,
+            "kd_gradient": 0.7538170218467712,
+            "relation_gradient": 0.5850593447685242,
+            "weighted_gradient_ratio": 0.20936954734213808
+          },
+          {
+            "kd_loss": 0.9413301944732666,
+            "relation_loss": 0.551609992980957,
+            "kd_gradient": 0.6153281927108765,
+            "relation_gradient": 0.6993876695632935,
+            "weighted_gradient_ratio": 0.30661308945777604
+          }
+        ],
+        "objective": "centered_residual"
+      },
+      "cache_manifest_hash": "062857282a606b9c67ddf5d348958e5d4cd717f37ef12fec738effa7e7fd973d",
+      "initialization_checkpoint_hash": "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+      "initial_student_state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "teacher_checkpoint_hashes": [
+        "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+        "7f94e2034d3eb24a921aaa203b401bafb76e71bf4255742b1e39446092a9d38a",
+        "a66da4b0889c9bbfb1d542bade65be7543e8b29b88d65f383539e7c8da1932e2",
+        "090abef41a0a06d057ffd5f10f4f9e00f085e96588752f174cb63ffbbd0dcd0d",
+        "07f55b8fd29c75d097a626d64c1b72bd7a24245d23c74badc523cd40186ee541",
+        "a19db09a77413dac3cc7dc89625c3ae73526333793a793a42e273e8ca725b555",
+        "51bd4555099a675bfda29f3cd3855a9bd876ce503dfb90282892f2e4d9e0c074",
+        "06320a644f44c3623e841727e76165a97d6f5b4ffe06cb9b98c0e1da8a15bb8d",
+        "0ee0421aa7fd8230ef00e98dd517e6dc3601a4b86a940bd3edfd66d95929b612",
+        "388c974242750089de29ef8f22a7808aee6fb34300a5e5d350dd4c6dca677a63"
+      ],
+      "observed_source_schedule_sha256": "25d047b93ce072e09f73a1848f0a5b449b5302d4fc75cde568c522979152647a"
+    },
+    "au_decision": {
+      "git_commit_sha": "c421f509f8cb7997e9341592cae2eb1e721b0e8e",
+      "source_hashes": {
+        "coreset_reactor/train_expert_student.py": "f973d72dc8af8a330415f1e8d7ef10257cb071df8ce1268180af78ef369ae570",
+        "coreset_reactor/relation_distillation.py": "614fc5d2cecc4fd94dd11e9b3884396d3909deffb85d15cebbcb3d68df757db6",
+        "mam_reactor/regnn/expert_student.py": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77",
+        "mam_reactor/regnn/conditional_model.py": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec"
+      },
+      "relation_calibration": {
+        "train_scale_examples": 32,
+        "gradient_probe_examples": 16,
+        "sample_indices": [
+          821,
+          1782,
+          1351,
+          3126,
+          412,
+          2708,
+          2614,
+          2866,
+          2774,
+          901,
+          2864,
+          3128,
+          283,
+          2494,
+          848,
+          411,
+          2127,
+          2485,
+          91,
+          1028,
+          1500,
+          1683,
+          1816,
+          1556,
+          2711,
+          2733,
+          474,
+          1092,
+          1006,
+          1396,
+          114,
+          1505
+        ],
+        "scale": [
+          0.34161651134490967,
+          0.3588804602622986,
+          0.26715022325515747
+        ],
+        "weight": 0.14618413217266585,
+        "target_gradient_ratio": 0.25,
+        "probes": [
+          {
+            "kd_loss": 0.9154321551322937,
+            "relation_loss": 0.3561477065086365,
+            "kd_gradient": 0.6277073621749878,
+            "relation_gradient": 0.9390060901641846,
+            "weighted_gradient_ratio": 0.21868118595880479
+          },
+          {
+            "kd_loss": 0.9255302548408508,
+            "relation_loss": 0.3771120309829712,
+            "kd_gradient": 0.7362079620361328,
+            "relation_gradient": 1.2787692546844482,
+            "weighted_gradient_ratio": 0.2539170769467419
+          },
+          {
+            "kd_loss": 0.9701603055000305,
+            "relation_loss": 0.3675396144390106,
+            "kd_gradient": 0.7538170218467712,
+            "relation_gradient": 1.2695715427398682,
+            "weighted_gradient_ratio": 0.2462019413568846
+          },
+          {
+            "kd_loss": 0.9413301944732666,
+            "relation_loss": 0.451913058757782,
+            "kd_gradient": 0.6153281927108765,
+            "relation_gradient": 1.4081873893737793,
+            "weighted_gradient_ratio": 0.3345444819376617
+          }
+        ],
+        "objective": "au_decision"
+      },
+      "cache_manifest_hash": "062857282a606b9c67ddf5d348958e5d4cd717f37ef12fec738effa7e7fd973d",
+      "initialization_checkpoint_hash": "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+      "initial_student_state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "teacher_checkpoint_hashes": [
+        "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+        "7f94e2034d3eb24a921aaa203b401bafb76e71bf4255742b1e39446092a9d38a",
+        "a66da4b0889c9bbfb1d542bade65be7543e8b29b88d65f383539e7c8da1932e2",
+        "090abef41a0a06d057ffd5f10f4f9e00f085e96588752f174cb63ffbbd0dcd0d",
+        "07f55b8fd29c75d097a626d64c1b72bd7a24245d23c74badc523cd40186ee541",
+        "a19db09a77413dac3cc7dc89625c3ae73526333793a793a42e273e8ca725b555",
+        "51bd4555099a675bfda29f3cd3855a9bd876ce503dfb90282892f2e4d9e0c074",
+        "06320a644f44c3623e841727e76165a97d6f5b4ffe06cb9b98c0e1da8a15bb8d",
+        "0ee0421aa7fd8230ef00e98dd517e6dc3601a4b86a940bd3edfd66d95929b612",
+        "388c974242750089de29ef8f22a7808aee6fb34300a5e5d350dd4c6dca677a63"
+      ],
+      "observed_source_schedule_sha256": "25d047b93ce072e09f73a1848f0a5b449b5302d4fc75cde568c522979152647a"
+    }
+  }
+}

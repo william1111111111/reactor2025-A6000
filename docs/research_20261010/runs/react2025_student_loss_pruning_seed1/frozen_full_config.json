@@ -1,0 +1,22 @@
+{
+  "data_root": "$PROJECT_ROOT/data",
+  "cache_manifest": "$RUN_ROOT/mode_reference_student_seed1/train_cache/manifest.json",
+  "run_dir": "$RUN_ROOT/mode_reference_student_seed1/contrast",
+  "device": "cuda:5",
+  "epochs": 10,
+  "max_steps": 0,
+  "batch_size": 4,
+  "workers": 4,
+  "lr": 0.0001,
+  "seed": 1,
+  "expert_embedding_dim": 64,
+  "initialize_backbone": "$RUN_ROOT/maxfrdiv_teacher_pilot_600_v3/arms/T1/rank_00/conditional-epoch0006-seed1.pth",
+  "relation_grad_ratio": 0.25,
+  "relation_objective": "centered_residual",
+  "print_every": 100,
+  "save_every": 5,
+  "parameter_count": 3803201,
+  "relation_weight": 0.3291488264202468,
+  "training_seconds": 1068.928634615615,
+  "peak_memory_bytes": 7539537920
+}

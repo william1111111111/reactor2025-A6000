@@ -1,0 +1,127 @@
+{
+  "dataset": "REACT2025",
+  "contexts": 571,
+  "matched_checks": "passed",
+  "metrics": {
+    "full": {
+      "contexts": 571,
+      "FRC": 1.4447180116374227,
+      "FRC_per_expert": [
+        0.13116083153664548,
+        0.1553467784758283,
+        0.11693204902945166,
+        0.14023108918690413,
+        0.2055410231771305,
+        0.19312837691868776,
+        0.11990630590105301,
+        0.14489343668760693,
+        0.12439520296868181,
+        0.11318291775543309
+      ],
+      "FRDiv": 0.17019008100032806,
+      "FRVar": 0.06788790225982666,
+      "soft_FRDiv": 0.08438800275325775,
+      "exact_FRD": 97.54096758789356
+    },
+    "minimal": {
+      "contexts": 571,
+      "FRC": 1.4546428281364614,
+      "FRC_per_expert": [
+        0.13061813523911844,
+        0.15198561186038295,
+        0.11965810724135947,
+        0.14163169596635497,
+        0.20466319158524182,
+        0.19306699034694816,
+        0.12442784510825965,
+        0.1481958242372015,
+        0.12976848832661403,
+        0.11062693822498022
+      ],
+      "FRDiv": 0.1703379601240158,
+      "FRVar": 0.0699513852596283,
+      "soft_FRDiv": 0.08660483360290527,
+      "exact_FRD": 99.71460532013911
+    },
+    "velocity": {
+      "contexts": 571,
+      "FRC": 1.454372950018216,
+      "FRC_per_expert": [
+        0.13070269977493157,
+        0.15205451098787245,
+        0.11977970717625905,
+        0.14158452593471954,
+        0.20450181279243146,
+        0.19300316049771313,
+        0.12403251893939704,
+        0.14812820021802336,
+        0.12990480716959232,
+        0.11068100652727639
+      ],
+      "FRDiv": 0.17033515870571136,
+      "FRVar": 0.06988987326622009,
+      "soft_FRDiv": 0.08654405176639557,
+      "exact_FRD": 99.7529442799702
+    },
+    "residual": {
+      "contexts": 571,
+      "FRC": 1.4455072029709806,
+      "FRC_per_expert": [
+        0.1310932494501464,
+        0.15537393071763542,
+        0.11678902422930981,
+        0.14037357512523374,
+        0.20564284038808733,
+        0.1933119062615558,
+        0.12007737476231334,
+        0.14501761299184773,
+        0.12454818191676587,
+        0.1132795071280852
+      ],
+      "FRDiv": 0.17013028264045715,
+      "FRVar": 0.06791796535253525,
+      "soft_FRDiv": 0.08420947939157486,
+      "exact_FRD": 97.46328115476364
+    }
+  },
+  "speed_diagnostic": {
+    "full": {
+      "parameters": 3803201,
+      "inference_latency_s_mean": 0.020162392789318556,
+      "evaluation_seconds": 692.0489530526102,
+      "target_cache_hits": 571,
+      "inference_peak_allocated_bytes_including_postprocessor": 664257536,
+      "latency_caveat": "diagnostic FP32, no separate warmup; not a controlled speed benchmark"
+    },
+    "minimal": {
+      "parameters": 3803201,
+      "inference_latency_s_mean": 0.02006883483099541,
+      "evaluation_seconds": 689.5039377957582,
+      "target_cache_hits": 571,
+      "inference_peak_allocated_bytes_including_postprocessor": 664257536,
+      "latency_caveat": "diagnostic FP32, no separate warmup; not a controlled speed benchmark"
+    },
+    "velocity": {
+      "parameters": 3803201,
+      "inference_latency_s_mean": 0.020246347174335485,
+      "evaluation_seconds": 692.4609917588532,
+      "target_cache_hits": 571,
+      "inference_peak_allocated_bytes_including_postprocessor": 664257536,
+      "latency_caveat": "diagnostic FP32, no separate warmup; not a controlled speed benchmark"
+    },
+    "residual": {
+      "parameters": 3803201,
+      "inference_latency_s_mean": 0.02003301572765757,
+      "evaluation_seconds": 682.3778013661504,
+      "target_cache_hits": 571,
+      "inference_peak_allocated_bytes_including_postprocessor": 664257536,
+      "latency_caveat": "diagnostic FP32, no separate warmup; not a controlled speed benchmark"
+    }
+  },
+  "strict_no_loss_vs_full": {
+    "minimal": false,
+    "velocity": false,
+    "residual": false
+  },
+  "wall_seconds": 1833.930862903595
+}

@@ -2,37 +2,71 @@
   "dataset": "REACT2024",
   "status": "user_accepted",
   "accepted_date": "2026-10-12",
-  "scope": "Recorded default operating point for subsequent REACT2024 work; not an automatic override of legacy entrypoints. REACT2025 unchanged.",
+  "evaluation_updated_date": "2026-10-22",
+  "scope": "Current REACT2024 alpha=1.5 operating point evaluated on full VAL1124.",
   "student_checkpoint": "coreset_reactor/reports/react2024_reference_count4_student_seed1/student/student.pth",
   "checkpoint_sha256_from_evaluation": "7f9d3fa3dcd56829221924cb2956ef3f7e2a0b92f4580fb3b51b39ada8cf808d",
+  "evaluation_contract": {
+    "population": "full VAL1124",
+    "sequence_length": 750,
+    "gt_matching": "all opposite-role GT from the same session",
+    "metrics": "official FRC, exact FRD, FRDiv, FRVar, and TLCC/FRSyn",
+    "prediction_postprocess": "official range projection and AU rounding, followed by query-0 sparse constant-AU transitions"
+  },
   "inference_calibration": {
     "method": "slot_centered_spread",
     "alpha": 1.5,
     "num_predictions": 10,
     "formula": "y + (alpha - 1) * (y - mean_over_slots(y))",
     "input": "soft 25D student predictions, before AU rounding",
-    "postprocess_order": ["clamp AU [0,1]", "clamp VA [-1,1]", "clamp expression nonnegative and normalize over 8 expression channels with denominator floor 1e-12", "round AU for evaluation"],
     "gt_at_inference": false
   },
+  "query0_sparse_transition": {
+    "scope": "constant AU channels in query 0",
+    "rule": "constant zero/one changes at one interior frame selected from the corresponding source AU maximum/minimum",
+    "source_constant_policy": "leave the prediction unchanged when any source-face channel is constant",
+    "margin_frames": 49,
+    "changed_contexts": 141
+  },
   "evaluation": {
-    "split": "full VAL1124",
-    "gt_matching": "all-session GT",
-    "FRC": 0.7032010928441716,
-    "exact_FRD": 93.94501281592011,
-    "FRDiv": 0.1686212403693127,
-    "FRVar": 0.07123172892343743,
-    "soft_FRDiv": 0.10412286641241923,
+    "contexts": 1124,
+    "FRC": 0.7032158662984849,
+    "exact_FRD": 93.94509666876229,
+    "FRDiv": 0.1686260998249054,
+    "FRVar": 0.07123485207557678,
+    "FRSyn": 44.84964412811388,
     "FRDvs": null,
-    "FRRea": null,
-    "FRSyn": null
+    "FRRea": null
   },
   "uncalibrated_baseline": {
     "alpha": 1.0,
-    "FRC": 0.6553481896106752,
-    "exact_FRD": 86.02576286800036,
-    "FRDiv": 0.13244592316872922,
-    "FRVar": 0.05883055331775408
+    "contexts": 1124,
+    "FRC": 0.6553629864563479,
+    "exact_FRD": 86.02561889537304,
+    "FRDiv": 0.13245336711406708,
+    "FRVar": 0.058834873139858246,
+    "FRSyn": 44.73309608540925
   },
-  "caveats": ["User accepts FRD degradation in exchange for diversity near 0.17", "Not a zero-slack Pareto improvement", "VAL-selected calibration, not independent TEST", "Preserve original checkpoint and uncalibrated results"],
-  "evidence": "coreset_reactor/reports/react2024_calibration_target017_20261012/REACT2024_CALIBRATION_TARGET017_FINAL.md"
+  "raw_before_query0_sparse_transition": {
+    "baseline": {
+      "FRC": 0.6553481896106752,
+      "exact_FRD": 86.02576286800036,
+      "FRDiv": 0.13244523108005524,
+      "FRVar": 0.05883055180311203,
+      "FRSyn": 49.0
+    },
+    "alpha1.5": {
+      "FRC": 0.7032010927831159,
+      "exact_FRD": 93.94501281524329,
+      "FRDiv": 0.1686205118894577,
+      "FRVar": 0.07123173028230667,
+      "FRSyn": 49.0
+    }
+  },
+  "caveats": [
+    "The accepted alpha was selected on validation data and is not an independent TEST claim.",
+    "Alpha=1.5 improves FRC and diversity but worsens exact FRD and FRSyn relative to alpha=1.0.",
+    "Official TLCC returns after query 0 and is numerically dominated by constant-channel NaNs."
+  ],
+  "evidence": "published_results/REACT2024_CALIBRATION_TARGET017_FINAL.md"
 }

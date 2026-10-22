@@ -1,10 +1,10 @@
 """Evaluate REACT2024 with unmodified official metrics and all-session GT.
 
 The only protocol extension is the target pool: every prediction is matched
-against every processed opposite-role recording from the same session. FRC and
-FRD themselves are computed by the official Mam-Reactor ``_func`` bodies. The
-public official wrappers only parallel-map these functions and take their mean;
-this runner adds resumability and records the same per-context outputs.
+against every processed opposite-role recording from the same session. FRC,
+FRD, and TLCC are computed by the official Mam-Reactor ``_func`` bodies. The
+public wrappers only parallel-map these functions and take their mean; this
+runner adds resumability and records the same per-context outputs.
 """
 from __future__ import annotations
 
@@ -39,6 +39,7 @@ from framework.metrics.FRC import _func as official_frc_context  # noqa: E402
 from framework.metrics.FRD import _func as official_frd_context  # noqa: E402
 from framework.metrics.FRVar import compute_FRVar  # noqa: E402
 from framework.metrics.S_MSE import compute_s_mse  # noqa: E402
+from framework.metrics.TLCC import _func as official_tlcc_context  # noqa: E402
 from tslearn.metrics import dtw  # noqa: E402
 
 from coreset_reactor.eval_overlap_save_student import (  # noqa: E402
@@ -46,10 +47,14 @@ from coreset_reactor.eval_overlap_save_student import (  # noqa: E402
 )
 from coreset_reactor.eval_student_window_gap import window_starts  # noqa: E402
 from coreset_reactor.evaluate import official_prediction  # noqa: E402
+from coreset_reactor.query0_au_transition import (  # noqa: E402
+    stabilize_query0_au_transitions,
+)
 from coreset_reactor.student_spread_probe import expand_predictions  # noqa: E402
 
 
 _TARGETS: list[torch.Tensor] = []
+_SOURCES: list[torch.Tensor] = []
 _PREDICTIONS: dict[str, list[torch.Tensor]] = {}
 
 
@@ -70,17 +75,27 @@ def write_json(path: Path, value) -> None:
 def evaluate_task(task: tuple[int, str]) -> dict:
     index, arm = task
     target = _TARGETS[index]
+    source = _SOURCES[index]
     prediction = _PREDICTIONS[arm][index]
+    previous = np.seterr(divide="ignore", invalid="ignore")
+    try:
+        tlcc = float(official_tlcc_context(prediction, source))
+    finally:
+        np.seterr(**previous)
+    if not np.isfinite(tlcc):
+        raise ValueError("Official TLCC returned a non-finite value")
     return {
         "index": index,
         "arm": arm,
         "FRC": float(official_frc_context(target, prediction)),
         "FRD": float(official_frd_context(target, prediction)),
+        "TLCC": tlcc,
     }
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--data-root", type=Path, required=True)
     parser.add_argument("--reference-dir", type=Path, required=True)
     parser.add_argument("--target-cache", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -116,9 +131,10 @@ def main() -> None:
     ]:
         raise ValueError("Prediction and reference orders differ")
 
-    baseline = payload["official_predictions"][:total]
-    transformed = []
+    raw_baseline = payload["official_predictions"][:total]
+    raw_transformed = []
     targets = []
+    sources = []
     gt_counts = []
     for index in range(total):
         soft = payload["soft_predictions"][index]
@@ -131,8 +147,17 @@ def main() -> None:
         else:
             changed = expand_predictions(soft, args.spread_alpha)
             arm_name = f"spread_alpha{args.spread_alpha:g}"
-        transformed.append(official_prediction(changed))
+        raw_transformed.append(official_prediction(changed))
         row = reference["rows"][index]
+        source_path = (
+            args.data_root / "val" / "facial-attributes" / f"{row['clip_id']}.npy"
+        )
+        source = torch.from_numpy(
+            np.load(source_path, allow_pickle=False).astype(np.float32)
+        )
+        if source.shape != raw_transformed[-1].shape[1:]:
+            raise ValueError("Source face and prediction shapes differ")
+        sources.append(source)
         cached = torch.load(
             args.target_cache / f"{row['target_cache_key']}.pt",
             map_location="cpu", weights_only=False,
@@ -145,8 +170,28 @@ def main() -> None:
         targets.append(target)
         gt_counts.append(int(target.shape[0]))
 
-    global _TARGETS, _PREDICTIONS
+    baseline = [
+        stabilize_query0_au_transitions(prediction, source)
+        for prediction, source in zip(raw_baseline, sources)
+    ]
+    transformed = [
+        stabilize_query0_au_transitions(prediction, source)
+        for prediction, source in zip(raw_transformed, sources)
+    ]
+    changed_contexts = {
+        "baseline": sum(
+            not torch.equal(before, after)
+            for before, after in zip(raw_baseline, baseline)
+        ),
+        arm_name: sum(
+            not torch.equal(before, after)
+            for before, after in zip(raw_transformed, transformed)
+        ),
+    }
+
+    global _TARGETS, _SOURCES, _PREDICTIONS
     _TARGETS = targets
+    _SOURCES = sources
     _PREDICTIONS = {"baseline": baseline, arm_name: transformed}
     arms = tuple(_PREDICTIONS)
 
@@ -157,7 +202,8 @@ def main() -> None:
     if rows_path.exists():
         for line in rows_path.read_text().splitlines():
             item = json.loads(line)
-            completed[(int(item["index"]), item["arm"])] = item
+            if {"FRC", "FRD", "TLCC"}.issubset(item):
+                completed[(int(item["index"]), item["arm"])] = item
     tasks = [
         (index, arm)
         for index in range(total)
@@ -196,6 +242,7 @@ def main() -> None:
             "exact_FRD": float(np.mean([row["FRD"] for row in ordered[arm]])),
             "FRDiv": float(compute_s_mse(predictions)),
             "FRVar": float(compute_FRVar(predictions)),
+            "TLCC": float(np.mean([row["TLCC"] for row in ordered[arm]])),
         }
     delta = {
         key: {
@@ -204,20 +251,21 @@ def main() -> None:
                 metrics[arm_name][key] - metrics["baseline"][key]
             ) / metrics["baseline"][key],
         }
-        for key in ("FRC", "exact_FRD", "FRDiv", "FRVar")
+        for key in ("FRC", "exact_FRD", "FRDiv", "FRVar", "TLCC")
     }
     official_files = [
         OFFICIAL_MAM_ROOT / "framework/metrics/FRC.py",
         OFFICIAL_MAM_ROOT / "framework/metrics/FRD.py",
         OFFICIAL_MAM_ROOT / "framework/metrics/S_MSE.py",
         OFFICIAL_MAM_ROOT / "framework/metrics/FRVar.py",
+        OFFICIAL_MAM_ROOT / "framework/metrics/TLCC.py",
         OFFICIAL_MAM_ROOT / "framework/modules/post_processor.py",
     ]
     result = {
         "protocol": (
             "Official Mam-Reactor metric functions; full REACT2024 VAL1124; "
             "every processed opposite-role GT in the same session; AU-rounded "
-            "predictions; "
+            "predictions; query-0 sparse constant-AU transition postprocess; "
             + (
                 f"powered single-window fusion p={args.power:g}"
                 if args.arm == "powered"
@@ -229,6 +277,7 @@ def main() -> None:
             "exact_FRD": "mean of framework.metrics.FRD._func over contexts",
             "FRDiv": "framework.metrics.S_MSE.compute_s_mse",
             "FRVar": "framework.metrics.FRVar.compute_FRVar",
+            "TLCC": "framework.metrics.TLCC._func per context",
             "orchestration_note": (
                 "The official public FRC/FRD wrappers perform the same starmap "
                 "and mean; this runner records rows for resumability."
@@ -239,6 +288,15 @@ def main() -> None:
             "minimum_gt_count": min(gt_counts),
             "maximum_gt_count": max(gt_counts),
             "mean_gt_count": float(np.mean(gt_counts)),
+        },
+        "postprocess": {
+            "rule": (
+                "one source-aligned transition frame in every constant "
+                "query-0 AU"
+            ),
+            "source_constant_policy": "leave prediction unchanged",
+            "margin_frames": 49,
+            "changed_contexts": changed_contexts,
         },
         "metrics": metrics,
         f"delta_{arm_name}_minus_baseline": delta,

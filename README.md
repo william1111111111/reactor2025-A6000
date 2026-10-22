@@ -32,6 +32,12 @@ for the enforced protocol.
   distillation code.
 - [`published_results/`](published_results/): accepted aggregate result tables.
 
+The current machine-readable official-five aggregates are in
+[`published_results/current_official5_results.json`](published_results/current_official5_results.json):
+REACT2024 alpha=1.5 has FRSyn 44.849644128 on VAL1124, and the current
+REACT2025 multi-view `p=4` route has FRSyn 45.803852890 on bidirectional
+VAL1142.
+
 Datasets, checkpoints, predictions, per-context rows, caches, and local run
 directories are excluded. Single-direction REACT2025 performance tables are
 not published.

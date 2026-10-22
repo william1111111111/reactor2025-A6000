@@ -63,4 +63,7 @@ FRDiv 和 FRVar 分别提高 0.116%、0.605% 和 0.369%。重叠融合形成明�
 
 仓库仅发布上面的 VAL1142 聚合表；方向子集和逐样本记录不随公开结果分发。
 实现位于 `coreset_reactor/query0_au_transition.py`，双方向评估入口位于
-`coreset_reactor/eval_multiview_ablation_bidir_all_session.py`。
+`coreset_reactor/eval_multiview_ablation_bidir_all_session.py`。当前运行点的
+机器可读数据位于 `published_results/react2025_current_operating_point.json`，
+两套数据集的统一五指标表位于
+`published_results/current_official5_results.json`。

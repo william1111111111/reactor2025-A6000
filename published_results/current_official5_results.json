@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "updated_date": "2026-10-22",
+  "metric_directions": {
+    "FRC": "higher is better",
+    "exact_FRD": "lower is better",
+    "FRDiv": "higher is better",
+    "FRVar": "higher is better",
+    "FRSyn": "lower is better; official TLCC implementation"
+  },
+  "results": {
+    "REACT2024_alpha1.5": {
+      "population": "full VAL1124",
+      "contexts": 1124,
+      "all_session_gt": true,
+      "query0_sparse_transition": true,
+      "FRC": 0.7032158662984849,
+      "exact_FRD": 93.94509666876229,
+      "FRDiv": 0.1686260998249054,
+      "FRVar": 0.07123485207557678,
+      "FRSyn": 44.84964412811388
+    },
+    "REACT2025_multiview_p4": {
+      "population": "complete bidirectional VAL1142",
+      "contexts": 1142,
+      "all_session_gt": true,
+      "query0_sparse_transition": true,
+      "FRC": 1.101717921828473,
+      "exact_FRD": 136.159592663349,
+      "FRDiv": 0.17919298989499305,
+      "FRVar": 0.058116996266117445,
+      "FRSyn": 45.80385288966725
+    }
+  },
+  "comparability_note": "The two datasets use different sequence populations and should not be ranked directly by these absolute values.",
+  "details": {
+    "REACT2024": "published_results/react2024_accepted_operating_point.json",
+    "REACT2025": "published_results/react2025_current_operating_point.json"
+  }
+}

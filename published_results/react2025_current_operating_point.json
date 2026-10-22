@@ -1,0 +1,52 @@
+{
+  "dataset": "REACT2025",
+  "status": "current",
+  "evaluation_date": "2026-10-22",
+  "scope": "Complete bidirectional VAL1142 aggregate only.",
+  "evaluation_contract": {
+    "population": "full VAL1142, both directions",
+    "sequence_length": "full source duration, 245 to 10464 frames",
+    "gt_matching": "all opposite-role GT from the same session",
+    "metrics": "official FRC, exact FRD, FRDiv, FRVar, and TLCC/FRSyn",
+    "only_official_protocol_extension": "all-session GT pool"
+  },
+  "method": {
+    "training_views": "deterministic head/center/tail for sequences longer than 750 frames",
+    "inference": "50% overlapping 750-frame windows with powered center fusion",
+    "power": 4,
+    "query0_sparse_transition": {
+      "scope": "constant AU channels in query 0",
+      "margin_frames": 49,
+      "changed_contexts": 89
+    }
+  },
+  "evaluation": {
+    "contexts": 1142,
+    "FRC": 1.101717921828473,
+    "exact_FRD": 136.159592663349,
+    "FRDiv": 0.17919298989499305,
+    "FRVar": 0.058116996266117445,
+    "FRSyn": 45.80385288966725
+  },
+  "raw_before_query0_sparse_transition": {
+    "contexts": 1142,
+    "FRC": 1.1017194255111908,
+    "exact_FRD": 136.15966289333068,
+    "FRDiv": 0.17919109589477344,
+    "FRVar": 0.058115893009325875,
+    "FRSyn": 49.0
+  },
+  "postprocess_minus_raw": {
+    "FRC": -1.5036827178960266e-06,
+    "exact_FRD": -7.022998167371952e-05,
+    "FRDiv": 1.894000219604397e-06,
+    "FRVar": 1.1032567915694735e-06,
+    "FRSyn": -3.1961471103327526
+  },
+  "caveats": [
+    "Validation result only; this is not a hidden TEST claim.",
+    "Official TLCC returns after query 0 and is numerically dominated by constant-channel NaNs.",
+    "No single-direction performance values are published."
+  ],
+  "evidence": "published_results/REACT2025_BIDIRECTIONAL_OFFICIAL5_ABLATIONS_20261022.md"
+}

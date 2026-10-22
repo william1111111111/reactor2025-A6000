@@ -37,6 +37,7 @@ sys.path.insert(0, str(OFFICIAL_MAM_ROOT))
 
 from framework.metrics.FRC import _func as official_frc_context  # noqa: E402
 from framework.metrics.FRD import _func as official_frd_context  # noqa: E402
+from framework.metrics.FRDvs import compute_FRDvs  # noqa: E402
 from framework.metrics.FRVar import compute_FRVar  # noqa: E402
 from framework.metrics.S_MSE import compute_s_mse  # noqa: E402
 from framework.metrics.TLCC import _func as official_tlcc_context  # noqa: E402
@@ -105,6 +106,11 @@ def main() -> None:
     )
     parser.add_argument("--power", type=float, default=4.0)
     parser.add_argument("--spread-alpha", type=float, default=1.5)
+    parser.add_argument(
+        "--frdvs-device",
+        default="cuda:0" if torch.cuda.is_available() else "cpu",
+        help="Device for the official full-population FRDvs matrix",
+    )
     parser.add_argument("--workers", type=int, default=32)
     parser.add_argument("--max-contexts", type=int, default=0)
     args = parser.parse_args()
@@ -234,16 +240,24 @@ def main() -> None:
         arm: [completed[(index, arm)] for index in range(total)]
         for arm in arms
     }
+    frdvs_device = torch.device(args.frdvs_device)
+    torch.backends.cuda.matmul.allow_tf32 = False
+    torch.backends.cudnn.allow_tf32 = False
     metrics = {}
     for arm, predictions in _PREDICTIONS.items():
+        stacked = torch.stack(predictions).to(frdvs_device)
         metrics[arm] = {
             "contexts": total,
             "FRC": float(np.mean([row["FRC"] for row in ordered[arm]])),
             "exact_FRD": float(np.mean([row["FRD"] for row in ordered[arm]])),
             "FRDiv": float(compute_s_mse(predictions)),
             "FRVar": float(compute_FRVar(predictions)),
+            "FRDvs": float(compute_FRDvs(stacked).cpu()),
             "TLCC": float(np.mean([row["TLCC"] for row in ordered[arm]])),
         }
+        del stacked
+        if frdvs_device.type == "cuda":
+            torch.cuda.empty_cache()
     delta = {
         key: {
             "absolute": metrics[arm_name][key] - metrics["baseline"][key],
@@ -251,11 +265,12 @@ def main() -> None:
                 metrics[arm_name][key] - metrics["baseline"][key]
             ) / metrics["baseline"][key],
         }
-        for key in ("FRC", "exact_FRD", "FRDiv", "FRVar", "TLCC")
+        for key in ("FRC", "exact_FRD", "FRDiv", "FRVar", "FRDvs", "TLCC")
     }
     official_files = [
         OFFICIAL_MAM_ROOT / "framework/metrics/FRC.py",
         OFFICIAL_MAM_ROOT / "framework/metrics/FRD.py",
+        OFFICIAL_MAM_ROOT / "framework/metrics/FRDvs.py",
         OFFICIAL_MAM_ROOT / "framework/metrics/S_MSE.py",
         OFFICIAL_MAM_ROOT / "framework/metrics/FRVar.py",
         OFFICIAL_MAM_ROOT / "framework/metrics/TLCC.py",
@@ -277,6 +292,7 @@ def main() -> None:
             "exact_FRD": "mean of framework.metrics.FRD._func over contexts",
             "FRDiv": "framework.metrics.S_MSE.compute_s_mse",
             "FRVar": "framework.metrics.FRVar.compute_FRVar",
+            "FRDvs": "official REACT2024 framework.metrics.FRDvs.compute_FRDvs",
             "TLCC": "framework.metrics.TLCC._func per context",
             "orchestration_note": (
                 "The official public FRC/FRD wrappers perform the same starmap "

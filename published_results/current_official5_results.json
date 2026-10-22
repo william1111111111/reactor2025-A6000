@@ -6,7 +6,8 @@
     "exact_FRD": "lower is better",
     "FRDiv": "higher is better",
     "FRVar": "higher is better",
-    "FRSyn": "lower is better; official TLCC implementation"
+    "FRSyn": "lower is better; official TLCC implementation",
+    "FRDvs": "higher is better; official REACT2024 inter-condition diversity"
   },
   "results": {
     "REACT2024_alpha1.5": {
@@ -18,7 +19,11 @@
       "exact_FRD": 93.94509666876229,
       "FRDiv": 0.1686260998249054,
       "FRVar": 0.07123485207557678,
-      "FRSyn": 44.84964412811388
+      "FRSyn": 44.84964412811388,
+      "additional_official_metrics": {
+        "FRDvs": 0.1289239525794983,
+        "FRRea": null
+      }
     },
     "REACT2025_multiview_p4": {
       "population": "complete bidirectional VAL1142",

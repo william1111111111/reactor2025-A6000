@@ -1,9 +1,11 @@
 import pytest
+import torch
 
 from coreset_reactor.eval_multiview_ablation_bidir_all_session import (
     METRICS,
     validate_bidirectional_population,
 )
+from framework.metrics.FRDvs import compute_FRDvs
 
 
 def _entries(role, count):
@@ -28,3 +30,9 @@ def test_contract_rejects_unbalanced_directions():
     entries = _entries("speaker", 572) + _entries("listener", 570)
     with pytest.raises(ValueError, match="571 contexts per direction"):
         validate_bidirectional_population(entries)
+
+
+def test_react2024_official_frdvs_is_executable():
+    predictions = torch.zeros(2, 10, 2, 1)
+    predictions[1] = 1
+    assert compute_FRDvs(predictions).item() == pytest.approx(1.0)

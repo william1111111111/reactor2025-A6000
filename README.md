@@ -34,7 +34,8 @@ for the enforced protocol.
 
 The current machine-readable official-five aggregates are in
 [`published_results/current_official5_results.json`](published_results/current_official5_results.json):
-REACT2024 alpha=1.5 has FRSyn 44.849644128 on VAL1124, and the current
+REACT2024 alpha=1.5 has FRSyn 44.849644128 and official FRDvs 0.128923953
+on VAL1124, and the current
 REACT2025 multi-view `p=4` route has FRSyn 45.803852890 on bidirectional
 VAL1142.
 

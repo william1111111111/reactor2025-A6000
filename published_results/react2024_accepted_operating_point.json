@@ -10,7 +10,7 @@
     "population": "full VAL1124",
     "sequence_length": 750,
     "gt_matching": "all opposite-role GT from the same session",
-    "metrics": "official FRC, exact FRD, FRDiv, FRVar, and TLCC/FRSyn",
+    "metrics": "official FRC, exact FRD, FRDiv, FRVar, FRDvs, and TLCC/FRSyn",
     "prediction_postprocess": "official range projection and AU rounding, followed by query-0 sparse constant-AU transitions"
   },
   "inference_calibration": {
@@ -35,7 +35,7 @@
     "FRDiv": 0.1686260998249054,
     "FRVar": 0.07123485207557678,
     "FRSyn": 44.84964412811388,
-    "FRDvs": null,
+    "FRDvs": 0.1289239525794983,
     "FRRea": null
   },
   "uncalibrated_baseline": {
@@ -45,7 +45,8 @@
     "exact_FRD": 86.02561889537304,
     "FRDiv": 0.13245336711406708,
     "FRVar": 0.058834873139858246,
-    "FRSyn": 44.73309608540925
+    "FRSyn": 44.73309608540925,
+    "FRDvs": 0.11419486999511719
   },
   "raw_before_query0_sparse_transition": {
     "baseline": {
@@ -53,20 +54,23 @@
       "exact_FRD": 86.02576286800036,
       "FRDiv": 0.13244523108005524,
       "FRVar": 0.05883055180311203,
-      "FRSyn": 49.0
+      "FRSyn": 49.0,
+      "FRDvs": 0.11418652534484863
     },
     "alpha1.5": {
       "FRC": 0.7032010927831159,
       "exact_FRD": 93.94501281524329,
       "FRDiv": 0.1686205118894577,
       "FRVar": 0.07123173028230667,
-      "FRSyn": 49.0
+      "FRSyn": 49.0,
+      "FRDvs": 0.12891796231269836
     }
   },
   "caveats": [
     "The accepted alpha was selected on validation data and is not an independent TEST claim.",
-    "Alpha=1.5 improves FRC and diversity but worsens exact FRD and FRSyn relative to alpha=1.0.",
-    "Official TLCC returns after query 0 and is numerically dominated by constant-channel NaNs."
+    "Alpha=1.5 improves FRC, FRDiv, FRVar, and FRDvs but worsens exact FRD and FRSyn relative to alpha=1.0.",
+    "Official TLCC returns after query 0 and is numerically dominated by constant-channel NaNs.",
+    "FRRea remains unavailable because the current evaluation cache contains facial attributes rather than rendered real/fake image folders required by FID."
   ],
   "evidence": "published_results/REACT2024_CALIBRATION_TARGET017_FINAL.md"
 }

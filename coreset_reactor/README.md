@@ -10,7 +10,7 @@ Milestone 1 compares the same K=10 TCN and optimizer from the same initializatio
 
 The 602-D descriptor is computed from every frame of each raw TRAIN listener recording and cached once (v2 cache). Only the sampled expensive temporal targets use a fixed 750-frame crop or stretch. The TCN projects audio/face/3DMM to 64/32/32, has five depthwise dilated blocks, predicts all 10 control-point streams in one forward pass, interpolates logits, then applies AU sigmoid, VA tanh and expression softmax. Short source clips are processed at their real length; their padded tails are excluded from descriptor and temporal losses.
 
-From the `react2025_new` root (with a compatible Python environment and the dataset available):
+From the repository root (with a compatible Python environment and the dataset available):
 
 ```bash
 .venv/bin/python -m coreset_reactor.train --device cuda:5 --run-name m1_initial
@@ -22,119 +22,78 @@ To test a B3 descriptor weight against an existing same-seed B1 run, use `--arm 
 For a quality-first schedule, add `--descriptor-cover 0.15 --descriptor-warmup-fraction 0.2 --descriptor-ramp-end-fraction 0.6`: the whole descriptor block has zero weight through 20% of steps, rises linearly to 0.15 at 60%, then stays there. Each training-curve row records the applied `descriptor_weight`.
 
 New run configs record `git_head_sha`, `git_commit_sha` only when the relevant source is tracked and clean, and a `source_snapshot_sha256` across local CoReSet/Mam-Reactor Python source. A null `git_commit_sha` means the HEAD alone does not identify the executed source (for example, when CoReSet is untracked).
-For matched longer-run comparisons, use the same `--seed`, `--steps`, `--eval-examples`, and `--device` in each arm. `--save-checkpoint-steps 600` writes an evaluation-only checkpoint without interrupting the training RNG state; run configs also record hashes of the initial model and fixed source schedule. Intermediate checkpoints can be evaluated after training with `python -m coreset_reactor.evaluate --checkpoint ... --output ... --max-examples 64 --eval-seed 1234 --metric-workers 4 --device cuda:5`. The evaluation seed also fixes the target post-processor's stochastic latent independently for each context. NumPy-based metric IPC keeps full-VAL evaluation from exhausting file descriptors while preserving the official per-context formulas.
+For matched longer-run comparisons, use the same `--seed`, `--steps`, `--eval-examples`, and `--device` in each arm. `--save-checkpoint-steps 600` writes an evaluation-only checkpoint without interrupting the training RNG state; run configs also record hashes of the initial model and fixed source schedule. Intermediate checkpoints can be evaluated after training with `python -m coreset_reactor.evaluate --checkpoint ... --output ... --max-examples 64 --device cuda:5`.
 
-Detailed outputs stay local under `coreset_reactor/reports/`. `cache/` and `reports/` are ignored by Git. Selected sanitized aggregate pilot summaries—including the [matched 2500-step comparison](results/M1_MATCHED_LONG_RUN.md) and its [deterministic three-seed/full-VAL confirmation](results/M1_DETERMINISTIC_CONFIRMATION.md)—are published in [`results/`](results/); there is no automatic upload or push from training.
+Detailed outputs stay local under `coreset_reactor/reports/`. `cache/` and
+`reports/` are ignored by Git. Only accepted aggregate tables are published
+under `published_results/`; training never uploads or pushes automatically.
 
 The data assumption is limited: same-session recordings are not verified reactions to the identical stimulus. The deterministic VAL pilot calls the repository's official metric functions and target post-processor after rounding prediction AU channels, but is not the full official TEST score. No GT enters inference. The B3-vs-B1 preliminary criterion requires better descriptor coverage and FRDiv without FRC or exact FRD degradation.
 
-After freezing M1, run the read-only M2 preflight with `python -m coreset_reactor.m2_diagnostics --checkpoint ... --output ... --max-examples 571 --eval-seed 1234 --device cuda:5`. It compares random, k-medoids and approximate max-FRDiv real-GT sets, then measures descriptor-nearest responsibility and AU/VA/expression patterns for all ten prediction slots. The sanitized [full-VAL diagnostic summary](results/M2_GT_CEILING_SLOT_DIAGNOSTICS.md) is published without per-context identifiers.
-
-The first controlled mode-adapter experiment is reproducible with `python -m coreset_reactor.train --config coreset_reactor/configs/m2_mode_adapter.json --arm B3 --save-checkpoint-steps 600 --run-name m2_mode_adapter_v1 --device cuda:5`. `--stop-after-step 600` provides a safety run using the exact prefix of the planned 2500-step schedule, unlike a separately generated 600-step schedule. The [single-seed v1 result](results/M2_MODE_ADAPTER_V1.md) is negative: the zero-initialized adapter preserves the M1 function at initialization but does not improve diversity or specialization after training.
-
-M2-v2 keeps the 172,122-parameter M1 architecture and adds only TRAIN-derived behavioral mode routing. `configs/m2_mode_routing.json` deterministically partitions the 1,660 TRAIN descriptors into ten capacity-balanced medoid modes, fixes slot k to mode k, and ramps a 0.015 routed descriptor loss from 20% to 50% of training. Missing session modes are skipped; VAL descriptors never enter clustering. The [single-seed matched result](results/M2_GT_DERIVED_MODE_ROUTING.md) reports the original 0.02/0.05 points; the [low-weight sweep](results/M2_ROUTE_WEIGHT_SWEEP.md) selects 0.015 as the current candidate.
-
 Raw experiment reports, cached descriptors, datasets, and checkpoints are local-only and are not distributed in this source repository. Training and evaluation also require the FaceVerse statistics and post-processor checkpoint referenced by the existing Mam-Reactor code.
 
-The TRAIN-only Max-FRDiv teacher-target audit is implemented in
-`maxfrdiv_teacher_manifest.py`. It builds T0 random fixed-pair, T1
-paired-constrained trajectory-Max-FRDiv, and T2 unconstrained diagnostic
-manifests. T1 membership uses Mam-Reactor's
-`relative_time_resample_reaction`; descriptor prototypes are used only for
-canonical q1--q9 slot ordering. The complete manifest is intentionally local:
+## Center-window GT alignment audit
 
-```bash
-PYTHONPATH=/path/to/reactor2025-A6000/mam_reactor \
-  .venv/bin/python -m coreset_reactor.maxfrdiv_teacher_manifest \
-  --data-root /path/to/REACT2025/data \
-  --mam-root /path/to/reactor2025-A6000/mam_reactor \
-  --output /path/to/local/reports/maxfrdiv_teacher/train_manifest.json \
-  --report coreset_reactor/results/MAXFRDIV_TEACHER_TARGETS.md
-```
+`eval_expert_student_fast` evaluates all VAL speaker contexts but only the
+center 750 input frames (or the full clip when shorter). Its historical
+`legacy_compress` policy converts each complete GT directly to that window's
+length. To retain the source window's position on the complete timeline, pass
+`--target-alignment full_then_crop`: the official Processor first converts GT
+to the complete source duration, then the evaluator selects the same center
+window as the input. This policy uses a separate versioned cache key including
+the source duration and crop offset. The legacy default remains available for
+reproducing frozen experiment runners and old scores.
 
-The default T1/T2 selector is explicitly an approximate lower bound. Use
-`--exact-t1` or `--exact-t2` only for small representative solver probes; a
-set is called exact only when HiGHS returns optimal status. The dataset-level
-session ceiling has a separate entry point, `exact_max10.py`.
+Neither policy makes these scores full-sequence official TEST results.
+Nonpaired same-session references have no verified frame-level semantic
+correspondence; full-duration conversion followed by cropping is an explicit
+evaluation convention, not evidence of such correspondence.
 
-## M3 offline candidate-pool oracle
+`compare_crop_target_alignment` reuses the frozen basic student's saved K10
+predictions, verifies the archived per-context FRC and exact FRD against the
+old cache, and computes both metrics against the newly aligned targets. It
+does not train or run the student again. Launch nonoverlapping shards with
+`--shard N --shards 4 --device cuda:N --output PATH`, then run the same module
+with `--aggregate --output PATH` after all four shards finish. Results and
+target arrays remain local under the selected report directory.
 
-`oracle_select.py` answers an upper-bound question before any overcomplete
-model is trained: do the existing M1 and TRAIN-routed checkpoints already
-contain a quality-safe set of ten diverse reactions? It discovers local
-`final_checkpoint.pt` files, generates ten predictions per main checkpoint,
-rounds AU channels using the official protocol, removes byte-identical
-trajectories, and reports three selections: quality-only, unconstrained
-max-FRDiv, and strict quality-constrained max-FRDiv. The strict selector is
-seeded by the matched M1 set and uses deterministic 1-swap plus bounded
-2-swap refinement under `FRC >= M1 FRC` and `exact_FRD <= M1 exact FRD`.
+## Full-sequence, both-direction, all-session comparison
 
-The optional mode-adapter checkpoints are excluded from the main conclusion;
-`--include-mode-adapter` adds them only as an explicitly labelled analysis
-pool. Ground truth is used for oracle scoring and selection only, never by an
-inference-safe selector. The local JSON ledger contains per-context details;
-the tracked Markdown report is sanitized.
+`eval_full_sequence_all_session` evaluates the frozen REACT2025 basic student
+and the archived Mam-Reactor offline evidence checkpoint on identical VAL
+inputs and identical postprocessed GT tensors. All same-session opposite-role
+references are retained. Each model predicts nonoverlapping offline 750-frame
+chunks, which are concatenated and trimmed to the original sequence length
+before evaluation. These are full-length outputs, not unlimited-context model
+forward passes. The report separates speaker-to-listener, listener-to-speaker,
+and their equally weighted union.
 
-Example using the local data/checkpoints (paths are intentionally not
-committed):
+Run `--prepare --output PATH` once to freeze all 1142 contexts, source/GT file
+hashes, model hashes and evaluator source hashes. Run six shards with
+`--shard N --shards 6 --output PATH` and a distinct `CUDA_VISIBLE_DEVICES` for
+each, then `--aggregate --output PATH`. Per-context prediction/GT arrays and
+metrics persist so interrupted shards resume without redoing completed work.
 
-```bash
-.venv/bin/python -m coreset_reactor.oracle_select \
-  --data-root /path/to/react2025_new/data \
-  --cache /path/to/react2025_new/coreset_reactor/cache/train_descriptors_v2.pt \
-  --search-root /path/to/reactor2025-A6000/coreset_reactor/reports \
-  --search-root /path/to/react2025_new/coreset_reactor/reports \
-  --mam-root /path/to/react2025_new/mam_reactor \
-  --output /tmp/m3_oracle_select10_val64.json \
-  --report coreset_reactor/results/M3_ORACLE_SELECT10.md \
-  --max-examples 64 --eval-seed 1234 --device cuda:5 \
-  --metric-engine rolling --metric-workers 16
-```
+`exact_dtw_cuda` implements the same unconstrained DTW recurrence with FP32
+inputs and FP64 accumulation, separately for the official AU/VA/expression
+groups. It uses no downsampling, temporal band or approximate alignment.
+CPU/GPU parity tests are in `tests/test_full_sequence_all_session.py`.
+This is still a VAL experiment with deliberately all-session GT, rather than
+the official hidden test or the released loader's sampled GT policy.
 
-Run the same command with `--max-examples 571` only after the VAL64 pilot
-finishes. The report records missing expected checkpoints instead of treating
-them as a failure. No K=32/64 training is part of this phase.
+### Required protocol for metric ablations
 
-The published sanitized results are the [VAL64 pilot](results/M3_ORACLE_SELECT10.md)
-and [full VAL571 confirmation](results/M3_ORACLE_SELECT10_FULL.md). The full
-per-context ledgers remain local and ignored by Git.
-
-The rolling engine is the exact, tslearn-equivalent implementation used by
-Mam-Reactor's resumable FRD runner. Candidate trajectories and aligned targets
-are placed in shared memory, then one prediction per task is scheduled across
-spawn-safe CPU workers. Nonnegative group pruning is exact; it does not relax
-or approximate FRD. Use `--metric-engine tslearn --metric-workers 1` only for
-small equivalence checks.
-
-## Fixed-pair independent-model diagnostic
-
-`fixed_pair_ensemble.py` trains ten independent one-output ParallelTCNs. For
-each TRAIN source, a seeded hash selects ten distinct same-session GT paths;
-model `k` always receives rank `k`. Path selection is the only dataset change:
-the selected target then runs through the original diffusion
-`dataset.react_2025.ReactionDataset.__getitem__` crop and short-tail-fill code.
-The ten checkpoints share initialization and source schedule hashes. At
-evaluation, ten CUDA streams produce the final ten reactions and the ordinary
-deterministic VAL protocol computes the five primary metrics. The sanitized
-[full VAL571 result](results/M3_FIXED_PAIR_ENSEMBLE.md) is a negative
-quality/diversity tradeoff result; checkpoints and per-run curves remain local.
-
-## Mam-anchor paired-plus-nine diagnostic
-
-`anchor_pair_ensemble.py` evaluates a stricter independent-model diagnostic
-using Mam-Reactor's original 25-D ConditionalREGNN anchor rather than the
-CoReSet TCN. Ten full anchors use the same seed, initialization, source/crop
-schedule, architecture, 50-epoch optimizer schedule, and
-`MSE + (1-CCC) + 0.05 velocity` objective. Rank 0 is trained on the true
-same-basename paired listener; ranks 1-9 use deterministic distinct
-same-session listeners. Once a target path is selected, its crop and short-tail
-fill reproduce the original diffusion `ReactionDataset` behavior.
-
-The evaluator runs all ten anchors on CUDA streams, applies official AU
-rounding and deterministic target post-processing, and computes exact rolling
-FRD. Its NumPy IPC wrapper calls the unchanged official TLCC context function
-without exhausting file descriptors on full VAL. The
-[full VAL571 result](results/M3_ANCHOR_PAIRED_PLUS9_ENSEMBLE.md) confirms a
-large diversity increase but a substantial exact-FRD and GT-coverage cost.
-This diagnostic is not compute- or parameter-matched to M1: it trains and
-retains ten 3.72M-parameter backbones.
+REACT2025 ablations that report FRC, exact FRD, FRDiv, FRVar, or TLCC/FRSyn
+must use complete full-sequence VAL1142: 571 contexts in each direction, all
+opposite-role same-session GT, official Processor behavior, and official AU
+rounding. Single-direction and center-750 result tables must not be published
+or drive an operating-point claim. The
+enforced contract is documented in `EVALUATION_CONTRACT.md`; the active
+multi-view evaluator is `eval_multiview_ablation_bidir_all_session.py`.
+The completed six-arm aggregate is published in
+`../published_results/REACT2025_BIDIRECTIONAL_OFFICIAL5_ABLATIONS_20261022.md`.
+The selected final `p=4` path is evaluated by
+`eval_multiview_p4_bidir_all_session.py`. After official AU rounding it adds
+one source-aligned transition frame to every constant query-0 AU in eligible
+contexts. This remains a documented output postprocess; the six-arm fusion
+table keeps its raw predictions so the power ablation is not confounded.

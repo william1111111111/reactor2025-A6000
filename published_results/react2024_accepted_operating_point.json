@@ -1,0 +1,38 @@
+{
+  "dataset": "REACT2024",
+  "status": "user_accepted",
+  "accepted_date": "2026-10-12",
+  "scope": "Recorded default operating point for subsequent REACT2024 work; not an automatic override of legacy entrypoints. REACT2025 unchanged.",
+  "student_checkpoint": "coreset_reactor/reports/react2024_reference_count4_student_seed1/student/student.pth",
+  "checkpoint_sha256_from_evaluation": "7f9d3fa3dcd56829221924cb2956ef3f7e2a0b92f4580fb3b51b39ada8cf808d",
+  "inference_calibration": {
+    "method": "slot_centered_spread",
+    "alpha": 1.5,
+    "num_predictions": 10,
+    "formula": "y + (alpha - 1) * (y - mean_over_slots(y))",
+    "input": "soft 25D student predictions, before AU rounding",
+    "postprocess_order": ["clamp AU [0,1]", "clamp VA [-1,1]", "clamp expression nonnegative and normalize over 8 expression channels with denominator floor 1e-12", "round AU for evaluation"],
+    "gt_at_inference": false
+  },
+  "evaluation": {
+    "split": "full VAL1124",
+    "gt_matching": "all-session GT",
+    "FRC": 0.7032010928441716,
+    "exact_FRD": 93.94501281592011,
+    "FRDiv": 0.1686212403693127,
+    "FRVar": 0.07123172892343743,
+    "soft_FRDiv": 0.10412286641241923,
+    "FRDvs": null,
+    "FRRea": null,
+    "FRSyn": null
+  },
+  "uncalibrated_baseline": {
+    "alpha": 1.0,
+    "FRC": 0.6553481896106752,
+    "exact_FRD": 86.02576286800036,
+    "FRDiv": 0.13244592316872922,
+    "FRVar": 0.05883055331775408
+  },
+  "caveats": ["User accepts FRD degradation in exchange for diversity near 0.17", "Not a zero-slack Pareto improvement", "VAL-selected calibration, not independent TEST", "Preserve original checkpoint and uncalibrated results"],
+  "evidence": "coreset_reactor/reports/react2024_calibration_target017_20261012/REACT2024_CALIBRATION_TARGET017_FINAL.md"
+}

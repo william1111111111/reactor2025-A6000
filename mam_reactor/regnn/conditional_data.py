@@ -93,6 +93,8 @@ class ConditionalReactionDataset(Dataset):
         target_selection_mode: str = "deterministic_epoch_shuffle",
         session_allowlist: Optional[Sequence[str]] = None,
         crop_stride: int = 1,
+        crop_view_mode: str = "random",
+        crop_view_count: int = 1,
         load_listener_3dmm: bool = False,
         fixed_pair_rank: Optional[int] = None,
         fixed_pair_count: int = 10,
@@ -138,6 +140,12 @@ class ConditionalReactionDataset(Dataset):
         self.seed = int(seed)
         self.target_selection_mode = target_selection_mode
         self.crop_stride = int(crop_stride)
+        if crop_view_mode not in {"random", "stratified"}:
+            raise ValueError("crop_view_mode must be random or stratified")
+        if crop_view_count < 1:
+            raise ValueError("crop_view_count must be positive")
+        self.crop_view_mode = crop_view_mode
+        self.crop_view_count = int(crop_view_count)
         self.load_listener_3dmm = load_listener_3dmm
         if fixed_pair_count < 1:
             raise ValueError("fixed_pair_count must be positive")
@@ -403,6 +411,14 @@ class ConditionalReactionDataset(Dataset):
             return 0
         if self.training:
             step_count = (total_length - self.clip_length) // self.crop_stride
+            if self.crop_view_mode == "stratified":
+                if not 0 <= view_id < self.crop_view_count:
+                    raise ValueError("stratified crop view_id is out of range")
+                if self.crop_view_count == 1:
+                    return 0
+                return (
+                    view_id * step_count // (self.crop_view_count - 1)
+                ) * self.crop_stride
             return self._stable_random(
                 record,
                 purpose="source-crop",
@@ -425,6 +441,14 @@ class ConditionalReactionDataset(Dataset):
             return 0
         if self.training:
             step_count = (total_length - self.clip_length) // self.crop_stride
+            if self.crop_view_mode == "stratified":
+                if not 0 <= view_id < self.crop_view_count:
+                    raise ValueError("stratified crop view_id is out of range")
+                if self.crop_view_count == 1:
+                    return 0
+                return (
+                    view_id * step_count // (self.crop_view_count - 1)
+                ) * self.crop_stride
             return self._stable_random(
                 record,
                 purpose=f"target-crop|{target_path.as_posix()}",

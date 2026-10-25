@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "checks": {
+    "split": true,
+    "contexts": true,
+    "source_contexts": true,
+    "num_experts": true,
+    "view_epoch": true,
+    "source_seed": true,
+    "clip_length": true,
+    "crop_views": true,
+    "crop_view_mode": true,
+    "crop_view_policy": true,
+    "sampler_config_hash": true,
+    "preprocessing_version": true,
+    "model_config": true,
+    "formal_multiview_population": true,
+    "fixed_teacher_hashes": true,
+    "uniform_teacher_hashes": true,
+    "target_specific_teacher_hashes": true,
+    "identical_ordered_source_views": true
+  },
+  "ordered_view_hashes": {
+    "fixed": "cc88d3d3ee0c4c3c7d5df46cbd7fee2640bb1219d0427e49bfd9788ffa5bdc30",
+    "uniform": "cc88d3d3ee0c4c3c7d5df46cbd7fee2640bb1219d0427e49bfd9788ffa5bdc30",
+    "target_specific": "cc88d3d3ee0c4c3c7d5df46cbd7fee2640bb1219d0427e49bfd9788ffa5bdc30"
+  },
+  "manifests": {
+    "fixed": {
+      "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/reference_fixed_cache/manifest.json",
+      "sha256": "832ff68a678be2ed77a8efa20d5f936c08c98059008439e43444d1b56dd2b0cd",
+      "cache_manifest_hash": "fd008919170c6849b5071d3f4ca3c05f7db93c301aef3e8b1f19cf1e4a28492d"
+    },
+    "uniform": {
+      "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/reference_uniform_cache/manifest.json",
+      "sha256": "ceb21ba6c5d7a15454aef525454e9d3e431566510d6e4a7f5e63f4e3fd975055",
+      "cache_manifest_hash": "f3fbbce821dbd1565a9e522b3623fa2d1948d51e460ce37916cb937982b95050"
+    },
+    "target_specific": {
+      "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/multiview_boundary_student_seed1_20261018/train_cache_head_center_tail/manifest.json",
+      "sha256": "ff9f08952db15242950b3c802505d70a7d730816e630768bfb09930130822270",
+      "cache_manifest_hash": "dc2dd0570a9cb5268d854bda97f729f002ca4be6333a48c2a33dceb946fe1f5b"
+    }
+  },
+  "shared_student_loss": {
+    "objective": "centered_residual",
+    "scale": [
+      0.3264721930027008,
+      0.32862067222595215,
+      0.2594182789325714
+    ],
+    "weight": 0.29087289082928053,
+    "velocity_weight": 0.05,
+    "calibration_files": {
+      "fixed": {
+        "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/configs/reference_students/fixed_A0_frozen_calibration.json",
+        "sha256": "7c9ae6d4988748f156f7e104b0182ded88b9f7611eaa9519a3f37fe3db149edb"
+      },
+      "uniform": {
+        "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/configs/reference_students/uniform_A0_frozen_calibration.json",
+        "sha256": "e62385ec5af25024793e38f6b293830196e7f755d2ff5ff9ba6cb3651c969476"
+      }
+    }
+  }
+}

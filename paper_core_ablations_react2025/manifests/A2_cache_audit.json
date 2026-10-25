@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "statement": "A2 preserves all 8,820 input contexts, view starts, valid lengths, slot count and ordered fixed target IDs; only the supervision tensor changes from teacher AFR to its preassigned real reference AFR.",
+  "contexts": 8820,
+  "slots": 10,
+  "manifest_checks": {
+    "split": true,
+    "contexts": true,
+    "source_contexts": true,
+    "num_experts": true,
+    "view_epoch": true,
+    "source_seed": true,
+    "clip_length": true,
+    "crop_views": true,
+    "crop_view_mode": true,
+    "crop_view_policy": true,
+    "source_length_counts": true,
+    "sampler_config_hash": true,
+    "model_config": true,
+    "shards": true,
+    "source_manifest_sha256": true,
+    "target_kind": true,
+    "production_target_parity_examples": true
+  },
+  "view_metadata_sha256": "cc88d3d3ee0c4c3c7d5df46cbd7fee2640bb1219d0427e49bfd9788ffa5bdc30",
+  "view_and_target_id_sha256": "b2e57a2109597fb75b282ab4468d27cd7cd976b98210a931916148b3690b9023",
+  "teacher_manifest_sha256": "ff9f08952db15242950b3c802505d70a7d730816e630768bfb09930130822270",
+  "direct_manifest_sha256": "d0b29dbeb615fd76f92b3c58a4a880cfa912d430dcc4d26c8c30f9f6bd48b314",
+  "teacher_cache_hash": "dc2dd0570a9cb5268d854bda97f729f002ca4be6333a48c2a33dceb946fe1f5b",
+  "direct_cache_hash": "5f5c338fe27df4502788b76f71a4bf6461453c5384389d4416d6a458f96cfbbd",
+  "target_alignment": "rank0 native synchronized crop; ranks1-9 relative_time_masked",
+  "production_target_parity_examples": 300
+}

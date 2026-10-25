@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "checks": {
+    "cache_manifest_hash": true,
+    "teacher_checkpoint_hashes": true,
+    "initialization_checkpoint_hash": true,
+    "initial_student_state_sha256": true,
+    "observed_source_schedule_sha256": true,
+    "global_step": true,
+    "epochs": true,
+    "batch_size": true,
+    "lr": true,
+    "seed": true,
+    "velocity_weight": true
+  },
+  "only_planned_loss_toggle": {
+    "A0_relation_objective": "centered_residual",
+    "A0_relation_weight": 0.29087289082928053,
+    "A1_relation_weight": 0.0
+  },
+  "checkpoint_sha256": {
+    "A0": "24c53d5af11eb8df8b4100cb0a4c027a0ea6a899b289dac8e1cbddb56ca6da4d",
+    "A1": "c126a2bd8febc039ef36887b98de02c2ddd78f541b45b6e6464cb735ba2ca21c"
+  },
+  "cache_manifest_hash": "dc2dd0570a9cb5268d854bda97f729f002ca4be6333a48c2a33dceb946fe1f5b",
+  "initial_state_hash": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+  "source_schedule_hash": "0d9a679f2a80677c1ed1d7a0e26da7511917a9bb5550db611514bf3fc476fbef",
+  "updates": 8820
+}

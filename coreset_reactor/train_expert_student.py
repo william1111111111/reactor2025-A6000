@@ -130,7 +130,7 @@ def main() -> None:
                         help='Reuse same-cache/same-init TRAIN calibration instead of recalibrating')
     parser.add_argument("--relation-grad-ratio", type=float, default=0.0,
                         help="Calibrate relation weight on TRAIN initial gradients; 0 disables it")
-    parser.add_argument('--relation-objective', choices=('distance', 'centered_direction', 'centered_residual', 'au_decision'),
+    parser.add_argument('--relation-objective', choices=('distance', 'centered_direction', 'centered_residual', 'group_weighted_mse', 'au_decision'),
                         default='distance', help='Only the auxiliary objective changes; model and KD stay fixed')
     parser.add_argument('--print-every', type=int, default=1)
     parser.add_argument('--save-every', type=int, default=0,

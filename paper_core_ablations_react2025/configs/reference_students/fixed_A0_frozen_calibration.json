@@ -1,0 +1,16 @@
+{
+  "cache_manifest_hash": "fd008919170c6849b5071d3f4ca3c05f7db93c301aef3e8b1f19cf1e4a28492d",
+  "initialization_checkpoint_hash": "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+  "initial_student_state_sha256": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+  "relation_calibration": {
+    "objective": "centered_residual",
+    "scale": [
+      0.3264721930027008,
+      0.32862067222595215,
+      0.2594182789325714
+    ],
+    "weight": 0.29087289082928053,
+    "source": "frozen A0 target-specific seed-1 TRAIN calibration",
+    "reason": "keep the numerical student loss identical across teacher banks"
+  }
+}

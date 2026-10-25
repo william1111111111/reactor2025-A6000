@@ -2,7 +2,8 @@
 import numpy as np
 
 
-def candidate_frc(target, prediction):
+def pairwise_frc(target, prediction):
+    """Return [prediction, reference] mean-channel CCC before best-GT matching."""
     def stats(value):
         # Contiguous time axis reproduces original per-channel reductions.
         a = np.ascontiguousarray(np.asarray(value).transpose(0, 2, 1))
@@ -20,4 +21,8 @@ def candidate_frc(target, prediction):
     delta = (tm[None] - pm[:, None]).astype(np.float64)
     denominator = (tv[None] + pv[:, None]).astype(np.float64) + delta ** 2
     ccc = 2 * corr * ts[None] * ps[:, None] / (denominator + 1e-8)
-    return ccc.mean(-1).max(-1)
+    return ccc.mean(-1)
+
+
+def candidate_frc(target, prediction):
+    return pairwise_frc(target, prediction).max(-1)

@@ -24,6 +24,24 @@ all-session GT pool. See
 [`coreset_reactor/EVALUATION_CONTRACT.md`](coreset_reactor/EVALUATION_CONTRACT.md)
 for the enforced protocol.
 
+## REACT2025 core distillation ablations
+
+The matched A0/A1/A2/A3 experiments, three-seed A0/A1 repeats, and
+Fixed/Uniform/Target-specific reference-teacher controls are published in
+[`paper_core_ablations_react2025/`](paper_core_ablations_react2025/). Every
+formal row uses complete bidirectional VAL1142 and records raw and fixed
+query-0-postprocessed output separately. No new REACT2024 training or
+evaluation is included in this bundle.
+
+- [`MULTISEED_REPORT.md`](paper_core_ablations_react2025/MULTISEED_REPORT.md):
+  three-seed A0 versus trajectory-only A1 results.
+- [`SECOND_PRIORITY_REPORT.md`](paper_core_ablations_react2025/SECOND_PRIORITY_REPORT.md):
+  direct-reference A2 and uncentered group-MSE A3 controls.
+- [`REFERENCE_CONTROLS_REPORT.md`](paper_core_ablations_react2025/REFERENCE_CONTROLS_REPORT.md):
+  matched reference-prior teachers and their students.
+- [`CLAIM_EVIDENCE.md`](paper_core_ablations_react2025/CLAIM_EVIDENCE.md):
+  supported claims, tradeoffs, and evidence boundaries.
+
 ## Repository layout
 
 - [`coreset_reactor/`](coreset_reactor/): distillation, full-sequence inference,

@@ -1,0 +1,40 @@
+{
+  "frozen_before_training": "2026-10-23",
+  "dataset": "REACT2025",
+  "seeds": [2, 3],
+  "arms": {
+    "A0": {
+      "relation_objective": "centered_residual",
+      "relation_grad_ratio": 0.25
+    },
+    "A1": {
+      "relation_objective": "distance",
+      "relation_grad_ratio": 0.0
+    }
+  },
+  "shared": {
+    "cache_manifest": "coreset_reactor/reports/multiview_boundary_student_seed1_20261018/train_cache_head_center_tail/manifest.json",
+    "initialize_backbone": "coreset_reactor/reports/maxfrdiv_teacher_pilot_600_v3/arms/T1/rank_00/conditional-epoch0006-seed1.pth",
+    "epochs": 4,
+    "expected_updates": 8820,
+    "batch_size": 4,
+    "workers": 4,
+    "learning_rate": 0.0001,
+    "expert_embedding_dim": 64,
+    "velocity_weight": 0.05,
+    "save_every": 1
+  },
+  "formal_evaluation": {
+    "population": "VAL1142_bidirectional_all_session_gt",
+    "contexts_per_direction": 571,
+    "full_sequences": true,
+    "window": 750,
+    "stride": 375,
+    "power": 4,
+    "outputs": ["raw", "fixed_query0_transition_postprocess"],
+    "metrics": ["FRC", "exact_FRD", "FRDiv", "FRVar", "FRSyn"],
+    "bootstrap_replicates": 4000,
+    "bootstrap_seed": 20261023
+  },
+  "selection_rule": "Report both predeclared seeds regardless of direction or magnitude of results."
+}

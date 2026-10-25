@@ -1,0 +1,80 @@
+{
+  "status": "passed",
+  "checks": {
+    "initialization_checkpoint_hash": true,
+    "initial_student_state_sha256": true,
+    "observed_source_schedule_sha256": true,
+    "config_seed": true,
+    "config_epochs": true,
+    "config_batch_size": true,
+    "config_lr": true,
+    "config_velocity_weight": true,
+    "config_expert_embedding_dim": true,
+    "updates": true,
+    "expected_updates": true,
+    "student_config": true,
+    "teacher_banks": true,
+    "cache_hashes": true,
+    "centered_objective": true,
+    "same_relation_scale": true,
+    "same_relation_weight": true,
+    "architecture_sources": true
+  },
+  "note": "The target-specific A0 training entry predates addition of the unused A3 group-weighted objective; architecture hashes and executed centered objective are matched.",
+  "students": {
+    "fixed": {
+      "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/reference_fixed_student_seed1/student.pth",
+      "checkpoint_sha256": "56fa14ad6cf685b9a9516237a83ad297613c77c2c55ca5708c911e2b1b6708ea",
+      "cache_hash": "fd008919170c6849b5071d3f4ca3c05f7db93c301aef3e8b1f19cf1e4a28492d",
+      "teacher_bank_hash": "9b37c9b8631dfc6451d603ff7565c80b9c29d10a5f24d8b23086bdcb6bfc4c60",
+      "initial_state_hash": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "schedule_hash": "0d9a679f2a80677c1ed1d7a0e26da7511917a9bb5550db611514bf3fc476fbef",
+      "source_snapshot_hash": "4d4d24c6036e96b23d7eaddcb29beb0c2639de53029d53270681c13765151d31",
+      "relation_scale": [
+        0.3264721930027008,
+        0.32862067222595215,
+        0.2594182789325714
+      ],
+      "relation_weight": 0.29087289082928053,
+      "updates": 8820,
+      "training_seconds": 1136.0808207090013,
+      "peak_memory_bytes": 6020531200
+    },
+    "uniform": {
+      "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/reference_uniform_student_seed1/student.pth",
+      "checkpoint_sha256": "2431b7e5b3c3f4bc6641a3173a80e7d30d589dc154135313c3b7d67697b5196f",
+      "cache_hash": "f3fbbce821dbd1565a9e522b3623fa2d1948d51e460ce37916cb937982b95050",
+      "teacher_bank_hash": "0f955a6679375bdfea9565e54a2f7b272d327ff3c896b71bffa11a05270e8692",
+      "initial_state_hash": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "schedule_hash": "0d9a679f2a80677c1ed1d7a0e26da7511917a9bb5550db611514bf3fc476fbef",
+      "source_snapshot_hash": "4d4d24c6036e96b23d7eaddcb29beb0c2639de53029d53270681c13765151d31",
+      "relation_scale": [
+        0.3264721930027008,
+        0.32862067222595215,
+        0.2594182789325714
+      ],
+      "relation_weight": 0.29087289082928053,
+      "updates": 8820,
+      "training_seconds": 1138.4470331300981,
+      "peak_memory_bytes": 6020531200
+    },
+    "target_specific": {
+      "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/a0_full_seed1/student.pth",
+      "checkpoint_sha256": "24c53d5af11eb8df8b4100cb0a4c027a0ea6a899b289dac8e1cbddb56ca6da4d",
+      "cache_hash": "dc2dd0570a9cb5268d854bda97f729f002ca4be6333a48c2a33dceb946fe1f5b",
+      "teacher_bank_hash": "b9539b476651f839ed73acedee7d5b01c6821a305edb59b86de4127e07d39b38",
+      "initial_state_hash": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "schedule_hash": "0d9a679f2a80677c1ed1d7a0e26da7511917a9bb5550db611514bf3fc476fbef",
+      "source_snapshot_hash": "3d3b23f3a1125492781dcbedccbeb55f9646b237b908717e3b40533711755ef6",
+      "relation_scale": [
+        0.3264721930027008,
+        0.32862067222595215,
+        0.2594182789325714
+      ],
+      "relation_weight": 0.29087289082928053,
+      "updates": 8820,
+      "training_seconds": 1224.2575109750032,
+      "peak_memory_bytes": 7539537920
+    }
+  }
+}

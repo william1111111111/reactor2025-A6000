@@ -1,0 +1,69 @@
+{
+  "status": "passed",
+  "seeds": {
+    "2": {
+      "status": "passed",
+      "checks": {
+        "cache_manifest_hash": true,
+        "teacher_checkpoint_hashes": true,
+        "initialization_checkpoint_hash": true,
+        "initial_student_state_sha256": true,
+        "observed_source_schedule_sha256": true,
+        "source_hashes": true,
+        "seed": true,
+        "epochs": true,
+        "batch_size": true,
+        "learning_rate": true,
+        "velocity_weight": true,
+        "updates": true,
+        "student_config": true,
+        "loss_toggle": true
+      },
+      "initial_state_hash": "2e821658f033e3e922102bb10df80b1afe415a4ad952238ce16bb4b74043d01d",
+      "schedule_hash": "708e1d83a0c27a9122b9c2aed0ef332c2799d94d120b0c40ae4fe593bef9ffd2",
+      "a0_relation_weight": 0.19619620952806838,
+      "checkpoints": {
+        "A0": {
+          "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/a0_full_seed2/student.pth",
+          "checkpoint_sha256": "ada2a493732ce33d70b1a7b7e6279bf4ac9f69b1205c5c36fb077fad0637bd1b"
+        },
+        "A1": {
+          "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/a1_trajectory_seed2/student.pth",
+          "checkpoint_sha256": "58bc766d5eb2eda8c337381c302647b51a7687e9d5f4ced114961e9fca306a3f"
+        }
+      }
+    },
+    "3": {
+      "status": "passed",
+      "checks": {
+        "cache_manifest_hash": true,
+        "teacher_checkpoint_hashes": true,
+        "initialization_checkpoint_hash": true,
+        "initial_student_state_sha256": true,
+        "observed_source_schedule_sha256": true,
+        "source_hashes": true,
+        "seed": true,
+        "epochs": true,
+        "batch_size": true,
+        "learning_rate": true,
+        "velocity_weight": true,
+        "updates": true,
+        "student_config": true,
+        "loss_toggle": true
+      },
+      "initial_state_hash": "6625861240bf4679f40e189584cc6288966ccba289b0c92e7c33665a2ff488e8",
+      "schedule_hash": "36c4675971e217087f34ab87ae683c5ce889eb2ee784b1cdc7a098b75737ab37",
+      "a0_relation_weight": 0.25007635569613884,
+      "checkpoints": {
+        "A0": {
+          "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/a0_full_seed3/student.pth",
+          "checkpoint_sha256": "20bafa0440ad8996893098b3f75cce3224441c0545ef0346bbc79466cfef7b59"
+        },
+        "A1": {
+          "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/a1_trajectory_seed3/student.pth",
+          "checkpoint_sha256": "ded17b8afd24159b1a4947d8827792f486d09d15e45899ca833457827dbe4e55"
+        }
+      }
+    }
+  }
+}

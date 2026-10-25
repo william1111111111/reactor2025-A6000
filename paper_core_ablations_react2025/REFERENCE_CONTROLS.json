@@ -1,0 +1,1722 @@
+{
+  "protocol": "REACT2025 complete bidirectional VAL1142; full p=4 stitched sequences; all opposite-role same-session GT; official Processor, AU rounding and five metrics",
+  "arms": {
+    "fixed": "assigned target only for teacher MSE/CCC",
+    "uniform": "same assigned MSE target; uniform all-reference teacher CCC",
+    "target_specific": "same assigned MSE target; target-centered reference-prior teacher CCC"
+  },
+  "student_control": "Same seed-1 architecture, initialization, multiview source rows, schedule, budget, velocity and frozen centered-residual loss; only the teacher-output bank changes",
+  "audits": {
+    "teacher_banks": {
+      "status": "passed",
+      "checks": {
+        "shared_q0": true,
+        "distinct_non_q0_banks": true,
+        "target_bank_matches_current_multiview_cache": true,
+        "ten_teachers_each": true,
+        "all_600_updates": true
+      },
+      "rank_audits": {
+        "1": {
+          "status": "passed",
+          "checks": {
+            "global_step": true,
+            "initial_state_sha256": true,
+            "observed_source_schedule_sha256": true,
+            "parameter_count": true,
+            "epoch_index": true,
+            "completed_batches_in_epoch": true,
+            "batches_per_epoch": true,
+            "scheduler_position": true,
+            "config_fixed_pair_manifest_sha256": true,
+            "config_fixed_pair_rank": true,
+            "config_fixed_pair_seed": true,
+            "config_fixed_pair_alignment_policy": true,
+            "config_batch_size": true,
+            "config_lr": true,
+            "config_seed": true,
+            "config_velocity_weight": true,
+            "config_weight_decay": true,
+            "config_precision": true,
+            "model_config": true,
+            "expected_target_manifest": true,
+            "uniform_reference_rule": true,
+            "target_specific_reference_rule": true
+          }
+        },
+        "2": {
+          "status": "passed",
+          "checks": {
+            "global_step": true,
+            "initial_state_sha256": true,
+            "observed_source_schedule_sha256": true,
+            "parameter_count": true,
+            "epoch_index": true,
+            "completed_batches_in_epoch": true,
+            "batches_per_epoch": true,
+            "scheduler_position": true,
+            "config_fixed_pair_manifest_sha256": true,
+            "config_fixed_pair_rank": true,
+            "config_fixed_pair_seed": true,
+            "config_fixed_pair_alignment_policy": true,
+            "config_batch_size": true,
+            "config_lr": true,
+            "config_seed": true,
+            "config_velocity_weight": true,
+            "config_weight_decay": true,
+            "config_precision": true,
+            "model_config": true,
+            "expected_target_manifest": true,
+            "uniform_reference_rule": true,
+            "target_specific_reference_rule": true
+          }
+        },
+        "3": {
+          "status": "passed",
+          "checks": {
+            "global_step": true,
+            "initial_state_sha256": true,
+            "observed_source_schedule_sha256": true,
+            "parameter_count": true,
+            "epoch_index": true,
+            "completed_batches_in_epoch": true,
+            "batches_per_epoch": true,
+            "scheduler_position": true,
+            "config_fixed_pair_manifest_sha256": true,
+            "config_fixed_pair_rank": true,
+            "config_fixed_pair_seed": true,
+            "config_fixed_pair_alignment_policy": true,
+            "config_batch_size": true,
+            "config_lr": true,
+            "config_seed": true,
+            "config_velocity_weight": true,
+            "config_weight_decay": true,
+            "config_precision": true,
+            "model_config": true,
+            "expected_target_manifest": true,
+            "uniform_reference_rule": true,
+            "target_specific_reference_rule": true
+          }
+        },
+        "4": {
+          "status": "passed",
+          "checks": {
+            "global_step": true,
+            "initial_state_sha256": true,
+            "observed_source_schedule_sha256": true,
+            "parameter_count": true,
+            "epoch_index": true,
+            "completed_batches_in_epoch": true,
+            "batches_per_epoch": true,
+            "scheduler_position": true,
+            "config_fixed_pair_manifest_sha256": true,
+            "config_fixed_pair_rank": true,
+            "config_fixed_pair_seed": true,
+            "config_fixed_pair_alignment_policy": true,
+            "config_batch_size": true,
+            "config_lr": true,
+            "config_seed": true,
+            "config_velocity_weight": true,
+            "config_weight_decay": true,
+            "config_precision": true,
+            "model_config": true,
+            "expected_target_manifest": true,
+            "uniform_reference_rule": true,
+            "target_specific_reference_rule": true
+          }
+        },
+        "5": {
+          "status": "passed",
+          "checks": {
+            "global_step": true,
+            "initial_state_sha256": true,
+            "observed_source_schedule_sha256": true,
+            "parameter_count": true,
+            "epoch_index": true,
+            "completed_batches_in_epoch": true,
+            "batches_per_epoch": true,
+            "scheduler_position": true,
+            "config_fixed_pair_manifest_sha256": true,
+            "config_fixed_pair_rank": true,
+            "config_fixed_pair_seed": true,
+            "config_fixed_pair_alignment_policy": true,
+            "config_batch_size": true,
+            "config_lr": true,
+            "config_seed": true,
+            "config_velocity_weight": true,
+            "config_weight_decay": true,
+            "config_precision": true,
+            "model_config": true,
+            "expected_target_manifest": true,
+            "uniform_reference_rule": true,
+            "target_specific_reference_rule": true
+          }
+        },
+        "6": {
+          "status": "passed",
+          "checks": {
+            "global_step": true,
+            "initial_state_sha256": true,
+            "observed_source_schedule_sha256": true,
+            "parameter_count": true,
+            "epoch_index": true,
+            "completed_batches_in_epoch": true,
+            "batches_per_epoch": true,
+            "scheduler_position": true,
+            "config_fixed_pair_manifest_sha256": true,
+            "config_fixed_pair_rank": true,
+            "config_fixed_pair_seed": true,
+            "config_fixed_pair_alignment_policy": true,
+            "config_batch_size": true,
+            "config_lr": true,
+            "config_seed": true,
+            "config_velocity_weight": true,
+            "config_weight_decay": true,
+            "config_precision": true,
+            "model_config": true,
+            "expected_target_manifest": true,
+            "uniform_reference_rule": true,
+            "target_specific_reference_rule": true
+          }
+        },
+        "7": {
+          "status": "passed",
+          "checks": {
+            "global_step": true,
+            "initial_state_sha256": true,
+            "observed_source_schedule_sha256": true,
+            "parameter_count": true,
+            "epoch_index": true,
+            "completed_batches_in_epoch": true,
+            "batches_per_epoch": true,
+            "scheduler_position": true,
+            "config_fixed_pair_manifest_sha256": true,
+            "config_fixed_pair_rank": true,
+            "config_fixed_pair_seed": true,
+            "config_fixed_pair_alignment_policy": true,
+            "config_batch_size": true,
+            "config_lr": true,
+            "config_seed": true,
+            "config_velocity_weight": true,
+            "config_weight_decay": true,
+            "config_precision": true,
+            "model_config": true,
+            "expected_target_manifest": true,
+            "uniform_reference_rule": true,
+            "target_specific_reference_rule": true
+          }
+        },
+        "8": {
+          "status": "passed",
+          "checks": {
+            "global_step": true,
+            "initial_state_sha256": true,
+            "observed_source_schedule_sha256": true,
+            "parameter_count": true,
+            "epoch_index": true,
+            "completed_batches_in_epoch": true,
+            "batches_per_epoch": true,
+            "scheduler_position": true,
+            "config_fixed_pair_manifest_sha256": true,
+            "config_fixed_pair_rank": true,
+            "config_fixed_pair_seed": true,
+            "config_fixed_pair_alignment_policy": true,
+            "config_batch_size": true,
+            "config_lr": true,
+            "config_seed": true,
+            "config_velocity_weight": true,
+            "config_weight_decay": true,
+            "config_precision": true,
+            "model_config": true,
+            "expected_target_manifest": true,
+            "uniform_reference_rule": true,
+            "target_specific_reference_rule": true
+          }
+        },
+        "9": {
+          "status": "passed",
+          "checks": {
+            "global_step": true,
+            "initial_state_sha256": true,
+            "observed_source_schedule_sha256": true,
+            "parameter_count": true,
+            "epoch_index": true,
+            "completed_batches_in_epoch": true,
+            "batches_per_epoch": true,
+            "scheduler_position": true,
+            "config_fixed_pair_manifest_sha256": true,
+            "config_fixed_pair_rank": true,
+            "config_fixed_pair_seed": true,
+            "config_fixed_pair_alignment_policy": true,
+            "config_batch_size": true,
+            "config_lr": true,
+            "config_seed": true,
+            "config_velocity_weight": true,
+            "config_weight_decay": true,
+            "config_precision": true,
+            "model_config": true,
+            "expected_target_manifest": true,
+            "uniform_reference_rule": true,
+            "target_specific_reference_rule": true
+          }
+        }
+      },
+      "definition": {
+        "fixed": "assigned target only for MSE/CCC",
+        "uniform": "same assigned MSE target; uniform all-reference CCC",
+        "target_specific": "same assigned MSE target; target-centered reference-prior CCC"
+      },
+      "banks": {
+        "fixed": {
+          "paths": [
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_00/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_01/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_02/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_03/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_04/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_05/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_06/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_07/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_08/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_09/conditional-step000600-seed1.pth"
+          ],
+          "checkpoint_hashes": [
+            "bfbe0ad5a2283687e8ba943ba72566558574b6ee50acc7ff481e4734f27afdd5",
+            "4dae55b6e62f4830ca5246e0df360ef1fadd9e4241e01be8537dd3a56204fdad",
+            "86aba540f0b4c33dad95b8fa10bcf5a0b475345b07967a1f8c2d8ab0db9a3d99",
+            "4860693aaa142bde656e7e861861c409316d3451b316871f344690e5f077711f",
+            "e5f440f8490d1aa55228bc66c589db1da4631785e0b997bfd79ee3936dbb9379",
+            "3e35d23dcda9adaf2d0cfc323c11f06d6193cbbafa037e26c837492fd50572b4",
+            "24b54d7b7d094b0d908fc27baea4139cb9d8401a1cae6d56b228367a9e669c71",
+            "44f7a2196cbfea351ef1c2ad0772db65e5070c34c76eef2da220f503092d7653",
+            "555c8cde515e8f11d2499fe6f6df6d7a1bc91e74fbfa2ed7e908e956fa3eb643",
+            "fcbb40e5d520547e57d35e8b40ba56877a77d58455827c603b8538f62c3319d0"
+          ],
+          "bank_hash": "9b37c9b8631dfc6451d603ff7565c80b9c29d10a5f24d8b23086bdcb6bfc4c60",
+          "updates_per_teacher": [
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600
+          ],
+          "summed_training_seconds": 927.296324564144,
+          "initial_state_hashes": [
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b"
+          ],
+          "observed_source_schedule_hashes": [
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61"
+          ],
+          "parameter_counts": [
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129
+          ]
+        },
+        "uniform": {
+          "paths": [
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_00/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_key_component_ablations_seed1/uniform/rank_01/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_key_component_ablations_seed1/uniform/rank_02/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_key_component_ablations_seed1/uniform/rank_03/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_key_component_ablations_seed1/uniform/rank_04/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_key_component_ablations_seed1/uniform/rank_05/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_key_component_ablations_seed1/uniform/rank_06/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_key_component_ablations_seed1/uniform/rank_07/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_key_component_ablations_seed1/uniform/rank_08/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_key_component_ablations_seed1/uniform/rank_09/conditional-step000600-seed1.pth"
+          ],
+          "checkpoint_hashes": [
+            "bfbe0ad5a2283687e8ba943ba72566558574b6ee50acc7ff481e4734f27afdd5",
+            "be4dd6aff5a0dfffb5472f8ff74ef84eceabf926d2467ebd8ee4b15115d858b6",
+            "24209788d8a9925e68142f6dc538ade572aa85051d04a714b0d1cc8af2453e62",
+            "8c48d3d239a0aa8a77c01f5d40a1362715faad7cd24cda8245aee18da4fa1ef4",
+            "6abd5ef6d5d0425f352d327fbf13c6deb0bb952535c8e158c573da19ce08ec93",
+            "655b0c3f2d2729670a29659ca9c19f929721e11634c4fce22f98bcf9f3b3a9fe",
+            "bae1bb936b2960b75085fef3e8f1e96b2efa335fe6376205444add382365796a",
+            "ca0895c0078d788186f07ec5ce0f2d2e0696a3820e9e17e6ce2300dfdce99c27",
+            "ae6872b126db4e9a4d0b73f0d2c838029102ee0bd5667ba15a0bb02321599c77",
+            "c3a09791ccfdb5394677cf105bb037baee6136919a92af484841471f43f2e3f8"
+          ],
+          "bank_hash": "0f955a6679375bdfea9565e54a2f7b272d327ff3c896b71bffa11a05270e8692",
+          "updates_per_teacher": [
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600
+          ],
+          "summed_training_seconds": 2076.3283668067306,
+          "initial_state_hashes": [
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b"
+          ],
+          "observed_source_schedule_hashes": [
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61"
+          ],
+          "parameter_counts": [
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129
+          ]
+        },
+        "target_specific": {
+          "paths": [
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/teacher_convergence_2400_seed1/arms/T1/rank_00/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/mode_reference_teacher_v2_seed1/rank_01/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/mode_reference_teacher_v2_seed1/rank_02/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/mode_reference_teacher_v2_seed1/rank_03/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/mode_reference_teacher_v2_seed1/rank_04/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/mode_reference_teacher_v2_seed1/rank_05/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/mode_reference_teacher_v2_seed1/rank_06/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/mode_reference_teacher_v2_seed1/rank_07/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/mode_reference_teacher_v2_seed1/rank_08/conditional-step000600-seed1.pth",
+            "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/mode_reference_teacher_v2_seed1/rank_09/conditional-step000600-seed1.pth"
+          ],
+          "checkpoint_hashes": [
+            "bfbe0ad5a2283687e8ba943ba72566558574b6ee50acc7ff481e4734f27afdd5",
+            "0bae4911a138289be13f7bbd559bcf7430e6f90980992ea5b63b1c8e36e93cd5",
+            "6c665a8581ecd8818cb6aa0659bd44ab4052964804be0c7bd1253a9540e087d5",
+            "8b9017b14bcf1be0fa06f736e71cb426af3083ff3e1daf7c724e94e3e26a12cf",
+            "c62f1f92dea2a02546acac43513d14d7d61c8337823b7be505cc83652399cc2b",
+            "e0184c6fa5a18b10ef2c775d20500187e922714d43883c9f282c2429e9e5ff82",
+            "f99023d008daa6aa3a61cdcba514fdcf79f7596138d9cb2bd768794d5dbf2c6c",
+            "6c81ca1d7a5adbeae7e943c67616f1fcd805b2a1aaf84ded8c3b836b0cf2ea55",
+            "5a90ac722fd80e3ede68977d39536cda0fe1a8e00c48aaf1c41bfa1de4e631fa",
+            "82359e7bf3473ff6b5b480e979be5718757aae0c743760611122929312d0abc4"
+          ],
+          "bank_hash": "b9539b476651f839ed73acedee7d5b01c6821a305edb59b86de4127e07d39b38",
+          "updates_per_teacher": [
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600
+          ],
+          "summed_training_seconds": 2148.274131093174,
+          "initial_state_hashes": [
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b",
+            "2c50615f23b1e7586a9e7c39cad6c2ebae55caa3fcb2acf9e64a438494c5e16b"
+          ],
+          "observed_source_schedule_hashes": [
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61",
+            "07d14bd783ec16c9b62e3f76302b21fe116a72edcf59e4d2c58e7dabcb8cfe61"
+          ],
+          "parameter_counts": [
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129,
+            3720129
+          ]
+        }
+      }
+    },
+    "student_caches": {
+      "status": "passed",
+      "checks": {
+        "split": true,
+        "contexts": true,
+        "source_contexts": true,
+        "num_experts": true,
+        "view_epoch": true,
+        "source_seed": true,
+        "clip_length": true,
+        "crop_views": true,
+        "crop_view_mode": true,
+        "crop_view_policy": true,
+        "sampler_config_hash": true,
+        "preprocessing_version": true,
+        "model_config": true,
+        "formal_multiview_population": true,
+        "fixed_teacher_hashes": true,
+        "uniform_teacher_hashes": true,
+        "target_specific_teacher_hashes": true,
+        "identical_ordered_source_views": true
+      },
+      "ordered_view_hashes": {
+        "fixed": "cc88d3d3ee0c4c3c7d5df46cbd7fee2640bb1219d0427e49bfd9788ffa5bdc30",
+        "uniform": "cc88d3d3ee0c4c3c7d5df46cbd7fee2640bb1219d0427e49bfd9788ffa5bdc30",
+        "target_specific": "cc88d3d3ee0c4c3c7d5df46cbd7fee2640bb1219d0427e49bfd9788ffa5bdc30"
+      },
+      "manifests": {
+        "fixed": {
+          "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/reference_fixed_cache/manifest.json",
+          "sha256": "832ff68a678be2ed77a8efa20d5f936c08c98059008439e43444d1b56dd2b0cd",
+          "cache_manifest_hash": "fd008919170c6849b5071d3f4ca3c05f7db93c301aef3e8b1f19cf1e4a28492d"
+        },
+        "uniform": {
+          "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/reference_uniform_cache/manifest.json",
+          "sha256": "ceb21ba6c5d7a15454aef525454e9d3e431566510d6e4a7f5e63f4e3fd975055",
+          "cache_manifest_hash": "f3fbbce821dbd1565a9e522b3623fa2d1948d51e460ce37916cb937982b95050"
+        },
+        "target_specific": {
+          "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/multiview_boundary_student_seed1_20261018/train_cache_head_center_tail/manifest.json",
+          "sha256": "ff9f08952db15242950b3c802505d70a7d730816e630768bfb09930130822270",
+          "cache_manifest_hash": "dc2dd0570a9cb5268d854bda97f729f002ca4be6333a48c2a33dceb946fe1f5b"
+        }
+      },
+      "shared_student_loss": {
+        "objective": "centered_residual",
+        "scale": [
+          0.3264721930027008,
+          0.32862067222595215,
+          0.2594182789325714
+        ],
+        "weight": 0.29087289082928053,
+        "velocity_weight": 0.05,
+        "calibration_files": {
+          "fixed": {
+            "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/configs/reference_students/fixed_A0_frozen_calibration.json",
+            "sha256": "7c9ae6d4988748f156f7e104b0182ded88b9f7611eaa9519a3f37fe3db149edb"
+          },
+          "uniform": {
+            "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/configs/reference_students/uniform_A0_frozen_calibration.json",
+            "sha256": "e62385ec5af25024793e38f6b293830196e7f755d2ff5ff9ba6cb3651c969476"
+          }
+        }
+      }
+    },
+    "students": {
+      "status": "passed",
+      "checks": {
+        "initialization_checkpoint_hash": true,
+        "initial_student_state_sha256": true,
+        "observed_source_schedule_sha256": true,
+        "config_seed": true,
+        "config_epochs": true,
+        "config_batch_size": true,
+        "config_lr": true,
+        "config_velocity_weight": true,
+        "config_expert_embedding_dim": true,
+        "updates": true,
+        "expected_updates": true,
+        "student_config": true,
+        "teacher_banks": true,
+        "cache_hashes": true,
+        "centered_objective": true,
+        "same_relation_scale": true,
+        "same_relation_weight": true,
+        "architecture_sources": true
+      },
+      "note": "The target-specific A0 training entry predates addition of the unused A3 group-weighted objective; architecture hashes and executed centered objective are matched.",
+      "students": {
+        "fixed": {
+          "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/reference_fixed_student_seed1/student.pth",
+          "checkpoint_sha256": "56fa14ad6cf685b9a9516237a83ad297613c77c2c55ca5708c911e2b1b6708ea",
+          "cache_hash": "fd008919170c6849b5071d3f4ca3c05f7db93c301aef3e8b1f19cf1e4a28492d",
+          "teacher_bank_hash": "9b37c9b8631dfc6451d603ff7565c80b9c29d10a5f24d8b23086bdcb6bfc4c60",
+          "initial_state_hash": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+          "schedule_hash": "0d9a679f2a80677c1ed1d7a0e26da7511917a9bb5550db611514bf3fc476fbef",
+          "source_snapshot_hash": "4d4d24c6036e96b23d7eaddcb29beb0c2639de53029d53270681c13765151d31",
+          "relation_scale": [
+            0.3264721930027008,
+            0.32862067222595215,
+            0.2594182789325714
+          ],
+          "relation_weight": 0.29087289082928053,
+          "updates": 8820,
+          "training_seconds": 1136.0808207090013,
+          "peak_memory_bytes": 6020531200
+        },
+        "uniform": {
+          "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/reference_uniform_student_seed1/student.pth",
+          "checkpoint_sha256": "2431b7e5b3c3f4bc6641a3173a80e7d30d589dc154135313c3b7d67697b5196f",
+          "cache_hash": "f3fbbce821dbd1565a9e522b3623fa2d1948d51e460ce37916cb937982b95050",
+          "teacher_bank_hash": "0f955a6679375bdfea9565e54a2f7b272d327ff3c896b71bffa11a05270e8692",
+          "initial_state_hash": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+          "schedule_hash": "0d9a679f2a80677c1ed1d7a0e26da7511917a9bb5550db611514bf3fc476fbef",
+          "source_snapshot_hash": "4d4d24c6036e96b23d7eaddcb29beb0c2639de53029d53270681c13765151d31",
+          "relation_scale": [
+            0.3264721930027008,
+            0.32862067222595215,
+            0.2594182789325714
+          ],
+          "relation_weight": 0.29087289082928053,
+          "updates": 8820,
+          "training_seconds": 1138.4470331300981,
+          "peak_memory_bytes": 6020531200
+        },
+        "target_specific": {
+          "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/a0_full_seed1/student.pth",
+          "checkpoint_sha256": "24c53d5af11eb8df8b4100cb0a4c027a0ea6a899b289dac8e1cbddb56ca6da4d",
+          "cache_hash": "dc2dd0570a9cb5268d854bda97f729f002ca4be6333a48c2a33dceb946fe1f5b",
+          "teacher_bank_hash": "b9539b476651f839ed73acedee7d5b01c6821a305edb59b86de4127e07d39b38",
+          "initial_state_hash": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+          "schedule_hash": "0d9a679f2a80677c1ed1d7a0e26da7511917a9bb5550db611514bf3fc476fbef",
+          "source_snapshot_hash": "3d3b23f3a1125492781dcbedccbeb55f9646b237b908717e3b40533711755ef6",
+          "relation_scale": [
+            0.3264721930027008,
+            0.32862067222595215,
+            0.2594182789325714
+          ],
+          "relation_weight": 0.29087289082928053,
+          "updates": 8820,
+          "training_seconds": 1224.2575109750032,
+          "peak_memory_bytes": 7539537920
+        }
+      }
+    }
+  },
+  "evaluation": {
+    "teacher": {
+      "fixed": {
+        "summed_context_seconds": 8758.676673758659,
+        "seconds_basis": "shared joint evaluation of all three teacher banks"
+      },
+      "uniform": {
+        "summed_context_seconds": 8758.676673758659,
+        "seconds_basis": "shared joint evaluation of all three teacher banks"
+      },
+      "target_specific": {
+        "summed_context_seconds": 8758.676673758659,
+        "seconds_basis": "shared joint evaluation of all three teacher banks"
+      }
+    },
+    "student": {
+      "fixed": {
+        "summed_context_seconds": 2869.5833072180394,
+        "seconds_basis": "this student arm only"
+      },
+      "uniform": {
+        "summed_context_seconds": 2869.2553717315895,
+        "seconds_basis": "this student arm only"
+      },
+      "target_specific": {
+        "summed_context_seconds": 3114.8686199511867,
+        "seconds_basis": "this student arm only"
+      }
+    }
+  },
+  "aggregate": {
+    "teacher_fixed_raw": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 0.8884672741981057,
+        "exact_FRD": 136.92677933137577,
+        "FRDiv": 0.2012796419462264,
+        "FRVar": 0.063343106539049,
+        "TLCC": 49.0
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.7057878906967359,
+        "exact_FRD": 133.51352209926372,
+        "FRDiv": 0.20344921891722703,
+        "FRVar": 0.051895769502178175,
+        "TLCC": 49.0
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 0.7971275824474209,
+        "exact_FRD": 135.22015071531973,
+        "FRDiv": 0.20236443043172672,
+        "FRVar": 0.05761943802061359,
+        "TLCC": 49.0
+      }
+    },
+    "student_fixed_raw": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 0.9463817749908036,
+        "exact_FRD": 136.04710117810873,
+        "FRDiv": 0.186497196398558,
+        "FRVar": 0.06122049915680952,
+        "TLCC": 49.0
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.7292921311310963,
+        "exact_FRD": 132.92430927285878,
+        "FRDiv": 0.19531327045005592,
+        "FRVar": 0.0527569159030288,
+        "TLCC": 49.0
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 0.8378369530609499,
+        "exact_FRD": 134.48570522548374,
+        "FRDiv": 0.19090523342430696,
+        "FRVar": 0.05698870752991916,
+        "TLCC": 49.0
+      }
+    },
+    "teacher_fixed_postprocessed": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 0.8884649799111981,
+        "exact_FRD": 136.92757768875092,
+        "FRDiv": 0.2012825188359112,
+        "FRVar": 0.06334479958888946,
+        "TLCC": 44.85288966725044
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.705786111997643,
+        "exact_FRD": 133.51367724833784,
+        "FRDiv": 0.20345033060648396,
+        "FRVar": 0.051896437790551454,
+        "TLCC": 46.85464098073555
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 0.7971255459544205,
+        "exact_FRD": 135.22062746854436,
+        "FRDiv": 0.20236642472119756,
+        "FRVar": 0.05762061868972045,
+        "TLCC": 45.853765323992995
+      }
+    },
+    "student_fixed_postprocessed": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 0.9463794108295107,
+        "exact_FRD": 136.04747431118838,
+        "FRDiv": 0.18649983450431123,
+        "FRVar": 0.06122196965480644,
+        "TLCC": 45.513134851138354
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.7292905845866999,
+        "exact_FRD": 132.92451188625756,
+        "FRDiv": 0.1953143113392247,
+        "FRVar": 0.05275751325430678,
+        "TLCC": 46.95621716287216
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 0.8378349977081054,
+        "exact_FRD": 134.485993098723,
+        "FRDiv": 0.19090707292176795,
+        "FRVar": 0.05698974145455661,
+        "TLCC": 46.234676007005255
+      }
+    },
+    "teacher_uniform_raw": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.724179629849016,
+        "exact_FRD": 130.92340884254602,
+        "FRDiv": 0.09244125979689917,
+        "FRVar": 0.057042048973293936,
+        "TLCC": 49.0
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 1.350133890380452,
+        "exact_FRD": 138.36778812736208,
+        "FRDiv": 0.11135683276555167,
+        "FRVar": 0.04893131342254931,
+        "TLCC": 49.0
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.537156760114734,
+        "exact_FRD": 134.64559848495406,
+        "FRDiv": 0.10189904628122542,
+        "FRVar": 0.052986681197921624,
+        "TLCC": 49.0
+      }
+    },
+    "student_uniform_raw": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.770765734662425,
+        "exact_FRD": 134.70970221137017,
+        "FRDiv": 0.07997176538493922,
+        "FRVar": 0.05903145672195639,
+        "TLCC": 49.0
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 1.378874946428575,
+        "exact_FRD": 140.73145590812362,
+        "FRDiv": 0.10293303005358174,
+        "FRVar": 0.05048855943621614,
+        "TLCC": 49.0
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.5748203405455001,
+        "exact_FRD": 137.7205790597469,
+        "FRDiv": 0.09145239771926048,
+        "FRVar": 0.054760008079086264,
+        "TLCC": 49.0
+      }
+    },
+    "teacher_uniform_postprocessed": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.7241773355621082,
+        "exact_FRD": 130.92420719992117,
+        "FRDiv": 0.09244409409692533,
+        "FRVar": 0.05704374189917553,
+        "TLCC": 44.85288966725044
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 1.3501321116813592,
+        "exact_FRD": 138.36794327643616,
+        "FRDiv": 0.11135802599364947,
+        "FRVar": 0.048931981730495046,
+        "TLCC": 46.85464098073555
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.5371547236217338,
+        "exact_FRD": 134.64607523817867,
+        "FRDiv": 0.1019010600452874,
+        "FRVar": 0.05298786181483529,
+        "TLCC": 45.853765323992995
+      }
+    },
+    "student_uniform_postprocessed": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.77077109524276,
+        "exact_FRD": 134.70886226764043,
+        "FRDiv": 0.07997423088774998,
+        "FRVar": 0.059033031723806195,
+        "TLCC": 45.047285464098074
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 1.378871696112551,
+        "exact_FRD": 140.73159681092375,
+        "FRDiv": 0.10293415304266842,
+        "FRVar": 0.050489177420122086,
+        "TLCC": 47.14535901926445
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.5748213956776553,
+        "exact_FRD": 137.7202295392821,
+        "FRDiv": 0.09145419196520921,
+        "FRVar": 0.05476110457196414,
+        "TLCC": 46.096322241681264
+      }
+    },
+    "teacher_target_specific_raw": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.1431378471701883,
+        "exact_FRD": 134.85551355743155,
+        "FRDiv": 0.18682962977009354,
+        "FRVar": 0.061805637298892345,
+        "TLCC": 49.0
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.9578719606487829,
+        "exact_FRD": 131.53428207486428,
+        "FRDiv": 0.19329413220990976,
+        "FRVar": 0.0535225684994313,
+        "TLCC": 49.0
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.0505049039094858,
+        "exact_FRD": 133.19489781614791,
+        "FRDiv": 0.19006188099000165,
+        "FRVar": 0.05766410289916182,
+        "TLCC": 49.0
+      }
+    },
+    "student_target_specific_raw": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.2122071452876886,
+        "exact_FRD": 136.1190832189199,
+        "FRDiv": 0.17257637422264352,
+        "FRVar": 0.06036825806894152,
+        "TLCC": 49.0
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.9905257799708024,
+        "exact_FRD": 132.33227312531133,
+        "FRDiv": 0.18533762738813242,
+        "FRVar": 0.05381483751008264,
+        "TLCC": 49.0
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.1013664626292454,
+        "exact_FRD": 134.2256781721156,
+        "FRDiv": 0.17895700080538798,
+        "FRVar": 0.05709154778951208,
+        "TLCC": 49.0
+      }
+    },
+    "teacher_target_specific_postprocessed": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.143135552883281,
+        "exact_FRD": 134.8563119148067,
+        "FRDiv": 0.18683249261980509,
+        "FRVar": 0.061807330205201474,
+        "TLCC": 44.85288966725044
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.9578701819496902,
+        "exact_FRD": 131.5344372239384,
+        "FRDiv": 0.19329519528119243,
+        "FRVar": 0.05352323674865967,
+        "TLCC": 46.85464098073555
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.0505028674164854,
+        "exact_FRD": 133.19537456937255,
+        "FRDiv": 0.19006384395049875,
+        "FRVar": 0.057665283476930576,
+        "TLCC": 45.853765323992995
+      }
+    },
+    "student_target_specific_postprocessed": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.212209460785905,
+        "exact_FRD": 136.11863168299564,
+        "FRDiv": 0.17257911741942325,
+        "FRVar": 0.06036982926068707,
+        "TLCC": 45.38704028021016
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.9905224681355349,
+        "exact_FRD": 132.3323797834631,
+        "FRDiv": 0.18533853870765968,
+        "FRVar": 0.053815384651493485,
+        "TLCC": 46.6830122591944
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.1013659644607199,
+        "exact_FRD": 134.22550573322937,
+        "FRDiv": 0.17895882806354146,
+        "FRVar": 0.057092606956090274,
+        "TLCC": 46.03502626970228
+      }
+    }
+  },
+  "paired": {
+    "teacher": {
+      "uniform_minus_fixed": {
+        "raw": {
+          "definition": "uniform minus fixed; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": 0.7400291776673131,
+              "relative_delta_percent": 92.83698042353541,
+              "session_clustered_ci95": [
+                0.4658182542875406,
+                0.9012105313251583
+              ],
+              "contexts_A0_better_fraction": 0.9807355516637478,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": -0.5745522303657173,
+              "relative_delta_percent": -0.4249013385403834,
+              "session_clustered_ci95": [
+                -5.654923741904011,
+                3.3037335910797694
+              ],
+              "contexts_A0_better_fraction": 0.4711033274956217,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": -0.10046538415050131,
+              "relative_delta_percent": -49.645772202242874,
+              "session_clustered_ci95": [
+                -0.10658896535650285,
+                -0.09499389189195019
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": -0.00463275682269196,
+              "relative_delta_percent": -8.040267281042505,
+              "session_clustered_ci95": [
+                -0.014142648476124602,
+                0.006004136438357448
+              ],
+              "contexts_A0_better_fraction": 0.3327495621716287,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": 0.0,
+              "relative_delta_percent": 0.0,
+              "session_clustered_ci95": [
+                0.0,
+                0.0
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 1.0
+            }
+          }
+        },
+        "postprocessed": {
+          "definition": "uniform minus fixed; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": 0.7400291776673131,
+              "relative_delta_percent": 92.83721760306348,
+              "session_clustered_ci95": [
+                0.4658182542875406,
+                0.9012105313251583
+              ],
+              "contexts_A0_better_fraction": 0.9807355516637478,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": -0.574552230365717,
+              "relative_delta_percent": -0.4248998404473252,
+              "session_clustered_ci95": [
+                -5.65492374190401,
+                3.3037335910797694
+              ],
+              "contexts_A0_better_fraction": 0.4711033274956217,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": -0.10046536467591016,
+              "relative_delta_percent": -49.645273327491154,
+              "session_clustered_ci95": [
+                -0.10658894542121197,
+                -0.0949938866587317
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": -0.004632756874885169,
+              "relative_delta_percent": -8.04010262338897,
+              "session_clustered_ci95": [
+                -0.014142648525633954,
+                0.006004136378181604
+              ],
+              "contexts_A0_better_fraction": 0.3327495621716287,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": 0.0,
+              "relative_delta_percent": 0.0,
+              "session_clustered_ci95": [
+                0.0,
+                0.0
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 1.0
+            }
+          }
+        }
+      },
+      "target_specific_minus_fixed": {
+        "raw": {
+          "definition": "target_specific minus fixed; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": 0.2533773214620649,
+              "relative_delta_percent": 31.786294570828986,
+              "session_clustered_ci95": [
+                0.1586843332699812,
+                0.32852422407674275
+              ],
+              "contexts_A0_better_fraction": 0.9824868651488616,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": -2.02525289917183,
+              "relative_delta_percent": -1.497744891170558,
+              "session_clustered_ci95": [
+                -3.72093759793557,
+                -0.8176652953694152
+              ],
+              "contexts_A0_better_fraction": 0.6532399299474606,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": -0.012302549441725067,
+              "relative_delta_percent": -6.07940309246969,
+              "session_clustered_ci95": [
+                -0.014208025026774035,
+                -0.010323835414892582
+              ],
+              "contexts_A0_better_fraction": 0.06042031523642732,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": 4.466487854823548e-05,
+              "relative_delta_percent": 0.07751703258934327,
+              "session_clustered_ci95": [
+                -0.003432525599535717,
+                0.004026577096478317
+              ],
+              "contexts_A0_better_fraction": 0.4448336252189142,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": 0.0,
+              "relative_delta_percent": 0.0,
+              "session_clustered_ci95": [
+                0.0,
+                0.0
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 1.0
+            }
+          }
+        },
+        "postprocessed": {
+          "definition": "target_specific minus fixed; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": 0.2533773214620649,
+              "relative_delta_percent": 31.78637577832099,
+              "session_clustered_ci95": [
+                0.1586843332699812,
+                0.32852422407674275
+              ],
+              "contexts_A0_better_fraction": 0.9824868651488616,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": -2.0252528991718304,
+              "relative_delta_percent": -1.4977396105065064,
+              "session_clustered_ci95": [
+                -3.72093759793557,
+                -0.8176652953694157
+              ],
+              "contexts_A0_better_fraction": 0.6532399299474606,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": -0.012302580770698821,
+              "relative_delta_percent": -6.079358662212974,
+              "session_clustered_ci95": [
+                -0.014208031681120599,
+                -0.010323874105236223
+              ],
+              "contexts_A0_better_fraction": 0.06042031523642732,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": 4.4664787210119585e-05,
+              "relative_delta_percent": 0.07751528571852667,
+              "session_clustered_ci95": [
+                -0.0034325256202036793,
+                0.004026577008426676
+              ],
+              "contexts_A0_better_fraction": 0.4448336252189142,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": 0.0,
+              "relative_delta_percent": 0.0,
+              "session_clustered_ci95": [
+                0.0,
+                0.0
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 1.0
+            }
+          }
+        }
+      },
+      "target_specific_minus_uniform": {
+        "raw": {
+          "definition": "target_specific minus uniform; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": -0.48665185620524826,
+              "relative_delta_percent": -31.659221026287803,
+              "session_clustered_ci95": [
+                -0.578175827415541,
+                -0.3105642180905634
+              ],
+              "contexts_A0_better_fraction": 0.0542907180385289,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": -1.450700668806113,
+              "relative_delta_percent": -1.077421531137701,
+              "session_clustered_ci95": [
+                -4.275224621401494,
+                2.108569772699565
+              ],
+              "contexts_A0_better_fraction": 0.5691768826619965,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": 0.08816283470877624,
+              "relative_delta_percent": 86.51978396879261,
+              "session_clustered_ci95": [
+                0.08178142851777474,
+                0.09610788333812773
+              ],
+              "contexts_A0_better_fraction": 1.0,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": 0.0046774217012401954,
+              "relative_delta_percent": 8.827542309676993,
+              "session_clustered_ci95": [
+                -0.001979533972465491,
+                0.010731968050984211
+              ],
+              "contexts_A0_better_fraction": 0.6978984238178634,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": 0.0,
+              "relative_delta_percent": 0.0,
+              "session_clustered_ci95": [
+                0.0,
+                0.0
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 1.0
+            }
+          }
+        },
+        "postprocessed": {
+          "definition": "target_specific minus uniform; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": -0.48665185620524826,
+              "relative_delta_percent": -31.659262969874238,
+              "session_clustered_ci95": [
+                -0.578175827415541,
+                -0.3105642180905633
+              ],
+              "contexts_A0_better_fraction": 0.0542907180385289,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": -1.450700668806114,
+              "relative_delta_percent": -1.0774177162163359,
+              "session_clustered_ci95": [
+                -4.275224621401494,
+                2.108569772699564
+              ],
+              "contexts_A0_better_fraction": 0.5691768826619965,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": 0.08816278390521134,
+              "relative_delta_percent": 86.5180243130244,
+              "session_clustered_ci95": [
+                0.08178140584368762,
+                0.09610777075833013
+              ],
+              "contexts_A0_better_fraction": 1.0,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": 0.0046774216620952885,
+              "relative_delta_percent": 8.827345550270396,
+              "session_clustered_ci95": [
+                -0.001979534007165862,
+                0.010731968113097809
+              ],
+              "contexts_A0_better_fraction": 0.6978984238178634,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": 0.0,
+              "relative_delta_percent": 0.0,
+              "session_clustered_ci95": [
+                0.0,
+                0.0
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 1.0
+            }
+          }
+        }
+      }
+    },
+    "student": {
+      "uniform_minus_fixed": {
+        "raw": {
+          "definition": "uniform minus fixed; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": 0.7369833874845502,
+              "relative_delta_percent": 87.96262623557702,
+              "session_clustered_ci95": [
+                0.4748124360588916,
+                0.8778969248150993
+              ],
+              "contexts_A0_better_fraction": 0.9824868651488616,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": 3.234873834263141,
+              "relative_delta_percent": 2.4053663018232543,
+              "session_clustered_ci95": [
+                -1.751382033248245,
+                6.975918405980425
+              ],
+              "contexts_A0_better_fraction": 0.3353765323992995,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": -0.09945283570504648,
+              "relative_delta_percent": -52.09539514508861,
+              "session_clustered_ci95": [
+                -0.10518678914003235,
+                -0.0939425998669616
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": -0.0022286994508328977,
+              "relative_delta_percent": -3.910773813676731,
+              "session_clustered_ci95": [
+                -0.011569995761874535,
+                0.007953240793532254
+              ],
+              "contexts_A0_better_fraction": 0.3712784588441331,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": 0.0,
+              "relative_delta_percent": 0.0,
+              "session_clustered_ci95": [
+                0.0,
+                0.0
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 1.0
+            }
+          }
+        },
+        "postprocessed": {
+          "definition": "uniform minus fixed; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": 0.7369863979695499,
+              "relative_delta_percent": 87.96319084134389,
+              "session_clustered_ci95": [
+                0.4748103542742289,
+                0.8779014875831741
+              ],
+              "contexts_A0_better_fraction": 0.9824868651488616,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": 3.234236440559099,
+              "relative_delta_percent": 2.4048872050079764,
+              "session_clustered_ci95": [
+                -1.7515459345845905,
+                6.975137476527596
+              ],
+              "contexts_A0_better_fraction": 0.3353765323992995,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": -0.09945288095655876,
+              "relative_delta_percent": -52.09491687995954,
+              "session_clustered_ci95": [
+                -0.10518691674605264,
+                -0.09394256386096686
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": -0.0022286368825924687,
+              "relative_delta_percent": -3.9105930746669113,
+              "session_clustered_ci95": [
+                -0.0115699516886387,
+                0.007953323191542183
+              ],
+              "contexts_A0_better_fraction": 0.3712784588441331,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": -0.138353765323993,
+              "relative_delta_percent": -0.2992424242424242,
+              "session_clustered_ci95": [
+                -0.5784822394518572,
+                0.13099237264906807
+              ],
+              "contexts_A0_better_fraction": 0.02276707530647986,
+              "contexts_tied_fraction": 0.9562171628721541
+            }
+          }
+        }
+      },
+      "target_specific_minus_fixed": {
+        "raw": {
+          "definition": "target_specific minus fixed; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": 0.26352950956829574,
+              "relative_delta_percent": 31.453555325474507,
+              "session_clustered_ci95": [
+                0.17630733661021408,
+                0.3201248489392834
+              ],
+              "contexts_A0_better_fraction": 0.9938704028021016,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": -0.2600270533681298,
+              "relative_delta_percent": -0.19334921353325898,
+              "session_clustered_ci95": [
+                -1.911193494714476,
+                0.950396996345703
+              ],
+              "contexts_A0_better_fraction": 0.46672504378283713,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": -0.011948232618918978,
+              "relative_delta_percent": -6.2587245014717725,
+              "session_clustered_ci95": [
+                -0.012806156423358967,
+                -0.01066706201423827
+              ],
+              "contexts_A0_better_fraction": 0.03327495621716287,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": 0.00010284025959292143,
+              "relative_delta_percent": 0.1804572590787923,
+              "session_clustered_ci95": [
+                -0.0028839002071696074,
+                0.003221274356076566
+              ],
+              "contexts_A0_better_fraction": 0.48774080560420313,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": 0.0,
+              "relative_delta_percent": 0.0,
+              "session_clustered_ci95": [
+                0.0,
+                0.0
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 1.0
+            }
+          }
+        },
+        "postprocessed": {
+          "definition": "target_specific minus fixed; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": 0.26353096675261456,
+              "relative_delta_percent": 31.45380265487865,
+              "session_clustered_ci95": [
+                0.17630775395999335,
+                0.32012829868120973
+              ],
+              "contexts_A0_better_fraction": 0.9938704028021016,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": -0.2604873654936211,
+              "relative_delta_percent": -0.1936910748039043,
+              "session_clustered_ci95": [
+                -1.9116523576550084,
+                0.9499282808097549
+              ],
+              "contexts_A0_better_fraction": 0.46672504378283713,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": -0.01194824485822651,
+              "relative_delta_percent": -6.258670606260249,
+              "session_clustered_ci95": [
+                -0.012806129236473372,
+                -0.010667180511915913
+              ],
+              "contexts_A0_better_fraction": 0.03327495621716287,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": 0.0001028655015336653,
+              "relative_delta_percent": 0.18049827724817777,
+              "session_clustered_ci95": [
+                -0.002883896293210809,
+                0.0032213927172043753
+              ],
+              "contexts_A0_better_fraction": 0.48774080560420313,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": -0.19964973730297722,
+              "relative_delta_percent": -0.43181818181818177,
+              "session_clustered_ci95": [
+                -0.5036670172978027,
+                -0.005174337768458507
+              ],
+              "contexts_A0_better_fraction": 0.016637478108581436,
+              "contexts_tied_fraction": 0.9702276707530648
+            }
+          }
+        }
+      },
+      "target_specific_minus_uniform": {
+        "raw": {
+          "definition": "target_specific minus uniform; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": -0.4734538779162546,
+              "relative_delta_percent": -30.06399306172636,
+              "session_clustered_ci95": [
+                -0.5616986575194669,
+                -0.29783456595655855
+              ],
+              "contexts_A0_better_fraction": 0.0647985989492119,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": -3.494900887631271,
+              "relative_delta_percent": -2.5376751328609277,
+              "session_clustered_ci95": [
+                -6.204749375418195,
+                -0.09046529659802496
+              ],
+              "contexts_A0_better_fraction": 0.6532399299474606,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": 0.0875046030861275,
+              "relative_delta_percent": 95.68322457192225,
+              "session_clustered_ci95": [
+                0.08292162782732601,
+                0.09284379106160691
+              ],
+              "contexts_A0_better_fraction": 1.0,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": 0.002331539710425819,
+              "relative_delta_percent": 4.257741721035779,
+              "session_clustered_ci95": [
+                -0.0047783533851962256,
+                0.008766431871263124
+              ],
+              "contexts_A0_better_fraction": 0.6611208406304728,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": 0.0,
+              "relative_delta_percent": 0.0,
+              "session_clustered_ci95": [
+                0.0,
+                0.0
+              ],
+              "contexts_A0_better_fraction": 0.0,
+              "contexts_tied_fraction": 1.0
+            }
+          }
+        },
+        "postprocessed": {
+          "definition": "target_specific minus uniform; 95% CI resamples sessions with replacement",
+          "bootstrap_replicates": 4000,
+          "bootstrap_seed": 20261023,
+          "sessions": 20,
+          "metrics": {
+            "FRC": {
+              "mean_delta": -0.4734554312169354,
+              "relative_delta_percent": -30.0640715522667,
+              "session_clustered_ci95": [
+                -0.5616978732725271,
+                -0.29783374515818234
+              ],
+              "contexts_A0_better_fraction": 0.0647985989492119,
+              "contexts_tied_fraction": 0.0
+            },
+            "exact_FRD": {
+              "mean_delta": -3.4947238060527197,
+              "relative_delta_percent": -2.5375529925731906,
+              "session_clustered_ci95": [
+                -6.204149315597101,
+                -0.09045145343958386
+              ],
+              "contexts_A0_better_fraction": 0.6532399299474606,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRDiv": {
+              "mean_delta": 0.08750463609833224,
+              "relative_delta_percent": 95.68138345328178,
+              "session_clustered_ci95": [
+                0.0829215012356569,
+                0.09284398367673782
+              ],
+              "contexts_A0_better_fraction": 1.0,
+              "contexts_tied_fraction": 0.0
+            },
+            "FRVar": {
+              "mean_delta": 0.002331502384126134,
+              "relative_delta_percent": 4.2575883053312,
+              "session_clustered_ci95": [
+                -0.004778298452677718,
+                0.008766396521895887
+              ],
+              "contexts_A0_better_fraction": 0.6611208406304728,
+              "contexts_tied_fraction": 0.0
+            },
+            "TLCC": {
+              "mean_delta": -0.06129597197898424,
+              "relative_delta_percent": -0.1329736712130998,
+              "session_clustered_ci95": [
+                -0.3927700977652308,
+                0.3029410629361992
+              ],
+              "contexts_A0_better_fraction": 0.02714535901926445,
+              "contexts_tied_fraction": 0.9553415061295972
+            }
+          }
+        }
+      }
+    }
+  },
+  "inputs": {
+    "teacher_eval_manifest": [
+      "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/reference_teacher_banks_eval/manifest.json",
+      "8bea6d716262f402f233be661fa7489e409031bb91c582ef7f3bcdecc5ee647d"
+    ],
+    "bank_audit": [
+      "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/manifests/reference_teacher_banks_audit.json",
+      "17a88126a9c15442a0378d1e04adace0c2a6049f3db7596120fed16b9952e500"
+    ],
+    "cache_audit": [
+      "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/manifests/reference_student_caches_audit.json",
+      "f816225adaba2c53c3a329e008a59f71e9cba3db2bcf11b7e68fe0024e4bcb86"
+    ],
+    "student_audit": [
+      "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/manifests/reference_students_audit.json",
+      "39f3f179e8743f7eff8126df12f9513b40be85e3c3d20880331331ca529b4dce"
+    ]
+  }
+}

@@ -1,0 +1,301 @@
+{
+  "protocol": "REACT2025 complete bidirectional VAL1142; full sequences; all opposite-role same-session GT; official Processor/AU rounding/five metrics",
+  "training_match": {
+    "teacher_bank_hash": true,
+    "cache_hash": true,
+    "initial_state_hash": true,
+    "source_snapshot_hash": true,
+    "observed_source_schedule_sha256": true,
+    "updates": true,
+    "velocity_weight": true
+  },
+  "training": {
+    "A0": {
+      "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/a0_full_seed1/student.pth",
+      "checkpoint_sha256": "24c53d5af11eb8df8b4100cb0a4c027a0ea6a899b289dac8e1cbddb56ca6da4d",
+      "teacher_bank_hash": "b9539b476651f839ed73acedee7d5b01c6821a305edb59b86de4127e07d39b38",
+      "cache_hash": "dc2dd0570a9cb5268d854bda97f729f002ca4be6333a48c2a33dceb946fe1f5b",
+      "initial_state_hash": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "source_snapshot_hash": "3d3b23f3a1125492781dcbedccbeb55f9646b237b908717e3b40533711755ef6",
+      "observed_source_schedule_sha256": "0d9a679f2a80677c1ed1d7a0e26da7511917a9bb5550db611514bf3fc476fbef",
+      "updates": 8820,
+      "training_seconds": 1224.2575109750032,
+      "peak_memory_bytes": 7539537920,
+      "relation_objective": "centered_residual",
+      "relation_weight": 0.29087289082928053,
+      "velocity_weight": 0.05
+    },
+    "A1": {
+      "checkpoint": "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/multiview_boundary_student_seed1_20261018/student_compute_matched_4epochs/student.pth",
+      "checkpoint_sha256": "c126a2bd8febc039ef36887b98de02c2ddd78f541b45b6e6464cb735ba2ca21c",
+      "teacher_bank_hash": "b9539b476651f839ed73acedee7d5b01c6821a305edb59b86de4127e07d39b38",
+      "cache_hash": "dc2dd0570a9cb5268d854bda97f729f002ca4be6333a48c2a33dceb946fe1f5b",
+      "initial_state_hash": "65ee1a21436be9326370bf035836dee49c177325397b996769749133f24f2dd7",
+      "source_snapshot_hash": "3d3b23f3a1125492781dcbedccbeb55f9646b237b908717e3b40533711755ef6",
+      "observed_source_schedule_sha256": "0d9a679f2a80677c1ed1d7a0e26da7511917a9bb5550db611514bf3fc476fbef",
+      "updates": 8820,
+      "training_seconds": 1734.7785732989723,
+      "peak_memory_bytes": 6020528640,
+      "relation_objective": "distance",
+      "relation_weight": 0.0,
+      "velocity_weight": 0.05
+    }
+  },
+  "cost": {
+    "A0_combined_raw_and_postprocess_gpu_seconds": 3114.8686199511867,
+    "A1_evaluation_seconds": null,
+    "A1_evaluation_cost_note": "reused historical evaluation timed multiple inference variants together, so an isolated A1 p=4 time is not available",
+    "teacher_cache": {
+      "status": "reused",
+      "contexts": 8820,
+      "build_seconds": null,
+      "note": "the frozen cache manifest does not record build time"
+    }
+  },
+  "aggregate": {
+    "A0_raw": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.2122071452876886,
+        "exact_FRD": 136.1190832189199,
+        "FRDiv": 0.17257637422264352,
+        "FRVar": 0.06036825806894152,
+        "TLCC": 49.0
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.9905257799708024,
+        "exact_FRD": 132.33227312531133,
+        "FRDiv": 0.18533762738813242,
+        "FRVar": 0.05381483751008264,
+        "TLCC": 49.0
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.1013664626292454,
+        "exact_FRD": 134.2256781721156,
+        "FRDiv": 0.17895700080538798,
+        "FRVar": 0.05709154778951208,
+        "TLCC": 49.0
+      }
+    },
+    "A0_postprocessed": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.212209460785905,
+        "exact_FRD": 136.11863168299564,
+        "FRDiv": 0.17257911741942325,
+        "FRVar": 0.06036982926068707,
+        "TLCC": 45.38704028021016
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.9905224681355349,
+        "exact_FRD": 132.3323797834631,
+        "FRDiv": 0.18533853870765968,
+        "FRVar": 0.053815384651493485,
+        "TLCC": 46.6830122591944
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.1013659644607199,
+        "exact_FRD": 134.22550573322937,
+        "FRDiv": 0.17895882806354146,
+        "FRVar": 0.057092606956090274,
+        "TLCC": 46.03502626970228
+      }
+    },
+    "A1_raw": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.2093297486233658,
+        "exact_FRD": 138.00063504849868,
+        "FRDiv": 0.17293969326491113,
+        "FRVar": 0.06202657988552663,
+        "TLCC": 49.0
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.9941091023990161,
+        "exact_FRD": 134.31869073816273,
+        "FRDiv": 0.18544249852463576,
+        "FRVar": 0.05420520613312513,
+        "TLCC": 49.0
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.1017194255111908,
+        "exact_FRD": 136.15966289333068,
+        "FRDiv": 0.17919109589477344,
+        "FRVar": 0.058115893009325875,
+        "TLCC": 49.0
+      }
+    },
+    "A1_postprocessed": {
+      "speaker_to_listener": {
+        "contexts": 571,
+        "FRC": 1.2093289785022903,
+        "exact_FRD": 138.0003107904194,
+        "FRDiv": 0.17294252709519842,
+        "FRVar": 0.06202821721259224,
+        "TLCC": 44.85814360770578
+      },
+      "listener_to_speaker": {
+        "contexts": 571,
+        "FRC": 0.994106865154656,
+        "exact_FRD": 134.31887453627863,
+        "FRDiv": 0.18544345269478765,
+        "FRVar": 0.05420577531964265,
+        "TLCC": 46.749562171628725
+      },
+      "both_directions": {
+        "contexts": 1142,
+        "FRC": 1.101717921828473,
+        "exact_FRD": 136.159592663349,
+        "FRDiv": 0.17919298989499305,
+        "FRVar": 0.058116996266117445,
+        "TLCC": 45.80385288966725
+      }
+    }
+  },
+  "paired": {
+    "raw": {
+      "definition": "A0 minus A1; 95% CI resamples sessions with replacement",
+      "bootstrap_replicates": 4000,
+      "bootstrap_seed": 20261023,
+      "sessions": 20,
+      "metrics": {
+        "FRC": {
+          "mean_delta": -0.0003529628819453303,
+          "relative_delta_percent": -0.032037456522250006,
+          "session_clustered_ci95": [
+            -0.006524420064844891,
+            0.007625107941300498
+          ],
+          "contexts_A0_better_fraction": 0.5201401050788091,
+          "contexts_tied_fraction": 0.0
+        },
+        "exact_FRD": {
+          "mean_delta": -1.9339847212150723,
+          "relative_delta_percent": -1.4203800744793134,
+          "session_clustered_ci95": [
+            -2.3187789584027843,
+            -1.3018008381335342
+          ],
+          "contexts_A0_better_fraction": 0.8099824868651488,
+          "contexts_tied_fraction": 0.0
+        },
+        "FRDiv": {
+          "mean_delta": -0.00023409508938547193,
+          "relative_delta_percent": -0.13063991166332273,
+          "session_clustered_ci95": [
+            -0.0007311374340551508,
+            0.0002219348104070811
+          ],
+          "contexts_A0_better_fraction": 0.5078809106830122,
+          "contexts_tied_fraction": 0.0
+        },
+        "FRVar": {
+          "mean_delta": -0.0010243452198137961,
+          "relative_delta_percent": -1.762590518310403,
+          "session_clustered_ci95": [
+            -0.0013413491859171438,
+            -0.0005823256167290459
+          ],
+          "contexts_A0_better_fraction": 0.287215411558669,
+          "contexts_tied_fraction": 0.0
+        },
+        "TLCC": {
+          "mean_delta": 0.0,
+          "relative_delta_percent": 0.0,
+          "session_clustered_ci95": [
+            0.0,
+            0.0
+          ],
+          "contexts_A0_better_fraction": 0.0,
+          "contexts_tied_fraction": 1.0
+        }
+      }
+    },
+    "postprocessed": {
+      "definition": "A0 minus A1; 95% CI resamples sessions with replacement",
+      "bootstrap_replicates": 4000,
+      "bootstrap_seed": 20261023,
+      "sessions": 20,
+      "metrics": {
+        "FRC": {
+          "mean_delta": -0.0003519573677531078,
+          "relative_delta_percent": -0.03194623240484094,
+          "session_clustered_ci95": [
+            -0.006519743878433756,
+            0.007625511772805607
+          ],
+          "contexts_A0_better_fraction": 0.5201401050788091,
+          "contexts_tied_fraction": 0.0
+        },
+        "exact_FRD": {
+          "mean_delta": -1.9340869301196635,
+          "relative_delta_percent": -1.4204558726182754,
+          "session_clustered_ci95": [
+            -2.3188211567102748,
+            -1.302001401126914
+          ],
+          "contexts_A0_better_fraction": 0.8099824868651488,
+          "contexts_tied_fraction": 0.0
+        },
+        "FRDiv": {
+          "mean_delta": -0.00023416183145158972,
+          "relative_delta_percent": -0.1306757767638167,
+          "session_clustered_ci95": [
+            -0.0007312403186650562,
+            0.0002218631189800679
+          ],
+          "contexts_A0_better_fraction": 0.5078809106830122,
+          "contexts_tied_fraction": 0.0
+        },
+        "FRVar": {
+          "mean_delta": -0.001024389310027171,
+          "relative_delta_percent": -1.762632922968863,
+          "session_clustered_ci95": [
+            -0.001341382935714675,
+            -0.0005823722785091778
+          ],
+          "contexts_A0_better_fraction": 0.287215411558669,
+          "contexts_tied_fraction": 0.0
+        },
+        "TLCC": {
+          "mean_delta": 0.23117338003502627,
+          "relative_delta_percent": 0.5047029135122735,
+          "session_clustered_ci95": [
+            0.06135709312445605,
+            0.5161424731182797
+          ],
+          "contexts_A0_better_fraction": 0.01838879159369527,
+          "contexts_tied_fraction": 0.9640980735551664
+        }
+      }
+    }
+  },
+  "inputs": {
+    "A0_raw": {
+      "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/a0_full_seed1/eval_combined/comparison_raw.json",
+      "sha256": "1e43706b4a6be5af38edef13dc4b1d69c713da8d07e432aaebd32052251fe62d"
+    },
+    "A0_postprocessed": {
+      "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/a0_full_seed1/eval_combined/comparison_postprocessed.json",
+      "sha256": "77bf301f36f6b32f5f1b460d35bd24370b594ff281cca46fffc196bee992816b"
+    },
+    "A1_raw": {
+      "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_multiview_ablation_bidir_official5_all_session_20261022_v2/comparison.json",
+      "sha256": "5e3e3c8cdecc28b416223a4369363e9e330931ff0975fddef81c162393974dfc"
+    },
+    "A1_transition": {
+      "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/coreset_reactor/reports/react2025_p4_sparse_transition_official5_all_session_20261022/results.json",
+      "sha256": "d0012033be632b174f27a221ad6c379904bc5b37dbf062849712a84807eec1c4"
+    },
+    "diagnostic": {
+      "path": "/public/zhaowenjie/react2025_new/teacher_distillation_project/paper_core_ablations_react2025/runs/seed1_difference_diagnostic/summary.json",
+      "sha256": "756a67b29e026b89a0714996e34cc7e8f50e2a1739c5f35633cfca6fe530673f"
+    }
+  }
+}

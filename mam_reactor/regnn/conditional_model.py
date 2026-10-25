@@ -22,6 +22,7 @@ class ConditionalREGNNConfig:
     dropout: float = 0.1
     max_seq_len: int = 750
     listener_3dmm: bool = False
+    prediction_head: str = "linear"
 
 
 def lengths_to_padding_mask(
@@ -225,6 +226,8 @@ class ConditionalREGNN(nn.Module):
             raise ValueError(
                 "hidden_dim must be divisible by temporal_heads"
             )
+        if config.prediction_head not in {"linear", "mlp"}:
+            raise ValueError("prediction_head must be linear or mlp")
         self.config = config
         self.condition_fusion = ConditionFusion(config)
         self.position_encoding = SinusoidalPositionEncoding(
@@ -245,10 +248,19 @@ class ConditionalREGNN(nn.Module):
             num_layers=config.temporal_layers,
             norm=nn.LayerNorm(config.hidden_dim),
         )
-        self.to_initial_reaction = nn.Linear(
-            config.hidden_dim,
-            config.output_dim,
-        )
+        if config.prediction_head == "linear":
+            self.to_initial_reaction = nn.Linear(
+                config.hidden_dim,
+                config.output_dim,
+            )
+        else:
+            self.to_initial_reaction = nn.Sequential(
+                nn.LayerNorm(config.hidden_dim),
+                nn.Linear(config.hidden_dim, 128),
+                nn.GELU(),
+                nn.Dropout(config.dropout),
+                nn.Linear(128, config.output_dim),
+            )
         self.to_listener_3dmm = (
             nn.Linear(config.hidden_dim, 58) if config.listener_3dmm else None
         )

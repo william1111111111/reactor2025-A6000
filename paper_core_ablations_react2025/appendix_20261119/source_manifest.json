@@ -1,0 +1,127 @@
+{
+  "compiled_client_date": "2026-11-19",
+  "evaluation_population": "REACT2025 full VAL1142",
+  "source_files": [
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/reviewer_additions_20261116/organization/final_results.json",
+      "sha256": "e398d41f6ed118fbf6a05d5b91f988d76815f22171783783008a6a292fb2d190"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/reviewer_additions_20261116/organization/FINALIZED.json",
+      "sha256": "d439ab75f8532baef6bc18cf3243a5fb14ae6c6132aeb2c3bfe08281524d433f"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/reviewer_additions_20261116/organization/student_checkpoint_validation.json",
+      "sha256": "b55b4d7f7efd9cd67d610a9a6becaf5b93f128cf44cc9c9d990edc484432885f"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/reviewer_additions_20261116/multiseed/results.json",
+      "sha256": "631cfe025befdde46216c073b9881c6a49414fe73a6e194c4ff4ba6c8a75c716"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/reviewer_additions_20261116/efficiency/summary.json",
+      "sha256": "866421dbef984f80da8febf706d9e7b2fb060422a0a97e96f69db215237c0c40"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/reviewer_additions_20261116/efficiency/latency.json",
+      "sha256": "6155e019da1e5fbd30f5f7f9ba697b52cdfdbdef4963ad06141df0147d70ed95"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/heldout_set_structure_20261113/summary.json",
+      "sha256": "969ccfc746f054d16f6fbb09db31dbf54d609495002d10c81dde879748e59d2c"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/heldout_set_structure_20261113/balanced_ot_summary.json",
+      "sha256": "66c9013e126bf69b82a0e2eaee0385fddccc6cd4f9ae280febb627d9b213ec0e"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new_legacy_20261029/teacher_distillation_project/paper_core_ablations_react2025/DIFFERENCE_TRANSFER.csv",
+      "sha256": "a3af1cefa8aba3bea559bffc581a034cb2f5234f011fd9b5d08bccdec3f7aff5"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/heldout_set_structure/metrics.py",
+      "sha256": "70b0a98457e20d53604392387a6f0696dd3e486b1198d8b7a7b3a8a345663ea3"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/heldout_set_structure/balanced_ot.py",
+      "sha256": "dfe853249c7c41299111b03dec846874dbbed57fc67f75d3db185bc32b0145ad"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/qualitative/qualitative_reaction_set_metadata.json",
+      "sha256": "9781da1c6ae199855f58b8636bcfb2cb94a2d663ca62bc29602bdf20251a106f"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/qualitative/clearer_generated_cases_selection.json",
+      "sha256": "8119e2c393abb1e5f0879fb4364fe67e0cf73225243648a5dc090a840a23cb43"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/qualitative/reaction_set_and_difference_transfer_metadata.json",
+      "sha256": "29e26442d48d2cce48f48f647fc60e5046dadaeae390810ef4897236cadcc058"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/qualitative/generated_faces/rendering_provenance.json",
+      "sha256": "68077f6c38f51b0e50d3f7ea09e801f359eaf5b95a93e36cbc2e941ab85184db"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/reviewer_additions_20261116/organization/figures/four_cell_metrics.pdf",
+      "sha256": "ed6d320a17b500410cb4ed3a5289ed1f2a5447c518f9f9c205ff1d0214b2bd59"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/reviewer_additions_20261116/organization/figures/four_cell_metrics.png",
+      "sha256": "eae05fb0be8c2997f60480674e9fa988140e0f93f41cd8dcb87733b7f85d4f43"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/reviewer_additions_20261116/organization/figures/factorial_effects.pdf",
+      "sha256": "c7bf5683708f4efb57f5f3e3bf407fca43afdfd720d51acbd1c439f4dd551a81"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/coreset_experiments/results/reviewer_additions_20261116/organization/figures/factorial_effects.png",
+      "sha256": "4cbe22e1fd8553f79bd6fdce37f8cf71b6ec276fe03de8eda1da873416d434b7"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/CVPR_2027/sec/fig/a2_coreset_clearer_generated_cases.pdf",
+      "sha256": "be9c7decb5ee739c870502b6fdd04c1e55a110bd38dbfd47d9def6ea496b7f53"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/CVPR_2027/sec/fig/a2_coreset_clearer_generated_cases.png",
+      "sha256": "da0bf79ee7933e08d3ca0f3d5edb8c135e55327610960c40521a1541c1e9a3d5"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/CVPR_2027/sec/fig/within_set_difference_transfer_compact.pdf",
+      "sha256": "e6d5701281d94379d2ec73983602df10a5306555709ce5c1c216a340e9aa6868"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/CVPR_2027/sec/fig/within_set_difference_transfer_compact.png",
+      "sha256": "d01673f1958ebb27f3aae9205829473d7f42b4506cd0145ccf3afad5b282607f"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/CVPR_2027/sec/fig/qualitative_reaction_set.pdf",
+      "sha256": "1f93eba8f4434b072459c8d415500b8887441b167d0d0a58fa347681a62d7a72"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/CVPR_2027/sec/fig/qualitative_reaction_set.png",
+      "sha256": "dd64cf664033223d21215610e7ea78efff4a7ad73ee64209e2a48c36c90e4c36"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces_sequences.pdf",
+      "sha256": "c07458a1ae54c543f32cbad998da5095725db5b82b7c1543d446af3d6de33156"
+    },
+    {
+      "path": "/public/zhaowenjie/react2025_new/paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces_sequences.png",
+      "sha256": "479455e2ce99d75e8faa240a6adb44234944a4ca5768ade52c8e06424c953a59"
+    }
+  ],
+  "markdown_files": {
+    "CoReSet_Appendix_Experiments_EN.md": {
+      "sha256": "576be8ca9d9ecd64fcf12419dbde7d56a7631e2a8fad42fce608e4deb03f967d",
+      "tables": 21,
+      "bytes": 24743
+    },
+    "CoReSet_附录实验结果_中文.md": {
+      "sha256": "0e7fae875109381ad972d2c57357954c172359041853ae2ac3e5c615c4f628a1",
+      "tables": 21,
+      "bytes": 22594
+    }
+  },
+  "assembly_source_sha256": "1f8320dd1ca1c93c251948282fbeeb941933c44b5ca1d2317836517996287f43"
+}

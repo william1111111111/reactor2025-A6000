@@ -60,3 +60,18 @@ VAL1142.
 Datasets, checkpoints, predictions, per-context rows, caches, and local run
 directories are excluded. Single-direction REACT2025 performance tables are
 not published.
+
+## CoReSet supplementary appendix
+
+The completed REACT2025 supplementary experiments are collected in
+[`paper_core_ablations_react2025/appendix_20261119/`](paper_core_ablations_react2025/appendix_20261119/):
+
+- [English Markdown appendix](paper_core_ablations_react2025/appendix_20261119/CoReSet_Appendix_Experiments_EN.md)
+- [中文结果整理](paper_core_ablations_react2025/appendix_20261119/CoReSet_附录实验结果_中文.md)
+
+The appendix contains 21 result tables, six figure groups, experimental
+settings, paired confidence intervals, and source-file hashes. It covers
+the reference-selection/assignment 2×2 ablation, three-seed student
+distillation comparisons, set preservation and reference coverage, the A3
+control, balanced OT, inference efficiency, and qualitative diagnostics.
+Reported trade-offs and statistical scope are retained.

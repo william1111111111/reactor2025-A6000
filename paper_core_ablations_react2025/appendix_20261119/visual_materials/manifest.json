@@ -1,0 +1,246 @@
+{
+  "compiled_client_date": "2026-11-20",
+  "counts": {
+    ".svg": 6,
+    ".png": 15,
+    ".pdf": 12,
+    ".mp4": 2,
+    ".json": 4
+  },
+  "assets": [
+    {
+      "path": "figures/a2_coreset_clearer_generated_cases.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_clearer_generated_cases.pdf",
+      "bytes": 3082446,
+      "sha256": "be9c7decb5ee739c870502b6fdd04c1e55a110bd38dbfd47d9def6ea496b7f53"
+    },
+    {
+      "path": "figures/a2_coreset_clearer_generated_cases.png",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_clearer_generated_cases.png",
+      "bytes": 3647160,
+      "sha256": "da0bf79ee7933e08d3ca0f3d5edb8c135e55327610960c40521a1541c1e9a3d5"
+    },
+    {
+      "path": "figures/a2_coreset_clearer_generated_cases.svg",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_clearer_generated_cases.svg",
+      "bytes": 4782361,
+      "sha256": "d801f92397a1b3e7d76cc07bc0f98405f02e4b53a256f601a7db3362f6a6fa2a"
+    },
+    {
+      "path": "figures/a2_coreset_generated_faces.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces.pdf",
+      "bytes": 3159635,
+      "sha256": "c71117df57ee8b73fe2e35423f950123cb1a03b2aaddb7bd260c98dcfcc30207"
+    },
+    {
+      "path": "figures/a2_coreset_generated_faces.png",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces.png",
+      "bytes": 3676113,
+      "sha256": "6528344565435bd5e14bf5d0bc17025650054be2b0a762f2288fd1823d38c890"
+    },
+    {
+      "path": "figures/a2_coreset_generated_faces.svg",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces.svg",
+      "bytes": 5147702,
+      "sha256": "17c1aab89dcc38409548a492742b4b70dbd4c05306cd98cbb4284b8f75f11633"
+    },
+    {
+      "path": "figures/a2_coreset_generated_faces_diverse_slots.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces_diverse_slots.pdf",
+      "bytes": 3170636,
+      "sha256": "588425206cc87e0b57b6759b96c118ad033d1a324a494dfabe58c7d81232335c"
+    },
+    {
+      "path": "figures/a2_coreset_generated_faces_diverse_slots.png",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces_diverse_slots.png",
+      "bytes": 3717487,
+      "sha256": "a6a5c73b808288bf87fe5cac911b6e905d1748a9c1dee7ee3fc8cbaf704ffd4b"
+    },
+    {
+      "path": "figures/a2_coreset_generated_faces_diverse_slots.svg",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces_diverse_slots.svg",
+      "bytes": 5155060,
+      "sha256": "60de07633018fa6f20cec68f70a6283d48d460131071a530d8983d48d2d1e7ff"
+    },
+    {
+      "path": "figures/a2_coreset_generated_faces_diverse_slots_sequences.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces_diverse_slots_sequences.pdf",
+      "bytes": 4973213,
+      "sha256": "be86fb81fe0c097d89b2f9a43994aebca753f3324f1e05ebb7debbd2c7e15c1a"
+    },
+    {
+      "path": "figures/a2_coreset_generated_faces_diverse_slots_sequences.png",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces_diverse_slots_sequences.png",
+      "bytes": 5544372,
+      "sha256": "c16c049742f4ec62f34c4e9b707c2f56290d51b352f484c09f30607e0db59dd6"
+    },
+    {
+      "path": "figures/a2_coreset_generated_faces_sequences.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces_sequences.pdf",
+      "bytes": 4958078,
+      "sha256": "c07458a1ae54c543f32cbad998da5095725db5b82b7c1543d446af3d6de33156"
+    },
+    {
+      "path": "figures/a2_coreset_generated_faces_sequences.png",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generated_faces_sequences.png",
+      "bytes": 5534464,
+      "sha256": "479455e2ce99d75e8faa240a6adb44234944a4ca5768ade52c8e06424c953a59"
+    },
+    {
+      "path": "figures/a2_coreset_generation_comparison.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generation_comparison.pdf",
+      "bytes": 1815298,
+      "sha256": "01276f060029d8c7038d37ab1ef7998e8359a4ac7901a11de8f2334846147f41"
+    },
+    {
+      "path": "figures/a2_coreset_generation_comparison.png",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generation_comparison.png",
+      "bytes": 2246217,
+      "sha256": "cda1b114e4d1f021d26e37af335011dc4d67637fda86ecb32f47b28403db68ed"
+    },
+    {
+      "path": "figures/a2_coreset_generation_comparison.svg",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generation_comparison.svg",
+      "bytes": 3023377,
+      "sha256": "a352a2b5cd9e69da3739ffd667da332970986a35368147cff487169cc0852444"
+    },
+    {
+      "path": "figures/a2_coreset_generation_comparison_video_strip.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generation_comparison_video_strip.pdf",
+      "bytes": 2638357,
+      "sha256": "8cd4f402d9d78a7a7786836d6c6d19376ba3449816880c5840a1df923e760313"
+    },
+    {
+      "path": "figures/a2_coreset_generation_comparison_video_strip.png",
+      "source": "paper_review/CVPR_2027/sec/fig/a2_coreset_generation_comparison_video_strip.png",
+      "bytes": 2892190,
+      "sha256": "3d2fe8bac716bbe7d6c16d0a5890c394b291aab2d5be7eca5c8550eb238e8ca7"
+    },
+    {
+      "path": "figures/qualitative_reaction_set.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/qualitative_reaction_set.pdf",
+      "bytes": 256276,
+      "sha256": "1f93eba8f4434b072459c8d415500b8887441b167d0d0a58fa347681a62d7a72"
+    },
+    {
+      "path": "figures/qualitative_reaction_set.png",
+      "source": "paper_review/CVPR_2027/sec/fig/qualitative_reaction_set.png",
+      "bytes": 1371749,
+      "sha256": "dd64cf664033223d21215610e7ea78efff4a7ad73ee64209e2a48c36c90e4c36"
+    },
+    {
+      "path": "figures/reaction_set_and_difference_transfer.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/reaction_set_and_difference_transfer.pdf",
+      "bytes": 1232442,
+      "sha256": "c4b4f37a096e7561e747f72ac288ec3da1716972cd1666a108d7dee9576232cb"
+    },
+    {
+      "path": "figures/reaction_set_and_difference_transfer.png",
+      "source": "paper_review/CVPR_2027/sec/fig/reaction_set_and_difference_transfer.png",
+      "bytes": 1681387,
+      "sha256": "3c40c4586b57556c7d8cbdb451e25209497b2c86bdf0606f841adffc1bcdacad"
+    },
+    {
+      "path": "figures/reaction_set_and_difference_transfer.svg",
+      "source": "paper_review/CVPR_2027/sec/fig/reaction_set_and_difference_transfer.svg",
+      "bytes": 2141882,
+      "sha256": "1d6a3d058a54f36bb28fc16d411df80aa36ad96c53c3ba945a33411968cc5358"
+    },
+    {
+      "path": "figures/real_references_all_matched_outputs.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/real_references_all_matched_outputs.pdf",
+      "bytes": 5630559,
+      "sha256": "2873c664f556c1830adb0369499845d677c77f5985791c55d412fccdc4b9e0fd"
+    },
+    {
+      "path": "figures/real_references_all_matched_outputs.png",
+      "source": "paper_review/CVPR_2027/sec/fig/real_references_all_matched_outputs.png",
+      "bytes": 6419171,
+      "sha256": "1d48dae46cc24b384de6c07c61d29d5a7aa426ed3de89a27286b76a0d7693355"
+    },
+    {
+      "path": "figures/real_references_for_generated_case.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/real_references_for_generated_case.pdf",
+      "bytes": 3838752,
+      "sha256": "262087d1657a4525918f67658d91e43cc9a38cc439e9c107fd27f56f0ecc1f0e"
+    },
+    {
+      "path": "figures/real_references_for_generated_case.png",
+      "source": "paper_review/CVPR_2027/sec/fig/real_references_for_generated_case.png",
+      "bytes": 4403591,
+      "sha256": "aa4e021b16413a36a68bf7636d687cf395e775541deb367a28645c229f1853e3"
+    },
+    {
+      "path": "figures/within_set_difference_transfer_compact.pdf",
+      "source": "paper_review/CVPR_2027/sec/fig/within_set_difference_transfer_compact.pdf",
+      "bytes": 1104706,
+      "sha256": "e6d5701281d94379d2ec73983602df10a5306555709ce5c1c216a340e9aa6868"
+    },
+    {
+      "path": "figures/within_set_difference_transfer_compact.png",
+      "source": "paper_review/CVPR_2027/sec/fig/within_set_difference_transfer_compact.png",
+      "bytes": 137473,
+      "sha256": "d01673f1958ebb27f3aae9205829473d7f42b4506cd0145ccf3afad5b282607f"
+    },
+    {
+      "path": "figures/within_set_difference_transfer_compact.svg",
+      "source": "paper_review/CVPR_2027/sec/fig/within_set_difference_transfer_compact.svg",
+      "bytes": 1797116,
+      "sha256": "0946b11001891bce4de1606b441a46b22bb19ba762d9ee97b60ccf25d8f64700"
+    },
+    {
+      "path": "videos/standard_slots/a2_coreset_generated_comparison.mp4",
+      "source": "paper_review/qualitative/generated_faces/a2_coreset_generated_comparison.mp4",
+      "bytes": 7555373,
+      "sha256": "3e3a99097671f1ad6d3461056a39f7c6c54bc4fcfded04bf13e122ed9329f8e3"
+    },
+    {
+      "path": "previews/standard_slots_contact_sheet.png",
+      "source": "paper_review/qualitative/generated_faces/model_generated_contact_sheet.png",
+      "bytes": 3782825,
+      "sha256": "9660bc3dd568c1341000be89ced0a56e1738578e3f0a36309721e553756bd878"
+    },
+    {
+      "path": "metadata/standard_slots_rendering_provenance.json",
+      "source": "paper_review/qualitative/generated_faces/rendering_provenance.json",
+      "bytes": 5656,
+      "sha256": "68077f6c38f51b0e50d3f7ea09e801f359eaf5b95a93e36cbc2e941ab85184db"
+    },
+    {
+      "path": "videos/diverse_slots/a2_coreset_generated_comparison.mp4",
+      "source": "paper_review/qualitative/generated_faces_diverse_slots/a2_coreset_generated_comparison.mp4",
+      "bytes": 7529133,
+      "sha256": "cb7ee2027ef67359e4fdbca58cae6cd5c2413d8f923dce60146eeb155af07891"
+    },
+    {
+      "path": "previews/diverse_slots_contact_sheet.png",
+      "source": "paper_review/qualitative/generated_faces_diverse_slots/model_generated_contact_sheet.png",
+      "bytes": 3792090,
+      "sha256": "174f6e7c0ef62534745cd993bbc4751b8b85a7a44c9efe5f27e3835e0c57382d"
+    },
+    {
+      "path": "metadata/diverse_slots_rendering_provenance.json",
+      "source": "paper_review/qualitative/generated_faces_diverse_slots/rendering_provenance.json",
+      "bytes": 5715,
+      "sha256": "2b128e5569352addc0e2007caecfec8930d740ea1ee79416d0ed6650fef60d7b"
+    },
+    {
+      "path": "previews/comparison_video_midpoint.png",
+      "source": "paper_review/qualitative/generated_faces/comparison_video_midpoint.png",
+      "bytes": 684179,
+      "sha256": "b0801f6ca9309ba6c94c07f7cad451f3afdbcdedfb68d219991d3cc1ac1b021d"
+    },
+    {
+      "path": "metadata/clearer_generated_cases_selection.json",
+      "source": "paper_review/qualitative/clearer_generated_cases_selection.json",
+      "bytes": 15133,
+      "sha256": "8119e2c393abb1e5f0879fb4364fe67e0cf73225243648a5dc090a840a23cb43"
+    },
+    {
+      "path": "metadata/qualitative_reaction_set_metadata.json",
+      "source": "paper_review/qualitative/qualitative_reaction_set_metadata.json",
+      "bytes": 2264,
+      "sha256": "9781da1c6ae199855f58b8636bcfb2cb94a2d663ca62bc29602bdf20251a106f"
+    }
+  ]
+}

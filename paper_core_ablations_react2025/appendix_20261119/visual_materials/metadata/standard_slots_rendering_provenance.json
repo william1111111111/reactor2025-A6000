@@ -1,0 +1,199 @@
+{
+  "clip_id": "speaker/session10/Camera-2024-07-15-123346-123414",
+  "input_fps": 30.0,
+  "input_length": 2162,
+  "identity": {
+    "image": "/public/zhaowenjie/react2025_new/paper_review/qualitative/generated_faces/shared_identity_portrait.png",
+    "sha256": "881dd9e44a7af079ab85c6a70ab0a66fd02f6020a801e13cafa575c8ad263427",
+    "source_video": "/public/zhaowenjie/react2025_new_legacy_20261029/data/val/video-face-crop/listener/session10/Camera-2024-07-15-123346-123414.mp4",
+    "source_frame": 0,
+    "use": "identity appearance only; all expression and pose trajectories decoded from actual model AFR predictions"
+  },
+  "shared_renderer": {
+    "geometry_checkpoint": "/public/zhaowenjie/react2025_new_legacy_20261029/react2025_video_pipeline/checkpoints/emotion_to_3dmm.pth",
+    "geometry_sha256": "4511b3fed0df3f2eea3ecb2dfa484b512b04be718344fe7f75acf73ad4d896fc",
+    "pirender_checkpoint": "/public/zhaowenjie/react2025_new_legacy_20261029/react2025_video_pipeline/checkpoints/cur_model_fold.pth",
+    "pirender_sha256": "b2691e17dfc9004e5102abcdb73ca28ac541e1b3786ede86a610ece5d6e1fd21",
+    "geometry_checkpoint_metadata": "/public/zhaowenjie/react2025_new_legacy_20261029/react2025_video_pipeline/checkpoints/emotion_to_3dmm.json",
+    "geometry_training": "previously trained TRAIN listener AFR25\u2192FaceVerse58 bridge; frozen for both methods",
+    "native_semantic_radius": 13,
+    "method_specific_adjustments": "none; no amplitude scaling, target motion, trajectory retrieval, or time warping"
+  },
+  "prediction_cache": {
+    "path": "/public/zhaowenjie/react2025_new/paper_review/qualitative/a2_coreset_generation_comparison_data.pt",
+    "sha256": "5936dfe9d73a678dc497c45ca9e6f78f05da263661dd2923edd3de95095ee589"
+  },
+  "mode": "video",
+  "video_output_fps": 12.0,
+  "records": [
+    {
+      "method": "A2",
+      "slot": 0,
+      "afr25_sha256": "b9ba4ed86d489e4547b4998a066ba5f18a40aeee8cb9efaeaa4ff34ea0a65fe3",
+      "geometry_sha256": "05a36f9d285d1280582a8d7c93b7ce9e41aa3e2cc51880594909a7c42f99c0ba",
+      "sample_indices": [
+        43,
+        216,
+        432,
+        648,
+        864,
+        1080,
+        1297,
+        1513,
+        1729,
+        1902,
+        2031,
+        2118
+      ],
+      "rendered_shape": [
+        12,
+        224,
+        224,
+        3
+      ],
+      "mean_abs_first_last_pixel_change": 9.174897693452381,
+      "seconds": 14.408498819218948
+    },
+    {
+      "method": "A2",
+      "slot": 1,
+      "afr25_sha256": "a95b76958bfc7abd9aabc7c376888bb549df393c42befa72b40adf173dc9d6a9",
+      "geometry_sha256": "580dd74433a15cd60eeba17914c7e7ead930b7a7ad546b753e5d04e380726bc1",
+      "sample_indices": [
+        43,
+        216,
+        432,
+        648,
+        864,
+        1080,
+        1297,
+        1513,
+        1729,
+        1902,
+        2031,
+        2118
+      ],
+      "rendered_shape": [
+        12,
+        224,
+        224,
+        3
+      ],
+      "mean_abs_first_last_pixel_change": 18.88222789115646,
+      "seconds": 13.340099971042946
+    },
+    {
+      "method": "A2",
+      "slot": 9,
+      "afr25_sha256": "c4de4f66187bb3c9bfae02e13b4b59b28ef244598edabfecc103295e22b03138",
+      "geometry_sha256": "a8ae9f1ee757b3d58c4a115f2ddcd587a37794b2e27b9047142a38c91ce37481",
+      "sample_indices": [
+        43,
+        216,
+        432,
+        648,
+        864,
+        1080,
+        1297,
+        1513,
+        1729,
+        1902,
+        2031,
+        2118
+      ],
+      "rendered_shape": [
+        12,
+        224,
+        224,
+        3
+      ],
+      "mean_abs_first_last_pixel_change": 13.254059045493197,
+      "seconds": 13.39456541906111
+    },
+    {
+      "method": "A0",
+      "slot": 0,
+      "afr25_sha256": "88a5e12c6509be733ac4c44d305f5ef3c7cdf6992a22a8a56a477df23a8decfa",
+      "geometry_sha256": "e5ea5d97c51127af1329bb0ca21c0905980e3f58c5d375b39fc6429283c02059",
+      "sample_indices": [
+        43,
+        216,
+        432,
+        648,
+        864,
+        1080,
+        1297,
+        1513,
+        1729,
+        1902,
+        2031,
+        2118
+      ],
+      "rendered_shape": [
+        12,
+        224,
+        224,
+        3
+      ],
+      "mean_abs_first_last_pixel_change": 25.742340295493197,
+      "seconds": 13.241049685049802
+    },
+    {
+      "method": "A0",
+      "slot": 1,
+      "afr25_sha256": "aadf7ecc380c86f52f22061fc30a6e2ed88600e6352241f1ea02ff665417ae6c",
+      "geometry_sha256": "97e1e9549f7dae917bb9c5aacc5b1485526606d179e14ff0da63d1509eae954d",
+      "sample_indices": [
+        43,
+        216,
+        432,
+        648,
+        864,
+        1080,
+        1297,
+        1513,
+        1729,
+        1902,
+        2031,
+        2118
+      ],
+      "rendered_shape": [
+        12,
+        224,
+        224,
+        3
+      ],
+      "mean_abs_first_last_pixel_change": 10.883782419217686,
+      "seconds": 13.301371003966779
+    },
+    {
+      "method": "A0",
+      "slot": 9,
+      "afr25_sha256": "59ef34b78c6b256470090cfa8b205f32334d657ccb76623c1fc69fa7466e8c56",
+      "geometry_sha256": "aa9e37ec40cd623974f0c6e86f60323bfbf25a2c71a01d6d60f00df586cc14e7",
+      "sample_indices": [
+        43,
+        216,
+        432,
+        648,
+        864,
+        1080,
+        1297,
+        1513,
+        1729,
+        1902,
+        2031,
+        2118
+      ],
+      "rendered_shape": [
+        12,
+        224,
+        224,
+        3
+      ],
+      "mean_abs_first_last_pixel_change": 15.71261825042517,
+      "seconds": 13.32059433707036
+    }
+  ],
+  "interpretation": "model-conditioned rendered visualizations via an auxiliary shared bridge; not direct RGB network predictions or independent ground-truth facial motion"
+}

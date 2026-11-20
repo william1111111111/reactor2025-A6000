@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "selection": {
+    "context": "minimum SHA-256 clip_id among forward VAL entries with length >= 900 and at least three available reference videos",
+    "pairs": "Hungarian one-to-one VA matching for all ten slots; omit the single largest-error pair, then select the triplet maximizing minimum equal-weight AU/VA/expression distance among student outputs",
+    "key_times": "eight fixed evenly spaced normalized-time positions spanning [0.06,0.94]"
+  },
+  "clip_id": "speaker/session10/Camera-2024-07-15-123346-123414",
+  "manifest_index": 65,
+  "length": 2162,
+  "reference_count": 113,
+  "selected_reference_indices": [
+    107,
+    52,
+    83
+  ],
+  "matched_student_slots": [
+    7,
+    4,
+    9
+  ],
+  "key_frame_indices": [
+    130,
+    401,
+    673,
+    945,
+    1216,
+    1488,
+    1760,
+    2031
+  ],
+  "key_normalized_times": [
+    0.06015733456732994,
+    0.1855622397038408,
+    0.3114298935677927,
+    0.43729754743174454,
+    0.5627024525682555,
+    0.6885701064322073,
+    0.8144377602961592,
+    0.93984266543267
+  ],
+  "matched_va_mse": [
+    0.023784594610333443,
+    0.036726731806993484,
+    0.05611780658364296
+  ],
+  "va_pearson_r": [
+    [
+      0.3913411061309245,
+      0.13008571945056416
+    ],
+    [
+      0.24906347289486466,
+      0.011398303543297537
+    ],
+    [
+      0.3520398459591714,
+      0.06080369488693325
+    ]
+  ],
+  "student_output": "continuous p=4 overlap-fused A0 seed-1 output before AU rounding and query-0 postprocessing",
+  "checkpoint": {
+    "path": "/public/zhaowenjie/react2025_new_legacy_20261029/teacher_distillation_project/paper_core_ablations_react2025/runs/a0_full_seed1/student.pth",
+    "sha256": "24c53d5af11eb8df8b4100cb0a4c027a0ea6a899b289dac8e1cbddb56ca6da4d"
+  },
+  "manifest": {
+    "path": "/public/zhaowenjie/react2025_new_legacy_20261029/teacher_distillation_project/paper_core_ablations_react2025/runs/a0_full_seed1/eval_combined/manifest.json",
+    "sha256": "2c85f011d052323e57504f33552a35fa82d7c8fe8146f525741d1693b4a17fe5"
+  },
+  "figure": {
+    "pdf": "/public/zhaowenjie/react2025_new/paper_review/CVPR_2027/sec/fig/qualitative_reaction_set.pdf",
+    "png": "/public/zhaowenjie/react2025_new/paper_review/CVPR_2027/sec/fig/qualitative_reaction_set.png"
+  }
+}

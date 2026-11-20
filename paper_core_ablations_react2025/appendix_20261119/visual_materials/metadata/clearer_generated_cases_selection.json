@@ -1,0 +1,745 @@
+{
+  "clip_id": "speaker/session10/Camera-2024-07-15-123346-123414",
+  "slots": [
+    0,
+    6,
+    7
+  ],
+  "within_set_pair_rankings": {
+    "A2": [
+      {
+        "slots": [
+          6,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.23088102042675018
+      },
+      {
+        "slots": [
+          6,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.16808415949344635
+      },
+      {
+        "slots": [
+          0,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.1443958580493927
+      },
+      {
+        "slots": [
+          3,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.13735921680927277
+      },
+      {
+        "slots": [
+          6,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.13449671864509583
+      },
+      {
+        "slots": [
+          5,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.13022835552692413
+      },
+      {
+        "slots": [
+          4,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.12286914885044098
+      },
+      {
+        "slots": [
+          7,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.11036410182714462
+      },
+      {
+        "slots": [
+          4,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.10977993160486221
+      },
+      {
+        "slots": [
+          8,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.10691503435373306
+      },
+      {
+        "slots": [
+          2,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.0965195745229721
+      },
+      {
+        "slots": [
+          2,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.09390351921319962
+      },
+      {
+        "slots": [
+          1,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.09384278208017349
+      },
+      {
+        "slots": [
+          4,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.093666672706604
+      },
+      {
+        "slots": [
+          5,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.08651245385408401
+      },
+      {
+        "slots": [
+          1,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.08273736387491226
+      },
+      {
+        "slots": [
+          1,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.08238348364830017
+      },
+      {
+        "slots": [
+          2,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.08113700896501541
+      },
+      {
+        "slots": [
+          7,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.08040028065443039
+      },
+      {
+        "slots": [
+          3,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.07628265023231506
+      },
+      {
+        "slots": [
+          3,
+          4
+        ],
+        "equal_group_mean_squared_distance": 0.07614716142416
+      },
+      {
+        "slots": [
+          3,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.07303060591220856
+      },
+      {
+        "slots": [
+          0,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.06482768058776855
+      },
+      {
+        "slots": [
+          2,
+          5
+        ],
+        "equal_group_mean_squared_distance": 0.062819704413414
+      },
+      {
+        "slots": [
+          5,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.061392635107040405
+      },
+      {
+        "slots": [
+          2,
+          3
+        ],
+        "equal_group_mean_squared_distance": 0.06027473509311676
+      },
+      {
+        "slots": [
+          0,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.05742664262652397
+      },
+      {
+        "slots": [
+          0,
+          2
+        ],
+        "equal_group_mean_squared_distance": 0.05311815068125725
+      },
+      {
+        "slots": [
+          1,
+          5
+        ],
+        "equal_group_mean_squared_distance": 0.05290301889181137
+      },
+      {
+        "slots": [
+          1,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.05029087886214256
+      },
+      {
+        "slots": [
+          4,
+          5
+        ],
+        "equal_group_mean_squared_distance": 0.04930570721626282
+      },
+      {
+        "slots": [
+          0,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.04897284135222435
+      },
+      {
+        "slots": [
+          1,
+          3
+        ],
+        "equal_group_mean_squared_distance": 0.0484636016190052
+      },
+      {
+        "slots": [
+          1,
+          4
+        ],
+        "equal_group_mean_squared_distance": 0.04791799560189247
+      },
+      {
+        "slots": [
+          2,
+          4
+        ],
+        "equal_group_mean_squared_distance": 0.04516537860035896
+      },
+      {
+        "slots": [
+          3,
+          5
+        ],
+        "equal_group_mean_squared_distance": 0.04456312581896782
+      },
+      {
+        "slots": [
+          0,
+          4
+        ],
+        "equal_group_mean_squared_distance": 0.043604250997304916
+      },
+      {
+        "slots": [
+          5,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.04284884035587311
+      },
+      {
+        "slots": [
+          0,
+          1
+        ],
+        "equal_group_mean_squared_distance": 0.04200185835361481
+      },
+      {
+        "slots": [
+          0,
+          5
+        ],
+        "equal_group_mean_squared_distance": 0.040479954332113266
+      },
+      {
+        "slots": [
+          0,
+          3
+        ],
+        "equal_group_mean_squared_distance": 0.039011575281620026
+      },
+      {
+        "slots": [
+          2,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.03656693547964096
+      },
+      {
+        "slots": [
+          3,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.0345732681453228
+      },
+      {
+        "slots": [
+          4,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.03089887462556362
+      },
+      {
+        "slots": [
+          1,
+          2
+        ],
+        "equal_group_mean_squared_distance": 0.025525953620672226
+      }
+    ],
+    "A0": [
+      {
+        "slots": [
+          6,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.21959882974624634
+      },
+      {
+        "slots": [
+          6,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.18084563314914703
+      },
+      {
+        "slots": [
+          0,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.1476111114025116
+      },
+      {
+        "slots": [
+          2,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.14292015135288239
+      },
+      {
+        "slots": [
+          5,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.14270168542861938
+      },
+      {
+        "slots": [
+          6,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.14167658984661102
+      },
+      {
+        "slots": [
+          3,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.1413530856370926
+      },
+      {
+        "slots": [
+          4,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.1231345608830452
+      },
+      {
+        "slots": [
+          4,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.11068969964981079
+      },
+      {
+        "slots": [
+          1,
+          6
+        ],
+        "equal_group_mean_squared_distance": 0.10256104171276093
+      },
+      {
+        "slots": [
+          3,
+          4
+        ],
+        "equal_group_mean_squared_distance": 0.10112015157938004
+      },
+      {
+        "slots": [
+          5,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.09730267524719238
+      },
+      {
+        "slots": [
+          2,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.08750072866678238
+      },
+      {
+        "slots": [
+          3,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.08655354380607605
+      },
+      {
+        "slots": [
+          8,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.0859908014535904
+      },
+      {
+        "slots": [
+          7,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.08545934408903122
+      },
+      {
+        "slots": [
+          2,
+          5
+        ],
+        "equal_group_mean_squared_distance": 0.08082606643438339
+      },
+      {
+        "slots": [
+          2,
+          3
+        ],
+        "equal_group_mean_squared_distance": 0.07988196611404419
+      },
+      {
+        "slots": [
+          3,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.0783933699131012
+      },
+      {
+        "slots": [
+          4,
+          5
+        ],
+        "equal_group_mean_squared_distance": 0.07725873589515686
+      },
+      {
+        "slots": [
+          4,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.07516864687204361
+      },
+      {
+        "slots": [
+          5,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.07377176731824875
+      },
+      {
+        "slots": [
+          0,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.07256083935499191
+      },
+      {
+        "slots": [
+          0,
+          3
+        ],
+        "equal_group_mean_squared_distance": 0.07099858671426773
+      },
+      {
+        "slots": [
+          1,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.0694129690527916
+      },
+      {
+        "slots": [
+          1,
+          3
+        ],
+        "equal_group_mean_squared_distance": 0.06040668115019798
+      },
+      {
+        "slots": [
+          1,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.05822630226612091
+      },
+      {
+        "slots": [
+          1,
+          5
+        ],
+        "equal_group_mean_squared_distance": 0.057438042014837265
+      },
+      {
+        "slots": [
+          7,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.05694323033094406
+      },
+      {
+        "slots": [
+          2,
+          4
+        ],
+        "equal_group_mean_squared_distance": 0.05620754137635231
+      },
+      {
+        "slots": [
+          0,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.05378638207912445
+      },
+      {
+        "slots": [
+          0,
+          2
+        ],
+        "equal_group_mean_squared_distance": 0.05266593024134636
+      },
+      {
+        "slots": [
+          2,
+          7
+        ],
+        "equal_group_mean_squared_distance": 0.05011071637272835
+      },
+      {
+        "slots": [
+          0,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.0495276115834713
+      },
+      {
+        "slots": [
+          4,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.04817603528499603
+      },
+      {
+        "slots": [
+          0,
+          5
+        ],
+        "equal_group_mean_squared_distance": 0.0470745712518692
+      },
+      {
+        "slots": [
+          1,
+          4
+        ],
+        "equal_group_mean_squared_distance": 0.043966032564640045
+      },
+      {
+        "slots": [
+          2,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.04391844570636749
+      },
+      {
+        "slots": [
+          1,
+          8
+        ],
+        "equal_group_mean_squared_distance": 0.043343596160411835
+      },
+      {
+        "slots": [
+          0,
+          1
+        ],
+        "equal_group_mean_squared_distance": 0.04178650677204132
+      },
+      {
+        "slots": [
+          0,
+          4
+        ],
+        "equal_group_mean_squared_distance": 0.036063190549612045
+      },
+      {
+        "slots": [
+          3,
+          5
+        ],
+        "equal_group_mean_squared_distance": 0.03407801687717438
+      },
+      {
+        "slots": [
+          1,
+          2
+        ],
+        "equal_group_mean_squared_distance": 0.028523072600364685
+      },
+      {
+        "slots": [
+          5,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.02735896036028862
+      },
+      {
+        "slots": [
+          3,
+          9
+        ],
+        "equal_group_mean_squared_distance": 0.023868169635534286
+      }
+    ]
+  },
+  "mean_valence": {
+    "A2": {
+      "0": -0.13754363358020782,
+      "6": 0.42382895946502686,
+      "7": -0.3321378529071808
+    },
+    "A0": {
+      "0": -0.0994965061545372,
+      "6": 0.4949759244918823,
+      "7": -0.3155898153781891
+    }
+  },
+  "displayed_values": [
+    {
+      "method": "A2",
+      "slot": 0,
+      "native_frame": 432,
+      "time_seconds": 14.4,
+      "valence": -0.39113059639930725
+    },
+    {
+      "method": "A2",
+      "slot": 6,
+      "native_frame": 432,
+      "time_seconds": 14.4,
+      "valence": 0.6168748736381531
+    },
+    {
+      "method": "A2",
+      "slot": 7,
+      "native_frame": 432,
+      "time_seconds": 14.4,
+      "valence": -0.24152396619319916
+    },
+    {
+      "method": "A0",
+      "slot": 0,
+      "native_frame": 432,
+      "time_seconds": 14.4,
+      "valence": -0.31144893169403076
+    },
+    {
+      "method": "A0",
+      "slot": 6,
+      "native_frame": 432,
+      "time_seconds": 14.4,
+      "valence": 0.7930106520652771
+    },
+    {
+      "method": "A0",
+      "slot": 7,
+      "native_frame": 432,
+      "time_seconds": 14.4,
+      "valence": -0.47339117527008057
+    },
+    {
+      "method": "A2",
+      "slot": 0,
+      "native_frame": 2118,
+      "time_seconds": 70.6,
+      "valence": 0.14030367136001587
+    },
+    {
+      "method": "A2",
+      "slot": 6,
+      "native_frame": 2118,
+      "time_seconds": 70.6,
+      "valence": 0.4491008222103119
+    },
+    {
+      "method": "A2",
+      "slot": 7,
+      "native_frame": 2118,
+      "time_seconds": 70.6,
+      "valence": -0.7004388570785522
+    },
+    {
+      "method": "A0",
+      "slot": 0,
+      "native_frame": 2118,
+      "time_seconds": 70.6,
+      "valence": 0.5804659724235535
+    },
+    {
+      "method": "A0",
+      "slot": 6,
+      "native_frame": 2118,
+      "time_seconds": 70.6,
+      "valence": 0.8694308400154114
+    },
+    {
+      "method": "A0",
+      "slot": 7,
+      "native_frame": 2118,
+      "time_seconds": 70.6,
+      "valence": 0.17246179282665253
+    }
+  ],
+  "selection": "q6/q7 have the largest time-averaged equal-group attribute distance among all 45 pairs in both A2 and A0; q0 is the anchor. Two instants are intentionally selected from the previously fixed 12-frame strip to illustrate visible differences. They are not a random or aggregate performance estimate.",
+  "scope": "A clearer reaction-set illustration; qualitative difference is not by itself evidence of improved appropriateness or a centered-distillation gain.",
+  "rendering_provenance": "/public/zhaowenjie/react2025_new/paper_review/qualitative/generated_faces_diverse_slots/rendering_provenance.json"
+}

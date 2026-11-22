@@ -1,0 +1,48 @@
+{
+  "model": "CoReSet A0",
+  "dataset": "REACT2025",
+  "seed": 1,
+  "parameter_count": 3803201,
+  "training": {
+    "epochs": 4,
+    "batch_size": 4,
+    "lr": 0.0001,
+    "expert_embedding_dim": 64,
+    "velocity_weight": 0.05,
+    "relation_grad_ratio": 0.25,
+    "relation_objective": "centered_residual",
+    "relation_weight": 0.29087289082928053
+  },
+  "relation_scales": [
+    0.3264721930027008,
+    0.32862067222595215,
+    0.2594182789325714
+  ],
+  "teacher_checkpoint_hashes": [
+    "bfbe0ad5a2283687e8ba943ba72566558574b6ee50acc7ff481e4734f27afdd5",
+    "0bae4911a138289be13f7bbd559bcf7430e6f90980992ea5b63b1c8e36e93cd5",
+    "6c665a8581ecd8818cb6aa0659bd44ab4052964804be0c7bd1253a9540e087d5",
+    "8b9017b14bcf1be0fa06f736e71cb426af3083ff3e1daf7c724e94e3e26a12cf",
+    "c62f1f92dea2a02546acac43513d14d7d61c8337823b7be505cc83652399cc2b",
+    "e0184c6fa5a18b10ef2c775d20500187e922714d43883c9f282c2429e9e5ff82",
+    "f99023d008daa6aa3a61cdcba514fdcf79f7596138d9cb2bd768794d5dbf2c6c",
+    "6c81ca1d7a5adbeae7e943c67616f1fcd805b2a1aaf84ded8c3b836b0cf2ea55",
+    "5a90ac722fd80e3ede68977d39536cda0fe1a8e00c48aaf1c41bfa1de4e631fa",
+    "82359e7bf3473ff6b5b480e979be5718757aae0c743760611122929312d0abc4"
+  ],
+  "initialization_checkpoint_sha256": "ffdc6dabb58a96c521eeacc93c74a81298a93b1e14d1cb7060e06140b235bea4",
+  "teacher_cache_manifest_sha256": "dc2dd0570a9cb5268d854bda97f729f002ca4be6333a48c2a33dceb946fe1f5b",
+  "reference_assignment_source_sha256": "2aa3741c85ab91cec6df4bbddc90a1baf3a380318b33df09c6328ef79157cbdb",
+  "evaluation": {
+    "protocol": "REACT2025 full VAL1142, both directions, full sequences, K10, all opposite-role same-session GT, official Processor/AU rounding/five metrics; raw and fixed query-0-transition multi-view student output with overlap p=4",
+    "metrics": {
+      "contexts": 1142,
+      "FRC": 1.1013659644607199,
+      "exact_FRD": 134.22550573322937,
+      "FRDiv": 0.17895882806354146,
+      "FRVar": 0.057092606956090274,
+      "TLCC": 46.03502626970228
+    },
+    "archive_sha256": "77bf301f36f6b32f5f1b460d35bd24370b594ff281cca46fffc196bee992816b"
+  }
+}

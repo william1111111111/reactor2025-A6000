@@ -1,0 +1,191 @@
+{
+  "release": "CoReSet REACT2025 A0 seed 1",
+  "date": "2026-11-22",
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 91,
+      "sha256": "59cdfa1e90a36bc45fff9b5c22daa9f18ed1dda936031c8d5f63b4403f990217"
+    },
+    {
+      "path": "DATASET.md",
+      "size": 3433,
+      "sha256": "d43205bad217d42ea313b6712db688c5b82809c476d85469674a173ccad3ed73"
+    },
+    {
+      "path": "LICENSE",
+      "size": 1077,
+      "sha256": "57ef181dc50129b2843e1d6454d0ea5f9fd2644938f621a71360cff21130662e"
+    },
+    {
+      "path": "MODEL_CARD.md",
+      "size": 4010,
+      "sha256": "fbf9ff8d357a5889807b3fa671a664dbe4145f6bf7da07a24d5aa9389777d0a2"
+    },
+    {
+      "path": "README.md",
+      "size": 7976,
+      "sha256": "4587ecae28e749933648ad37b95ee34d78325a3b936a0e269c1f6e923f5f0afd"
+    },
+    {
+      "path": "README_zh.md",
+      "size": 2264,
+      "sha256": "c521e456c4aa877ce68fc38053880f41f39036be4f51f37301769c8d0082856f"
+    },
+    {
+      "path": "SOURCE_MANIFEST.json",
+      "size": 4879,
+      "sha256": "6feb2547d60d531d75258dd5667659b6ad963913a2df2839052620f922d5863c"
+    },
+    {
+      "path": "VALIDATION.md",
+      "size": 2353,
+      "sha256": "e1fe178614a45836eb2c3087ee7734abc5b94c77ff1c00050d3d134ba58d9602"
+    },
+    {
+      "path": "checkpoints/coreset_react2025_a0_seed1.pth",
+      "size": 15252479,
+      "sha256": "639a9bb260ff56ac413d9162b283cce728f77a8fbd60a78ee3b5d94f8fb83459"
+    },
+    {
+      "path": "configs/react2025_main.json",
+      "size": 2106,
+      "sha256": "0e3df7bb0c8f7d1511d11000e3b38f870b10b5da86ed8ea94e50047a12e5203c"
+    },
+    {
+      "path": "configs/react2025_reference_assignment.json",
+      "size": 2321937,
+      "sha256": "2aa3741c85ab91cec6df4bbddc90a1baf3a380318b33df09c6328ef79157cbdb"
+    },
+    {
+      "path": "coreset_reactor/__init__.py",
+      "size": 31,
+      "sha256": "7cd31a264df6c52428f138c078a9dd60e5aaad31e3688450c64840178a7cb437"
+    },
+    {
+      "path": "coreset_reactor/descriptor.py",
+      "size": 2584,
+      "sha256": "bd0822844552fe5546c8565113ac174a76a55ad489b961e1cbf8943913ea4637"
+    },
+    {
+      "path": "coreset_reactor/inference.py",
+      "size": 8204,
+      "sha256": "7e0d726fde69042273c4d1d712084a6247a50295f27ab263e3da6de29457b1f1"
+    },
+    {
+      "path": "coreset_reactor/prepare_references.py",
+      "size": 7984,
+      "sha256": "4db6c0cdb68ec03674dec5aba5d14bea57c07d9e8e77455f3f2b1cfcb49967bd"
+    },
+    {
+      "path": "coreset_reactor/query0_au_transition.py",
+      "size": 2023,
+      "sha256": "fecdc84e961e99a46e44f465c299d3aa1be257583047a1802709bcea8d1e1f6b"
+    },
+    {
+      "path": "coreset_reactor/relation_distillation.py",
+      "size": 11039,
+      "sha256": "2dfe40f6c5f66439304c3f89c426b9294eb40308ea39e4205f74b110c50bbea0"
+    },
+    {
+      "path": "coreset_reactor/teacher_cache.py",
+      "size": 8223,
+      "sha256": "a32cbe001a794e63f3dd47b212a011da56e0100578ba23d37e4ff3495292a3ca"
+    },
+    {
+      "path": "coreset_reactor/train_expert_student.py",
+      "size": 19963,
+      "sha256": "14efffe76d70a326a01d6ea8336ec1360eef4bb894e621987318e2c9fe4a26bb"
+    },
+    {
+      "path": "coreset_reactor/train_latent_reference_teacher.py",
+      "size": 7963,
+      "sha256": "34ba714e0040c01c3251df2027125ac5614e08fc051879351405291ce9bd8e2c"
+    },
+    {
+      "path": "coreset_reactor/train_mode_reference_teacher.py",
+      "size": 8159,
+      "sha256": "bd961113ae888e3932054572264ebb5b01a3e73cc978b86feecf4af65696cea3"
+    },
+    {
+      "path": "pyproject.toml",
+      "size": 648,
+      "sha256": "8a0622dc29498a1d2443b7e748f13171e6ccaca1fd0f71741b5c909d257e2697"
+    },
+    {
+      "path": "regnn/__init__.py",
+      "size": 31,
+      "sha256": "7cd31a264df6c52428f138c078a9dd60e5aaad31e3688450c64840178a7cb437"
+    },
+    {
+      "path": "regnn/assets/mean_face.npy",
+      "size": 592,
+      "sha256": "20760603c2c5dd72004b5b7f8dd7a092c0d1ed08ca59e4423ff6baa84fb705e6"
+    },
+    {
+      "path": "regnn/assets/std_face.npy",
+      "size": 592,
+      "sha256": "31c8df604237ac7134218baaf51766da696d332d1f4b162c7155306440a5b639"
+    },
+    {
+      "path": "regnn/conditional_data.py",
+      "size": 27832,
+      "sha256": "180279ad526caea7cfa731de5ffeb4cc5cc537bc423e11e2eb08c2664e8ca0ae"
+    },
+    {
+      "path": "regnn/conditional_model.py",
+      "size": 15992,
+      "sha256": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec"
+    },
+    {
+      "path": "regnn/expert_student.py",
+      "size": 4097,
+      "sha256": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77"
+    },
+    {
+      "path": "regnn/session_splits.py",
+      "size": 1318,
+      "sha256": "4b14d465b37661be090be049075e154026a8dd4f91841a3d6c1e96cecb0f5e47"
+    },
+    {
+      "path": "regnn/style_constants.py",
+      "size": 116,
+      "sha256": "00fc1d315f9c951d526154f17043256375f624c28ea610db0cb3f3f245903afa"
+    },
+    {
+      "path": "regnn/train_conditional_regnn.py",
+      "size": 27848,
+      "sha256": "09de5a4892f8f160886e485be218ab69dfcaa9d7008d72ee8aa8ad28596e9b27"
+    },
+    {
+      "path": "release_checks.json",
+      "size": 1292,
+      "sha256": "033333ee800e0a76f8cdf55d4d84c03be7d886d1fd87111b05e4ffb80c4f070b"
+    },
+    {
+      "path": "requirements.txt",
+      "size": 206,
+      "sha256": "d923e8f1290839b48bb870dc6f1df9583723b8985878c54b312d2d66f7f8e589"
+    },
+    {
+      "path": "scripts/export_checkpoint.py",
+      "size": 2499,
+      "sha256": "ed59f8e0583a1e810c7ac6fe95c3b56b8d65872244b7393aa381bb5ad6e83804"
+    },
+    {
+      "path": "scripts/smoke_test.py",
+      "size": 4913,
+      "sha256": "4460bc0979773e3325df91d9355db5637fed6eda47e87465629fe688a4519f0d"
+    },
+    {
+      "path": "scripts/train_react2025.sh",
+      "size": 2565,
+      "sha256": "f24ba9ae6217c172c58359aa49283eda49ef41d4270c7810816f5fc7ca875a90"
+    },
+    {
+      "path": "tests/test_release.py",
+      "size": 4226,
+      "sha256": "3ff98f243a4bdc591def792fd2f7a04ae94bf0a8020c370b275596cf3232540f"
+    }
+  ]
+}

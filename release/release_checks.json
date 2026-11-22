@@ -1,0 +1,57 @@
+{
+  "validated_date": "2026-11-22",
+  "device": "cpu",
+  "unit_tests_passed": 12,
+  "training_pipeline": {
+    "passed": [
+      "references",
+      "paired_teacher",
+      "reference_teacher",
+      "cache",
+      "student",
+      "export"
+    ],
+    "synthetic_data": true,
+    "device": "cpu",
+    "expert_count": 10,
+    "cache_contexts": 40,
+    "student_steps": 1
+  },
+  "original_runtime_parity": {
+    "passed": true,
+    "forward_cases": [
+      {
+        "case": 0,
+        "role": "speaker",
+        "frames": 958,
+        "windows": 2
+      },
+      {
+        "case": 1,
+        "role": "listener",
+        "frames": 127,
+        "windows": 1
+      }
+    ],
+    "dataset_examples_identical": 4,
+    "frozen_reference_mappings_identical": 3320,
+    "q0_initializer_snapshot_tensor_identity": false,
+    "q0_initializer_snapshot_max_tensor_difference": 0.0018344642594456673,
+    "forward_parity": [
+      {
+        "case": 0,
+        "frames": 958,
+        "max_abs_forward_difference": 0.0,
+        "paper_output_identical": true
+      },
+      {
+        "case": 1,
+        "frames": 127,
+        "max_abs_forward_difference": 0.0,
+        "paper_output_identical": true
+      }
+    ]
+  },
+  "wheel_build_install_cli": "passed",
+  "checkpoint_parameter_tensors_identical": true
+}

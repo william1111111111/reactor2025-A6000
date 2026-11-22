@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coreset-reactor"
+version = "0.1.0"
+description = "Complementary Reference-guided AFR Set Distillation"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.1,<2.6", "numpy>=1.26,<2", "scipy>=1.11,<2", "scikit-learn>=1.3,<2"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9"]
+
+[project.scripts]
+coreset-infer = "coreset_reactor.inference:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["coreset_reactor*", "regnn*"]
+
+[tool.setuptools.package-data]
+regnn = ["assets/*.npy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

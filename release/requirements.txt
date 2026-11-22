@@ -1,0 +1,6 @@
+# Verified paper runtime: Python 3.10.12; PyTorch 2.1.0 + CUDA 12.1.
+# Install the PyTorch build suitable for your system before these packages.
+torch==2.1.0
+numpy==1.26.4
+scipy==1.15.3
+scikit-learn==1.7.2

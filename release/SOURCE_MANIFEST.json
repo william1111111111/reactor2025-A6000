@@ -1,0 +1,96 @@
+{
+  "source_files": [
+    {
+      "source": "mam_reactor/regnn/conditional_model.py",
+      "release_path": "regnn/conditional_model.py",
+      "source_sha256": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec",
+      "release_sha256": "320fe0a2fe78c59f57fe16770a6982dcca2969d47d26d61ce273a4da71970eec"
+    },
+    {
+      "source": "mam_reactor/regnn/expert_student.py",
+      "release_path": "regnn/expert_student.py",
+      "source_sha256": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77",
+      "release_sha256": "58c471ede1892143c1b5acc41cd0b7e2ffcd6fb31952df7d0f7df025cd5fdc77"
+    },
+    {
+      "source": "mam_reactor/regnn/conditional_data.py",
+      "release_path": "regnn/conditional_data.py",
+      "source_sha256": "6c075fa77a11cadd7622efee335435d5f8dd6554b35b7f97bc3e8d40e6b2d618",
+      "release_sha256": "180279ad526caea7cfa731de5ffeb4cc5cc537bc423e11e2eb08c2664e8ca0ae"
+    },
+    {
+      "source": "mam_reactor/regnn/train_conditional_regnn.py",
+      "release_path": "regnn/train_conditional_regnn.py",
+      "source_sha256": "bb81f7321683f10f9aece578c04dcfcb702f04310364d6127269bbed40db8e6e",
+      "release_sha256": "09de5a4892f8f160886e485be218ab69dfcaa9d7008d72ee8aa8ad28596e9b27"
+    },
+    {
+      "source": "mam_reactor/regnn/session_splits.py",
+      "release_path": "regnn/session_splits.py",
+      "source_sha256": "4b14d465b37661be090be049075e154026a8dd4f91841a3d6c1e96cecb0f5e47",
+      "release_sha256": "4b14d465b37661be090be049075e154026a8dd4f91841a3d6c1e96cecb0f5e47"
+    },
+    {
+      "source": "coreset_reactor/descriptor.py",
+      "release_path": "coreset_reactor/descriptor.py",
+      "source_sha256": "bd0822844552fe5546c8565113ac174a76a55ad489b961e1cbf8943913ea4637",
+      "release_sha256": "bd0822844552fe5546c8565113ac174a76a55ad489b961e1cbf8943913ea4637"
+    },
+    {
+      "source": "coreset_reactor/relation_distillation.py",
+      "release_path": "coreset_reactor/relation_distillation.py",
+      "source_sha256": "2dfe40f6c5f66439304c3f89c426b9294eb40308ea39e4205f74b110c50bbea0",
+      "release_sha256": "2dfe40f6c5f66439304c3f89c426b9294eb40308ea39e4205f74b110c50bbea0"
+    },
+    {
+      "source": "coreset_reactor/teacher_cache.py",
+      "release_path": "coreset_reactor/teacher_cache.py",
+      "source_sha256": "962985abb62f1e72a6cd9919491495cd64f832c2c72bbd119b23d38659a60bbc",
+      "release_sha256": "a32cbe001a794e63f3dd47b212a011da56e0100578ba23d37e4ff3495292a3ca"
+    },
+    {
+      "source": "coreset_reactor/train_expert_student.py",
+      "release_path": "coreset_reactor/train_expert_student.py",
+      "source_sha256": "70285cce6564ffc45e6d8b6598b4ee8d4b7eea3a6f2e743e8d8fe92f5f155724",
+      "release_sha256": "14efffe76d70a326a01d6ea8336ec1360eef4bb894e621987318e2c9fe4a26bb"
+    },
+    {
+      "source": "coreset_reactor/train_latent_reference_teacher.py",
+      "release_path": "coreset_reactor/train_latent_reference_teacher.py",
+      "source_sha256": "34ba714e0040c01c3251df2027125ac5614e08fc051879351405291ce9bd8e2c",
+      "release_sha256": "34ba714e0040c01c3251df2027125ac5614e08fc051879351405291ce9bd8e2c"
+    },
+    {
+      "source": "coreset_reactor/train_mode_reference_teacher.py",
+      "release_path": "coreset_reactor/train_mode_reference_teacher.py",
+      "source_sha256": "bd961113ae888e3932054572264ebb5b01a3e73cc978b86feecf4af65696cea3",
+      "release_sha256": "bd961113ae888e3932054572264ebb5b01a3e73cc978b86feecf4af65696cea3"
+    },
+    {
+      "source": "coreset_reactor/query0_au_transition.py",
+      "release_path": "coreset_reactor/query0_au_transition.py",
+      "source_sha256": "fecdc84e961e99a46e44f465c299d3aa1be257583047a1802709bcea8d1e1f6b",
+      "release_sha256": "fecdc84e961e99a46e44f465c299d3aa1be257583047a1802709bcea8d1e1f6b"
+    },
+    {
+      "source": "mam_reactor/external/FaceVerse/mean_face.npy",
+      "release_path": "regnn/assets/mean_face.npy",
+      "source_sha256": "20760603c2c5dd72004b5b7f8dd7a092c0d1ed08ca59e4423ff6baa84fb705e6",
+      "release_sha256": "20760603c2c5dd72004b5b7f8dd7a092c0d1ed08ca59e4423ff6baa84fb705e6"
+    },
+    {
+      "source": "mam_reactor/external/FaceVerse/std_face.npy",
+      "release_path": "regnn/assets/std_face.npy",
+      "source_sha256": "31c8df604237ac7134218baaf51766da696d332d1f4b162c7155306440a5b639",
+      "release_sha256": "31c8df604237ac7134218baaf51766da696d332d1f4b162c7155306440a5b639"
+    }
+  ],
+  "notes": [
+    "Architecture and student parameter names are unchanged.",
+    "Feature normalization lookup is package-relative.",
+    "Teacher trainer adds an optional CPU device for smoke checks.",
+    "Reference-building helpers retain the original function bodies.",
+    "Teacher-cache clip length is configurable for small smoke tests (paper default 750).",
+    "New standalone inference preserves original full-sequence outputs on real-source parity checks."
+  ]
+}

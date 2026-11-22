@@ -1,11 +1,27 @@
-# reactor2025-A6000
+# CoReSet
 
-Public source snapshot for the REACT2024/REACT2025 teacher-student
-distillation route.
+Code, data loading, model forward and a pretrained REACT2025 student for
+**Complementary Reference-guided AFR Set Distillation (CoReSet)**.
 
-## Current REACT2025 route
+## CoReSet code and REACT2025 pretrained weight
 
-The current student uses deterministic head/center/tail teacher views for
+The self-contained [CoReSet release](release/) provides training code,
+the feature dataset, expert-conditioned model forward, full-sequence inference,
+and one pretrained **A0, seed 1** student used for the paper's REACT2025 main result.
+
+- [Setup and training](release/README.md) · [中文说明](release/README_zh.md)
+- [Main-result weight](release/checkpoints/coreset_react2025_a0_seed1.pth)
+- [Data layout](release/DATASET.md) · [Model card and exact protocol](release/MODEL_CARD.md)
+- [Release validation](release/VALIDATION.md)
+
+The model has 3,803,201 parameters. Archived full-VAL1142 metrics are
+FRC 1.1014, FRD 134.2255, FRDiv 0.1790, FRVar 0.0571 and TLCC 46.04.
+The released parameter tensors and real-source forward outputs have been
+checked against the original main-result model.
+
+## Historical REACT2025 route
+
+The historical trajectory-only student uses deterministic head/center/tail teacher views for
 training clips longer than 750 frames. At inference time it applies 50%
 overlapping windows and center-weighted full-sequence fusion. The selected
 `p=4` fusion path uses the documented query-0 constant-AU transition
@@ -44,22 +60,25 @@ evaluation is included in this bundle.
 
 ## Repository layout
 
+- [`release/`](release/): self-contained CoReSet training/inference code and the
+  REACT2025 A0 main-result student checkpoint.
 - [`coreset_reactor/`](coreset_reactor/): distillation, full-sequence inference,
   official-metric evaluation, and protocol tests.
 - [`mam_reactor/`](mam_reactor/): model and official metric runtime used by the
   distillation code.
 - [`published_results/`](published_results/): accepted aggregate result tables.
 
-The current machine-readable official-five aggregates are in
+Historical machine-readable official-five aggregates are in
 [`published_results/current_official5_results.json`](published_results/current_official5_results.json):
 REACT2024 alpha=1.5 has FRSyn 44.849644128 and official FRDvs 0.128923953
-on VAL1124, and the current
+on VAL1124, and the trajectory-only
 REACT2025 multi-view `p=4` route has FRSyn 45.803852890 on bidirectional
 VAL1142.
 
-Datasets, checkpoints, predictions, per-context rows, caches, and local run
-directories are excluded. Single-direction REACT2025 performance tables are
-not published.
+The main-result student checkpoint is included under `release/checkpoints/`.
+Datasets, additional checkpoints, predictions, per-context rows, caches, and
+local run directories remain excluded. Single-direction REACT2025 performance
+tables are not published.
 
 ## CoReSet supplementary appendix
 
